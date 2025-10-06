@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Federal Ministry of Women Affairs</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/2025_07_14_13_42_IMG_2808.PNG">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- Load optimized CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/department-navigation.css">
+    <link rel="stylesheet" href="css/logo-position-fix.css?v=1.1">
+    <link rel="stylesheet" href="css/welcome-banner.css">
+    <link rel="stylesheet" href="css/visitor-counter.css">
+    
+    <!-- Include components -->
+    <script src="js/include-components.js" defer></script>
+    <script src="js/visitor-counter.js" defer></script>
+    
+    <!-- Preload critical images -->
+    <link rel="preload" href="images/2025_07_14_13_42_IMG_2808.PNG" as="image">
+    
+    <!-- Critical JavaScript -->
+    <script>
+    // Inline critical JavaScript
+    document.addEventListener('DOMContentLoaded', function() {
+        // Remove any existing offcanvas backdrops
+        document.querySelectorAll('.offcanvas-backdrop').forEach(el => el.remove());
+    });
+    </script>
+    
+    <!-- Critical CSS -->
+    <style>
+        /* Department Navigation Styles */
+        .navbar {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            z-index: 1060 !important;
+            width: 100% !important;
+            background-color: #014903 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            min-height: 120px !important;
+            display: flex !important;
+            align-items: center !important;
+            border: none !important;
+        }
+
+        .navbar-brand {
+            margin-right: 2rem !important;
+            padding: 0 !important;
+        }
+
+        .navbar-nav .nav-link {
+            color: white !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            font-size: 0.9rem !important;
+            text-transform: uppercase !important;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #f9ca24 !important;
+        }
+
+        .dropdown-menu {
+            background-color: #fff !important;
+            border: 1px solid rgba(0, 0, 0, 0.15) !important;
+            border-radius: 0.25rem !important;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+            padding: 0.5rem 0 !important;
+            min-width: 220px !important;
+            margin-top: 0.5rem !important;
+        }
+
+        .dropdown-menu[aria-labelledby="departmentsDropdown"] {
+            min-width: 250px !important;
+        }
+
+        .dropdown-menu[aria-labelledby="aboutDropdown"] {
+            min-width: 220px !important;
+        }
+
+        .dropdown-menu[aria-labelledby="servicesDropdown"] {
+            min-width: 180px !important;
+        }
+
+        .dropdown-item {
+            color: #333 !important;
+            padding: 0.5rem 1.5rem !important;
+            font-size: 0.9rem !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .dropdown-item:hover,
+        .dropdown-item:focus {
+            background-color: #014903 !important;
+            color: white !important;
+        }
+
+        .dropdown-toggle::after {
+            vertical-align: middle !important;
+            margin-left: 0.255em !important;
+            border-top: 0.3em solid !important;
+            border-right: 0.3em solid transparent !important;
+            border-left: 0.3em solid transparent !important;
+        }
+        
+        /* Dropdown item styles are already defined above */
+        
+        /* Nav link and dropdown toggle styles are already defined above */
+        /* News section styles */
+        .news-horizontal-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 20px 0;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: #013a04 #f0f0f0;
+        }
+        
+        .news-horizontal-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .news-horizontal-container::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 4px;
+        }
+        
+        .news-horizontal-container::-webkit-scrollbar-thumb {
+            background-color: #013a04;
+            border-radius: 4px;
+        }
+        
+        .news-item-horizontal {
+            flex: 0 0 300px;
+            margin-right: 0;
+        }
+        
+        .news-item-horizontal .news-image {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
+        }
+        
+        /* Image styles */
+        .carousel-image {
+            max-height: 300px;
+            width: auto;
+        }
+        
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 0;
+            border: 1px solid #ddd;
+        }
+        
+        .profile-image.permsec {
+            width: 180px;
+            height: 180px;
+        }
+        
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .news-placeholder {
+            width: 100%;
+            height: 200px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+        }
+        
+        /* Force logo to be exactly 100px with !important to override any other styles */
+        .navbar-brand img,
+        .header-logo,
+        .logo-resized,
+        img[alt*="Federal Ministry of Women Affairs Logo"],
+        .navbar-brand > img,
+        .navbar > .container > a > img {
+            height: 100px !important;
+            width: auto !important;
+            max-height: 100px !important;
+            min-height: 100px !important;
+        }
+        
+        /* Navigation menu */
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-menu li {
+            display: inline-block;
+        }
+        
+        /* Critical CSS for above-the-fold content */
+        .navbar {
+            background-color: #014903 !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* Better touch feedback */
+        .nav-link:active {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(1px);
+        }
+        
+        /* Enhanced Dropdown Styles */
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 250px;
+            padding: 0.5rem 0;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+        }
+            
+        .dropdown-item {
+            padding: 0.65rem 1.25rem;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            color: #333 !important;
+            border-left: 3px solid transparent;
+        }
+        
+        .dropdown-item:hover, 
+        .dropdown-item:focus {
+            background-color: #f8f9fa !important;
+            color: #014903 !important;
+            border-left-color: #014903;
+            padding-left: 1.5rem;
+        }
+        
+        .dropdown-header {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0.5rem 1.25rem;
+        }
+        
+        .dropdown-divider {
+            margin: 0.25rem 0;
+            border-color: rgba(0,0,0,0.05);
+        }
+        
+        .dropdown-item i {
+            width: 20px;
+            text-align: center;
+            color: #014903;
+            font-size: 0.9em;
+        }
+        
+        /* Header spacing */
+        .main-nav {
+            padding-left: 40px;
+        }
+        
+        .fmwa-navbar-title {
+            margin-left: 20px;
+            font-size: 1.3rem;
+            line-height: 1.3;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            color: #ffffff !important;
+        }
+        
+        /* Navbar Brand */
+        .navbar-brand {
+            margin-left: 0;
+        }
+        
+        /* Dropdown Menu */
+        .dropdown:hover .dropdown-menu {
+            display: block;
+            margin-top: 0;
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            min-width: 250px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            max-height: 70vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #013a04 #f8f9fa;
+        }
+        
+        /* Custom scrollbar for dropdown */
+        .dropdown-menu::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .dropdown-menu::-webkit-scrollbar-track {
+            background: #f8f9fa;
+        }
+        
+        .dropdown-menu::-webkit-scrollbar-thumb {
+            background-color: #013a04;
+            border-radius: 3px;
+        }
+        
+        .dropdown-item {
+            transition: all 0.2s ease;
+            font-size: 0.85rem;
+            padding: 0.4rem 1rem;
+            white-space: normal;
+            line-height: 1.3;
+        }
+        
+        .dropdown-item:hover, 
+        .dropdown-item:focus {
+            background-color: #f8f9fa;
+            color: #013a04 !important;
+            font-weight: 500;
+        }
+        
+        .dropdown-toggle::after {
+            display: inline-block;
+            margin-left: 0.255em;
+            vertical-align: 0.255em;
+            content: "";
+            border-top: 0.3em solid;
+            border-right: 0.3em solid transparent;
+            border-bottom: 0;
+            border-left: 0.3em solid transparent;
+            transition: transform 0.2s ease;
+        }
+        
+        .dropdown:hover .dropdown-toggle::after {
+            transform: rotate(180deg);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #013a04;
+            color: #fff;
+            padding: 20px 0 0;
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+        
+        .footer-widget {
+            margin-bottom: 1rem;
+        }
+        
+        .footer-widget h5, 
+        .footer-widget h6 {
+            color: #28a745;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .footer-widget p, 
+        .footer-widget address,
+        .footer-widget .text-muted {
+            font-size: 0.85rem;
+            color: #adb5bd !important;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+        
+        .footer-links a {
+            display: block;
+            color: #adb5bd;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-links a:hover {
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        .social-links {
+            margin-top: 1.5rem;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: #fff;
+            margin-right: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background-color: #28a745;
+            transform: translateY(-2px);
+        }
+        
+        .newsletter-form .form-control {
+            background-color: #2c3034;
+            border: 1px solid #2c3034;
+            color: #fff;
+        }
+        
+        .newsletter-form .form-control:focus {
+            background-color: #2c3034;
+            border-color: #28a745;
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+            color: #fff;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.75rem 0;
+            margin-top: 1rem;
+            font-size: 0.75rem;
+        }
+        
+        .footer-bottom p {
+            margin-bottom: 0;
+            font-size: 0.8rem;
+            color: #6c757d !important;
+        }
+        
+        .scrolling-text.animate {
+            animation: scrollText 60s linear infinite;
+        }
+        
+        @keyframes scrollText {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        .maintenance-notice {
+            color: #d63384;
+            font-weight: bold;
+        }
+        
+        .urgent-notice {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+        
+        .scrolling-text i {
+            margin: 0 5px;
+            color: #d63384;
+        }
+    </style>
+    
+    <!-- Welcome Section Script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const scrollingText = document.querySelector('.scrolling-text');
+        if (scrollingText) {
+            // Make the text visible immediately
+            scrollingText.style.display = 'inline-block';
+            
+            // Start animation after a short delay to ensure the browser has rendered the text
+            setTimeout(() => {
+                scrollingText.classList.add('animate');
+            }, 100);
+        }
+    });
+    </script>
+    
+    <!-- Carousel Initialization -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize carousel with autoplay
+        var myCarousel = new bootstrap.Carousel(document.getElementById('heroCarousel'), {
+            interval: 5000, // Change slide every 5 seconds
+            wrap: true,
+            touch: true
+        });
+        
+        // Pause autoplay when hovering over the carousel
+        var carouselElement = document.getElementById('heroCarousel');
+        carouselElement.addEventListener('mouseenter', function() {
+            myCarousel.pause();
+        });
+        carouselElement.addEventListener('mouseleave', function() {
+            myCarousel.cycle();
+        });
+    });
+    </script>
+    
+    <!-- YouTube API -->
+    <script src="js/youtube-api.js"></script>
+    
+    <!-- Initialize Bootstrap dropdowns with submenu support -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize all dropdowns
+        var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+        var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+            return new bootstrap.Dropdown(dropdownToggleEl, {
+                autoClose: 'outside',
+                popperConfig: function(defaultBsPopperConfig) {
+                    return {
+                        ...defaultBsPopperConfig,
+                        strategy: 'fixed'
+                    };
+                }
+            });
+        });
+
+        // Handle submenu hover for desktop
+        if (window.innerWidth >= 992) {
+            // Main dropdown hover
+            document.querySelectorAll('.dropdown, .dropdown-submenu').forEach(function(element) {
+                element.addEventListener('mouseenter', function(e) {
+                    const toggle = this.querySelector('.dropdown-toggle');
+                    if (toggle) {
+                        const dropdown = bootstrap.Dropdown.getInstance(toggle);
+                        if (dropdown) {
+                            // Close any open dropdowns at this level
+                            const parentNav = this.closest('.dropdown-menu');
+                            if (parentNav) {
+                                parentNav.querySelectorAll('.dropdown-menu').forEach(menu => {
+                                    if (menu !== this.querySelector('.dropdown-menu')) {
+                                        const toggleBtn = menu.previousElementSibling;
+                                        if (toggleBtn && toggleBtn.matches('.dropdown-toggle')) {
+                                            const dd = bootstrap.Dropdown.getInstance(toggleBtn);
+                                            if (dd) dd.hide();
+                                        }
+                                    }
+                                });
+                            }
+                            dropdown.show();
+                        }
+                    }
+                });
+
+                element.addEventListener('mouseleave', function(e) {
+                    // Only hide if not hovering over a child dropdown
+                    if (!this.contains(e.relatedTarget) || !e.relatedTarget) {
+                        const toggle = this.querySelector('.dropdown-toggle');
+                        if (toggle) {
+                            const dropdown = bootstrap.Dropdown.getInstance(toggle);
+                            if (dropdown) dropdown.hide();
+                        }
+                    }
+                });
+            });
+        }
+        
+        // Handle touch events for mobile
+        document.addEventListener('click', function(e) {
+            const target = e.target;
+            if (window.innerWidth < 992) {
+                // Handle dropdown toggle on mobile
+                if (target.matches('.dropdown-toggle')) {
+                    e.preventDefault();
+                    const dropdown = bootstrap.Dropdown.getInstance(target);
+                    if (dropdown) {
+                        dropdown.toggle();
+                    }
+                }
+            }
+        });
+    });
+    </script>
+
+    </style>
+</head>
+<body>
+    <!-- Header will be inserted here by components/header.js -->
+    
+    <!-- Hero Section -->
+    <section class="hero-section py-5">
+        <div class="container">
+            <div id="heroCarousel" class="carousel slide">
+                <div class="carousel-inner" aria-live="polite">
+                    <div class="carousel-item active">
+                        <div class="image-container d-flex justify-content-center">
+                            <img src="images/2025_07_11_16_37_IMG_2804.JPG" alt="FMWA Event" class="img-fluid me-2 carousel-image">
+                            <img src="images/2025_07_11_16_39_IMG_2805.JPG" alt="FMWA Event" class="img-fluid carousel-image">
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="image-container d-flex justify-content-center">
+                            <img src="images/2025_07_11_16_40_IMG_2806.JPG" alt="FMWA Event" class="img-fluid me-2 carousel-image">
+                            <img src="images/2025_07_11_16_37_IMG_2804.JPG" alt="FMWA Event" class="img-fluid carousel-image">
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="image-container d-flex justify-content-center">
+                            <img src="images/2025_07_11_16_39_IMG_2805.JPG" 
+     alt="FMWA Event" 
+     class="img-fluid me-2 carousel-image">
+                            <img src="images/2025_07_11_16_40_IMG_2806.JPG" 
+     alt="FMWA Event" 
+     class="img-fluid carousel-image">
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </section>
+    </section>
+
+    <!-- Leadership Section -->
+    <section class="leadership-section py-5">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">Leadership</h2>
+            
+            <div class="row">
+                <!-- Minister -->
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="profile-image-container minister mx-auto">
+                                <img src="images/imaan_sulaiman.jpg" loading="lazy" class="profile-image" alt="Hajiya Imaan Sulaiman-Ibrahim">
+                            </div>
+                            <h4 class="mb-1">Hajiya Imaan Sulaiman-Ibrahim</h4>
+                            <h5 class="text-muted mb-3">Honourable Minister</h5>
+                            <p class="card-text">Hajiya Imaan Sulaiman-Ibrahim is the Honourable Minister of Women Affairs, appointed to oversee the affairs of the Federal Ministry of Women Affairs. With a strong background in public service and a passion for women's empowerment, she is committed to advancing gender equality, protecting women's rights, and implementing policies that promote the welfare of women and children across Nigeria.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Permanent Secretary -->
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="profile-image-container mx-auto">
+                                <img src="images/2025_07_11_16_37_IMG_2803.JPG" class="profile-image permsec" alt="Dr. Maryam Ismaila Keshinro">
+                            </div>
+                            <h4 class="mb-1">Dr. Maryam Ismaila Keshinro</h4>
+                            <h5 class="text-muted mb-3">Permanent Secretary</h5>
+                            <p class="card-text">Dr. Maryam Ismaila Keshinro serves as the Permanent Secretary of the Federal Ministry of Women Affairs, bringing extensive experience in public administration and policy implementation. She works closely with the Honourable Minister to ensure the effective execution of policies and programs that advance gender equality, women's empowerment, and the protection of women's and children's rights across Nigeria.</p>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about-section" class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div id="mandate-section" class="feature-box">
+                        <h3><i class="fas fa-landmark me-2"></i>Our Mandate</h3>
+                        <p>The broad mandate of the Ministry is to advise government on Gender and Children issues. Issues affecting Persons with Disabilities and the Aged; initiate policy guidelines and lead the process of gender equality and mainstreaming at both the National and International levels.</p>
+                        
+                        <a href="mandate.html" class="read-more">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div id="vision-section" class="feature-box">
+                        <h3><i class="fas fa-eye me-2"></i>Our Vision</h3>
+                        <p>To help build a Nigerian Society that guarantees equal access to social, economic and wealth creation opportunities to all, irrespective of gender, places premium on protection of the child, the aged and persons with disabilities; focuses attention of key operators in both private and public sectors on mainstreaming the concerns of these groups of people in national development process.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div id="mission-section" class="feature-box">
+                        <h3><i class="fas fa-bullseye me-2"></i>Our Mission</h3>
+                        <p>To help build a Nigerian Society that guarantees equal access to social, economic and wealth creation opportunities to all, irrespective of gender, places premium on protection of the child, the aged and persons with disabilities; focuses attention of key operators in both private and public sectors on mainstreaming the concerns of these groups of people in national development process.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="feature-box">
+                        <h3><i class="fas fa-users me-2"></i>Who We Are</h3>
+                        <p>Federal Ministry of Women Affairs and Social Development was created consequent upon of the response to The United Nations agreement to establish Institutional Mechanisms for the...</p>
+                        <a href="about.html" class="read-more" target="_blank" rel="noopener noreferrer">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- YouTube Videos Section Removed -->
+
+    <!-- Quick Links Panel -->
+    <section class="quick-links-panel py-4 bg-light">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="bg-white rounded shadow-sm overflow-hidden">
+                        <div class="ratio ratio-16x9">
+                            <iframe src="https://www.youtube.com/embed/bcVwzskL0PI?si=CDbKSdK6RGx4ZHRj" 
+                                    title="Latest Announcements Video" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen
+                                    class="w-100">
+                            </iframe>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="bg-white rounded shadow-sm overflow-hidden">
+                        <div class="ratio ratio-16x9">
+                            <iframe src="https://www.youtube.com/embed/DDfjkhRuLKA?si=ik_A9beQqziIKpy_" 
+                                    title="Upcoming Events Video" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen
+                                    class="w-100">
+                            </iframe>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="bg-white rounded shadow-sm overflow-hidden">
+                        <div class="ratio ratio-16x9">
+                            <iframe src="https://www.youtube.com/embed/eq7B3EjqYuU?si=ZrPFc7pMlsN_BekL" 
+                                    title="YouTube video player" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    referrerpolicy="strict-origin-when-cross-origin" 
+                                    allowfullscreen 
+                                    class="w-100">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News & Updates -->
+    <section class="news-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h2 class="section-title">Latest News & Updates</h2>
+                    <div class="news-horizontal-container">
+                        <!-- ACTU Committee Inauguration -->
+                        <div class="news-item-horizontal">
+                            <div class="news-item">
+                                <img src="latest-news/IMG-20250731-WA0019.jpg" loading="lazy" alt="ACTU Committee Inauguration" class="img-fluid news-image">
+                                <span class="news-date"><i class="far fa-calendar-alt me-2"></i>July 31, 2025</span>
+                                <h4 class="news-title">FMWA Inaugurates ACTU Committee to Bolster Transparency and Ethical Governance</h4>
+                                <p>In a landmark move toward institutional integrity, the Federal Ministry of Women Affairs inaugurated its Anti-Corruption and Transparency Unit (ACTU) Committee.</p>
+                                <a href="press-release-actu-inauguration.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        <!-- Press Statement - Super Falcons WAFCON Victory -->
+                        <div class="news-item-horizontal">
+                            <div class="news-item">
+                                <img src="latest-news/2025-07-28at12.08.39PM.jpeg" loading="lazy" alt="Super Falcons WAFCON Victory" class="img-fluid news-image">
+                                <span class="news-date"><i class="far fa-calendar-alt me-2"></i>July 28, 2025</span>
+                                <h4 class="news-title">Women Affairs Minister Congratulates Super Falcons on Historic 10th WAFCON Victory</h4>
+                                <p>The Honourable Minister of Women Affairs, Hon. Imaan Sulaiman Ibrahim, congratulates Nigeria's Super Falcons on their record-breaking victory.</p>
+                                <a href="press-statement-super-falcons.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        <!-- Empty tray for upcoming news -->
+                        <div class="news-item-horizontal">
+                            <div class="news-item">
+                                <div class="news-placeholder" style="height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                                    <i class="far fa-newspaper fa-3x mb-3"></i>
+                                    <p>More News Coming Soon</p>
+                                </div>
+                                <h4 class="news-title mt-3">Stay Tuned for Updates</h4>
+                                <p>Check back later for the latest news and updates from the Federal Ministry of Women Affairs.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Downloads Section -->
+    <section class="downloads-section py-3 bg-light">
+        <div class="container">
+            <h2 class="section-title">Publications & Downloads</h2>
+            <div class="row">
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-file-pdf fa-2x mb-2"></i>
+                            <h5>Public Service Rules</h5>
+
+                            <a href="/downloadables/PSR_2021_EDITION.pdf" class="btn btn-outline-primary btn-sm" download>Download PDF</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-file-word fa-2x mb-2"></i>
+                            <h5>Annual Report 2024</h5>
+                            <p class="text-muted small mb-2">Published: January 2025</p>
+                            <a href="#" class="btn btn-outline-primary btn-sm">Download DOC</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-file-excel fa-3x text-success mb-3"></i>
+                            <h5>Performance Data</h5>
+                            <p class="text-muted small">Q2 2025</p>
+                            <a href="#" class="btn btn-outline-primary btn-sm">Download XLS</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-file-archive fa-3x text-warning mb-3"></i>
+                            <h5>Policy Documents</h5>
+                            <p class="text-muted small">Collection (ZIP)</p>
+                            <a href="#" class="btn btn-outline-primary btn-sm">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <a href="#" class="btn btn-success">View All Publications</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="py-5 text-white stats-section">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-3 col-6 mb-4 mb-md-0">
+                    <div class="display-4 fw-bold">50+</div>
+                    <p>MDAs Served</p>
+                </div>
+                <div class="col-md-3 col-6 mb-4 mb-md-0">
+                    <div class="display-4 fw-bold">150K+</div>
+                    <p>Public Servants</p>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="display-4 fw-bold">24/7</div>
+                    <p>Service Delivery</p>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="display-4 fw-bold">100+</div>
+                    <p>Training Programs</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer will be inserted here by components/footer.js -->
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" 
+            crossorigin="anonymous" 
+            defer></script>
+    
+    <!-- Custom Scripts -->
+    <script>
+    // Initialize components
+    document.addEventListener('DOMContentLoaded', function() {
+        // Remove any existing offcanvas backdrops
+        document.querySelectorAll('.offcanvas-backdrop').forEach(el => el.remove());
+        
+        // Add smooth scrolling to all links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    });
+    </script>
+    
+    <!-- Initialize components with defer -->
+    <script defer>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize tooltips
+        if (typeof bootstrap !== 'undefined') {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+                new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+            
+            // Initialize popovers
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+            popoverTriggerList.forEach(function (popoverTriggerEl) {
+                new bootstrap.Popover(popoverTriggerEl);
+            });
+        }
+    });
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Navigation related scripts can be added here
+    });
+    </script>
+    
+    <!-- Visitor Counter Display -->
+    <div id="visitor-counter"></div>
+
+</body>
+</html>
