@@ -3,7 +3,7 @@
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'womenaffairsgov_fmwa_db');
 define('DB_USER', 'womenaffairsgov_admin');
-define('DB_PASS', 'YOUR_SECURE_PASSWORD');
+define('DB_PASS', @vCoLTL27N.gEfF);
 
 // Application paths
 define('BASE_PATH', realpath(dirname(__DIR__)));
