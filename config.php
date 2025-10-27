@@ -1,9 +1,9 @@
 <?php
 // Database configuration
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'fmwa_db');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_NAME', 'womenaffairsgov_fmwa_db');
+define('DB_USER', 'womenaffairsgov_admin');
+define('DB_PASS', 'YOUR_SECURE_PASSWORD');
 
 // Application paths
 define('BASE_PATH', realpath(dirname(__DIR__)));
