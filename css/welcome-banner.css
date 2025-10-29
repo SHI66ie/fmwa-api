@@ -1,0 +1,61 @@
+/* Welcome Banner / Maintenance Notice Styles */
+.maintenance-banner {
+    position: relative;
+    z-index: 1050;
+    border-bottom: 2px solid #ffc107;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.scrolling-text {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    animation: scrollText 30s linear infinite;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.scrolling-text.animate {
+    animation: scrollText 60s linear infinite;
+}
+
+@keyframes scrollText {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+.maintenance-notice {
+    color: #d63384;
+    font-weight: bold;
+}
+
+.urgent-notice {
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+.scrolling-text i {
+    margin: 0 5px;
+    color: #d63384;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .maintenance-banner {
+        margin-top: 70px !important;
+    }
+    
+    .scrolling-text {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 576px) {
+    .maintenance-banner {
+        margin-top: 60px !important;
+    }
+    
+    .scrolling-text {
+        font-size: 11px;
+    }
+}

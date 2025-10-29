@@ -1,0 +1,50 @@
+/* Logo Position Fix Styles */
+.fmwa-logo {
+    height: 50px;
+    width: auto;
+    margin-right: 10px;
+}
+
+.logo-divider {
+    width: 2px;
+    height: 40px;
+    background-color: #013a04;
+    margin: 0 15px;
+}
+
+.fmwa-navbar-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #013a04;
+    line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+    .fmwa-logo {
+        height: 40px;
+    }
+    
+    .logo-divider {
+        height: 30px;
+        margin: 0 10px;
+    }
+    
+    .fmwa-navbar-title {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 576px) {
+    .fmwa-logo {
+        height: 35px;
+    }
+    
+    .logo-divider {
+        height: 25px;
+        margin: 0 8px;
+    }
+    
+    .fmwa-navbar-title {
+        font-size: 12px;
+    }
+}

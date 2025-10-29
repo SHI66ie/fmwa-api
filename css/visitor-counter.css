@@ -1,0 +1,37 @@
+/* Visitor Counter Styles */
+.visitor-counter {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 10px 15px;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.visitor-counter h6 {
+    margin: 0 0 5px 0;
+    color: #013a04;
+    font-weight: bold;
+}
+
+.visitor-count {
+    font-size: 18px;
+    font-weight: bold;
+    color: #025a06;
+}
+
+.visitor-counter i {
+    color: #013a04;
+    margin-right: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .visitor-counter {
+        padding: 8px 12px;
+    }
+    
+    .visitor-count {
+        font-size: 16px;
+    }
+}
