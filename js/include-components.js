@@ -20,6 +20,43 @@ document.addEventListener('DOMContentLoaded', function() {
                         <li class="nav-item">
                             <a class="nav-link" href="./about.html" title="Learn about the ministry">About Us</a>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="departmentsDropdown" role="button" title="Explore our departments">
+                                Departments
+                            </a>
+                            <ul aria-labelledby="departmentsDropdown" class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="./departments/child-development.html" title="Child Development Department">
+                                    Child Development
+                                </a></li>
+                                <li><a class="dropdown-item" href="./departments/community-development-social-intervention.html" title="Community Development & Social Intervention Department">
+                                    Community Development & Social Intervention
+                                </a></li>
+                                <li><a class="dropdown-item" href="./departments/finance-accounting.html" title="Finance & Accounting Department">
+                                    Finance & Accounting
+                                </a></li>
+                                <li><a class="dropdown-item" href="./departments/gender-affairs.html" title="Gender Affairs Department">
+                                    Gender Affairs
+                                </a></li>
+                                <li><a class="dropdown-item" href="./departments/general-services.html" title="General Services Department">
+                                    General Services
+                                </a></li>
+                                <li><a class="dropdown-item" href="./departments/nutrition.html" title="Nutrition Department">
+                                    Nutrition
+                                </a></li>
+                                <li><a class="dropdown-item" href="./departments/planning-research-statistics.html" title="Planning, Research & Statistics Department">
+                                    Planning, Research & Statistics
+                                </a></li>
+                                <li><a class="dropdown-item" href="./departments/procurement.html" title="Procurement Department">
+                                    Procurement
+                                </a></li>
+                                <li><a class="dropdown-item" href="./departments/reform-coordination-service-improvement.html" title="Reform Coordination & Service Improvement Department">
+                                    Reform Coordination & Service Improvement
+                                </a></li>
+                                <li><a class="dropdown-item" href="./departments/women-development.html" title="Women Development Department">
+                                    Women Development
+                                </a></li>
+                            </ul>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="./mandate.html" title="Our mandate">Mandate</a>
                         </li>
@@ -31,6 +68,33 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Insert header at the beginning of body
     document.body.insertAdjacentHTML('afterbegin', headerHTML);
+    
+    // Initialize Bootstrap dropdowns
+    setTimeout(() => {
+        // Initialize dropdown functionality
+        const dropdownToggle = document.querySelector('#departmentsDropdown');
+        if (dropdownToggle && typeof bootstrap !== 'undefined') {
+            new bootstrap.Dropdown(dropdownToggle);
+        }
+        
+        // Handle hover behavior for desktop
+        const dropdown = document.querySelector('.dropdown');
+        if (dropdown && window.innerWidth >= 992) {
+            dropdown.addEventListener('mouseenter', function() {
+                const dropdownInstance = bootstrap.Dropdown.getInstance(dropdownToggle);
+                if (dropdownInstance) {
+                    dropdownInstance.show();
+                }
+            });
+            
+            dropdown.addEventListener('mouseleave', function() {
+                const dropdownInstance = bootstrap.Dropdown.getInstance(dropdownToggle);
+                if (dropdownInstance) {
+                    dropdownInstance.hide();
+                }
+            });
+        }
+    }, 100);
     
     // Initialize scrolling text animation
     const scrollingText = document.querySelector('.scrolling-text');
