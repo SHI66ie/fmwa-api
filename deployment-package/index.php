@@ -1,14 +1,39 @@
-<?php
-// Homepage configuration
-$page_title = "Federal Ministry of Women Affairs";
-$show_maintenance_notice = true; // Show maintenance notice on homepage
-?>
-<?php include 'components/head.php'; ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Federal Ministry of Women Affairs</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/2025_07_14_13_42_IMG_2808.PNG">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- Load optimized CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/department-navigation.css">
+    <link rel="stylesheet" href="css/logo-position-fix.css?v=1.1">
+    <link rel="stylesheet" href="css/welcome-banner.css">
+    <link rel="stylesheet" href="css/visitor-counter.css">
+    
+    <!-- Include components -->
+    <script src="js/include-components.js" defer></script>
+    <script src="js/visitor-counter.js" defer></script>
+    
+    <!-- Preload critical images -->
+    <link rel="preload" href="images/2025_07_14_13_42_IMG_2808.PNG" as="image">
+</head>
 <body>
-    <?php include 'components/navigation.php'; ?>
-
-    <!-- Maintenance Notice -->
-    <?php if ($show_maintenance_notice): ?>
+    <!-- Header will be inserted here by components/header.js -->
+    
+    <!-- Maintenance Notice Section -->
     <div class="maintenance-banner bg-warning text-dark py-2" style="margin-top: 80px;">
         <div class="container">
             <div class="row align-items-center">
@@ -22,292 +47,419 @@ $show_maintenance_notice = true; // Show maintenance notice on homepage
             </div>
         </div>
     </div>
-    <?php endif; ?>
-
+    
     <!-- Hero Section -->
-    <section class="hero-section bg-primary text-white py-5" style="margin-top: <?php echo $show_maintenance_notice ? '0' : '80px'; ?>;">
+    <section class="hero-section py-5">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <h1 class="display-4 fw-bold mb-4">Empowering Women, Strengthening Nigeria</h1>
-                    <p class="lead mb-4">The Federal Ministry of Women Affairs is committed to promoting gender equality, women's empowerment, and the welfare of children across Nigeria.</p>
-                    <div class="d-flex flex-wrap gap-3">
-                        <a href="about.html" class="btn btn-light btn-lg">Learn More</a>
-                        <a href="departments/women-development.php" class="btn btn-outline-light btn-lg">Our Programs</a>
+            <div id="heroCarousel" class="carousel slide">
+                <div class="carousel-inner" aria-live="polite">
+                    <div class="carousel-item active">
+                        <div class="image-container d-flex justify-content-center">
+                            <img src="images/2025_07_11_16_37_IMG_2804.JPG" alt="FMWA Event" class="img-fluid me-2 carousel-image">
+                            <img src="images/2025_07_11_16_39_IMG_2805.JPG" alt="FMWA Event" class="img-fluid carousel-image">
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="image-container d-flex justify-content-center">
+                            <img src="images/2025_07_11_16_40_IMG_2806.JPG" alt="FMWA Event" class="img-fluid me-2 carousel-image">
+                            <img src="images/2025_07_11_16_37_IMG_2804.JPG" alt="FMWA Event" class="img-fluid carousel-image">
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="image-container d-flex justify-content-center">
+                            <img src="images/2025_07_11_16_39_IMG_2805.JPG" alt="FMWA Event" class="img-fluid me-2 carousel-image">
+                            <img src="images/2025_07_11_16_40_IMG_2806.JPG" alt="FMWA Event" class="img-fluid carousel-image">
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-6 text-center">
-                    <img src="images/hero-image.jpg" alt="Women Empowerment" class="img-fluid rounded shadow" 
-                         onerror="this.src='images/2025_07_14_13_42_IMG_2808.PNG'">
+                <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leadership Section -->
+    <section class="leadership-section py-5">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">Leadership</h2>
+            
+            <div class="row">
+                <!-- Minister -->
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="profile-image-container minister mx-auto">
+                                <img src="images/imaan_sulaiman.jpg" loading="lazy" class="profile-image" alt="Hajiya Imaan Sulaiman-Ibrahim">
+                            </div>
+                            <h4 class="mb-1">Hajiya Imaan Sulaiman-Ibrahim</h4>
+                            <h5 class="text-muted mb-3">Honourable Minister</h5>
+                            <p class="card-text">Hajiya Imaan Sulaiman-Ibrahim is the Honourable Minister of Women Affairs, appointed to oversee the affairs of the Federal Ministry of Women Affairs. With a strong background in public service and a passion for women's empowerment, she is committed to advancing gender equality, protecting women's rights, and implementing policies that promote the welfare of women and children across Nigeria.</p>
+                        </div>
+                    </div>
                 </div>
+                
+                <!-- Permanent Secretary -->
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="profile-image-container mx-auto">
+                                <img src="images/2025_07_11_16_37_IMG_2803.JPG" class="profile-image permsec" alt="Dr. Maryam Ismaila Keshinro">
+                            </div>
+                            <h4 class="mb-1">Dr. Maryam Ismaila Keshinro</h4>
+                            <h5 class="text-muted mb-3">Permanent Secretary</h5>
+                            <p class="card-text">Dr. Maryam Ismaila Keshinro serves as the Permanent Secretary of the Federal Ministry of Women Affairs, bringing extensive experience in public administration and policy implementation. She works closely with the Honourable Minister to ensure the effective execution of policies and programs that advance gender equality, women's empowerment, and the protection of women's and children's rights across Nigeria.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about-section" class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div id="mandate-section" class="feature-box">
+                        <h3><i class="fas fa-landmark me-2"></i>Our Mandate</h3>
+                        <p>The broad mandate of the Ministry is to advise government on Gender and Children issues. Issues affecting Persons with Disabilities and the Aged; initiate policy guidelines and lead the process of gender equality and mainstreaming at both the National and International levels.</p>
+                        
+                        <a href="mandate.html" class="read-more">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div id="vision-section" class="feature-box">
+                        <h3><i class="fas fa-eye me-2"></i>Our Vision</h3>
+                        <p>To help build a Nigerian Society that guarantees equal access to social, economic and wealth creation opportunities to all, irrespective of gender, places premium on protection of the child, the aged and persons with disabilities; focuses attention of key operators in both private and public sectors on mainstreaming the concerns of these groups of people in national development process.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div id="mission-section" class="feature-box">
+                        <h3><i class="fas fa-bullseye me-2"></i>Our Mission</h3>
+                        <p>To help build a Nigerian Society that guarantees equal access to social, economic and wealth creation opportunities to all, irrespective of gender, places premium on protection of the child, the aged and persons with disabilities; focuses attention of key operators in both private and public sectors on mainstreaming the concerns of these groups of people in national development process.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="feature-box">
+                        <h3><i class="fas fa-users me-2"></i>Who We Are</h3>
+                        <p>Federal Ministry of Women Affairs and Social Development was created consequent upon of the response to The United Nations agreement to establish Institutional Mechanisms for the...</p>
+                        <a href="about.html" class="read-more" target="_blank" rel="noopener noreferrer">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Links Panel -->
+    <section class="quick-links-panel py-4 bg-light">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="bg-white rounded shadow-sm overflow-hidden">
+                        <div class="ratio ratio-16x9">
+                            <iframe src="https://www.youtube.com/embed/bcVwzskL0PI?si=CDbKSdK6RGx4ZHRj" 
+                                    title="Latest Announcements Video" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen
+                                    class="w-100">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="bg-white rounded shadow-sm overflow-hidden">
+                        <div class="ratio ratio-16x9">
+                            <iframe src="https://www.youtube.com/embed/DDfjkhRuLKA?si=ik_A9beQqziIKpy_" 
+                                    title="Upcoming Events Video" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen
+                                    class="w-100">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="bg-white rounded shadow-sm overflow-hidden">
+                        <div class="ratio ratio-16x9">
+                            <iframe src="https://www.youtube.com/embed/eq7B3EjqYuU?si=ZrPFc7pMlsN_BekL" 
+                                    title="YouTube video player" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    referrerpolicy="strict-origin-when-cross-origin" 
+                                    allowfullscreen 
+                                    class="w-100">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News & Updates -->
+    <section class="news-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h2 class="section-title">Latest News & Updates</h2>
+                    <div class="news-horizontal-container">
+                        <!-- ACTU Committee Inauguration -->
+                        <div class="news-item-horizontal">
+                            <div class="news-item">
+                                <img src="latest-news/IMG-20250731-WA0019.jpg" loading="lazy" alt="ACTU Committee Inauguration" class="img-fluid news-image">
+                                <span class="news-date"><i class="far fa-calendar-alt me-2"></i>July 31, 2025</span>
+                                <h4 class="news-title">FMWA Inaugurates ACTU Committee to Bolster Transparency and Ethical Governance</h4>
+                                <p>In a landmark move toward institutional integrity, the Federal Ministry of Women Affairs inaugurated its Anti-Corruption and Transparency Unit (ACTU) Committee.</p>
+                                <a href="press-release-actu-inauguration.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        <!-- Press Statement - Super Falcons WAFCON Victory -->
+                        <div class="news-item-horizontal">
+                            <div class="news-item">
+                                <img src="latest-news/2025-07-28at12.08.39PM.jpeg" loading="lazy" alt="Super Falcons WAFCON Victory" class="img-fluid news-image">
+                                <span class="news-date"><i class="far fa-calendar-alt me-2"></i>July 28, 2025</span>
+                                <h4 class="news-title">Women Affairs Minister Congratulates Super Falcons on Historic 10th WAFCON Victory</h4>
+                                <p>The Honourable Minister of Women Affairs, Hon. Imaan Sulaiman Ibrahim, congratulates Nigeria's Super Falcons on their record-breaking victory.</p>
+                                <a href="press-statement-super-falcons.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        <!-- Empty tray for upcoming news -->
+                        <div class="news-item-horizontal">
+                            <div class="news-item">
+                                <div class="news-placeholder" style="height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                                    <i class="far fa-newspaper fa-3x mb-3"></i>
+                                    <p>More News Coming Soon</p>
+                                </div>
+                                <h4 class="news-title mt-3">Stay Tuned for Updates</h4>
+                                <p>Check back later for the latest news and updates from the Federal Ministry of Women Affairs.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Downloads Section -->
+    <section class="downloads-section py-3 bg-light">
+        <div class="container">
+            <h2 class="section-title">Publications & Downloads</h2>
+            <div class="row">
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-file-pdf fa-2x mb-2"></i>
+                            <h5>Public Service Rules</h5>
+                            <a href="/downloadables/PSR_2021_EDITION.pdf" class="btn btn-outline-primary btn-sm" download>Download PDF</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-file-word fa-2x mb-2"></i>
+                            <h5>Annual Report 2024</h5>
+                            <p class="text-muted small mb-2">Published: January 2025</p>
+                            <a href="#" class="btn btn-outline-primary btn-sm">Download DOC</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-file-excel fa-3x text-success mb-3"></i>
+                            <h5>Performance Data</h5>
+                            <p class="text-muted small">Q2 2025</p>
+                            <a href="#" class="btn btn-outline-primary btn-sm">Download XLS</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-file-archive fa-3x text-warning mb-3"></i>
+                            <h5>Policy Documents</h5>
+                            <p class="text-muted small">Collection (ZIP)</p>
+                            <a href="#" class="btn btn-outline-primary btn-sm">Download ZIP</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <a href="#" class="btn btn-success">View All Publications</a>
             </div>
         </div>
     </section>
 
     <!-- Quick Stats -->
-    <section class="stats-section py-5 bg-light">
+    <section class="py-5 text-white stats-section">
         <div class="container">
             <div class="row text-center">
-                <div class="col-md-3 mb-4">
-                    <div class="stat-card">
-                        <i class="fas fa-users fa-3x text-primary mb-3"></i>
-                        <h3 class="fw-bold">13</h3>
-                        <p class="text-muted">Departments</p>
-                    </div>
+                <div class="col-md-3 col-6 mb-4 mb-md-0">
+                    <div class="display-4 fw-bold">50+</div>
+                    <p>MDAs Served</p>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <div class="stat-card">
-                        <i class="fas fa-female fa-3x text-success mb-3"></i>
-                        <h3 class="fw-bold">1M+</h3>
-                        <p class="text-muted">Women Empowered</p>
-                    </div>
+                <div class="col-md-3 col-6 mb-4 mb-md-0">
+                    <div class="display-4 fw-bold">150K+</div>
+                    <p>Public Servants</p>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <div class="stat-card">
-                        <i class="fas fa-child fa-3x text-warning mb-3"></i>
-                        <h3 class="fw-bold">500K+</h3>
-                        <p class="text-muted">Children Supported</p>
-                    </div>
+                <div class="col-md-3 col-6">
+                    <div class="display-4 fw-bold">24/7</div>
+                    <p>Service Delivery</p>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <div class="stat-card">
-                        <i class="fas fa-map-marker-alt fa-3x text-info mb-3"></i>
-                        <h3 class="fw-bold">36</h3>
-                        <p class="text-muted">States Covered</p>
-                    </div>
+                <div class="col-md-3 col-6">
+                    <div class="display-4 fw-bold">100+</div>
+                    <p>Training Programs</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Key Departments -->
-    <section class="departments-section py-5">
+    <!-- Footer -->
+    <footer class="footer bg-dark text-light py-5 mt-5">
         <div class="container">
             <div class="row">
-                <div class="col-12 text-center mb-5">
-                    <h2 class="display-5 fw-bold">Our Key Departments</h2>
-                    <p class="lead text-muted">Discover our specialized departments working to advance women's rights and welfare</p>
-                </div>
-            </div>
-            <div class="row">
+                <!-- About Section -->
                 <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body text-center">
-                            <i class="fas fa-venus fa-3x text-primary mb-3"></i>
-                            <h5 class="card-title">Women Development</h5>
-                            <p class="card-text">Advancing women's empowerment through comprehensive development programs and initiatives.</p>
-                            <a href="departments/women-development.php" class="btn btn-primary">Learn More</a>
-                        </div>
+                    <h5 class="mb-3">Federal Ministry of Women Affairs</h5>
+                    <p class="text-muted">Empowering women and promoting gender equality across Nigeria through comprehensive policies, programs, and initiatives that advance the welfare of women and children.</p>
+                    <div class="social-links mt-3">
+                        <a href="#" class="text-light me-3" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-light me-3" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-light me-3" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-light me-3" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="text-light" title="YouTube"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body text-center">
-                            <i class="fas fa-baby fa-3x text-success mb-3"></i>
-                            <h5 class="card-title">Child Development</h5>
-                            <p class="card-text">Protecting and nurturing children through comprehensive development programs and welfare initiatives.</p>
-                            <a href="departments/child-development.php" class="btn btn-success">Learn More</a>
-                        </div>
-                    </div>
+                
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="index.php" class="text-muted text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="about.html" class="text-muted text-decoration-none">About Us</a></li>
+                        <li class="mb-2"><a href="mandate.html" class="text-muted text-decoration-none">Our Mandate</a></li>
+                        <li class="mb-2"><a href="organogram.html" class="text-muted text-decoration-none">Organogram</a></li>
+                    </ul>
                 </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body text-center">
-                            <i class="fas fa-balance-scale fa-3x text-warning mb-3"></i>
-                            <h5 class="card-title">Gender Affairs</h5>
-                            <p class="card-text">Promoting gender equality and mainstreaming gender perspectives in policies and programs.</p>
-                            <a href="departments/gender-affairs.php" class="btn btn-warning">Learn More</a>
-                        </div>
-                    </div>
+                
+                <!-- Departments -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="mb-3">Key Departments</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="departments/women-development.php" class="text-muted text-decoration-none">Women Development</a></li>
+                        <li class="mb-2"><a href="departments/child-development.php" class="text-muted text-decoration-none">Child Development</a></li>
+                        <li class="mb-2"><a href="departments/gender-affairs.php" class="text-muted text-decoration-none">Gender Affairs</a></li>
+                        <li class="mb-2"><a href="departments/nutrition.php" class="text-muted text-decoration-none">Nutrition</a></li>
+                    </ul>
                 </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body text-center">
-                            <i class="fas fa-coins fa-3x text-info mb-3"></i>
-                            <h5 class="card-title">Economic Services</h5>
-                            <p class="card-text">Empowering women through economic opportunities, financial inclusion, and entrepreneurship development.</p>
-                            <a href="departments/economic-services.php" class="btn btn-info">Learn More</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body text-center">
-                            <i class="fas fa-apple-alt fa-3x text-danger mb-3"></i>
-                            <h5 class="card-title">Nutrition</h5>
-                            <p class="card-text">Improving nutritional status and food security for women, children, and vulnerable populations.</p>
-                            <a href="departments/nutrition.php" class="btn btn-danger">Learn More</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body text-center">
-                            <i class="fas fa-users-cog fa-3x text-secondary mb-3"></i>
-                            <h5 class="card-title">Human Resource Management</h5>
-                            <p class="card-text">Managing human capital and organizational development to enhance ministry performance.</p>
-                            <a href="departments/human-resource-management.php" class="btn btn-secondary">Learn More</a>
-                        </div>
+                
+                <!-- Contact Info -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="mb-3">Contact Us</h5>
+                    <div class="contact-info">
+                        <p class="text-muted mb-2">
+                            <i class="fas fa-map-marker-alt me-2"></i>
+                            Federal Secretariat Complex<br>
+                            <span class="ms-4">Shehu Shagari Way, Abuja</span>
+                        </p>
+                        <p class="text-muted mb-2">
+                            <i class="fas fa-phone me-2"></i>
+                            +234-9-461-0000
+                        </p>
+                        <p class="text-muted mb-2">
+                            <i class="fas fa-envelope me-2"></i>
+                            info@fmwa.gov.ng
+                        </p>
+                        <p class="text-muted mb-0">
+                            <i class="fas fa-clock me-2"></i>
+                            Mon - Fri: 8:00 AM - 4:00 PM
+                        </p>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12 text-center mt-4">
-                    <a href="#" class="btn btn-outline-primary btn-lg" onclick="document.querySelector('#departmentsDropdown').click(); return false;">View All Departments</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Latest News & Updates -->
-    <section class="news-section py-5 bg-light">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center mb-5">
-                    <h2 class="display-5 fw-bold">Latest News & Updates</h2>
-                    <p class="lead text-muted">Stay informed about our latest initiatives and achievements</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <span class="badge bg-primary">Latest</span>
-                                <small class="text-muted">March 8, 2025</small>
-                            </div>
-                            <h5 class="card-title">International Women's Day Celebration</h5>
-                            <p class="card-text">Join us as we celebrate the achievements of women across Nigeria and launch new empowerment initiatives.</p>
-                            <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <span class="badge bg-success">Program</span>
-                                <small class="text-muted">February 20, 2025</small>
-                            </div>
-                            <h5 class="card-title">New Microfinance Initiative</h5>
-                            <p class="card-text">Expanded financial support program for women entrepreneurs across all 36 states of Nigeria.</p>
-                            <a href="#" class="btn btn-outline-success btn-sm">Read More</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <span class="badge bg-warning">Policy</span>
-                                <small class="text-muted">February 15, 2025</small>
-                            </div>
-                            <h5 class="card-title">Gender Equality Framework</h5>
-                            <p class="card-text">New policy framework to strengthen gender mainstreaming across all government sectors.</p>
-                            <a href="#" class="btn btn-outline-warning btn-sm">Read More</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Call to Action -->
-    <section class="cta-section py-5 bg-primary text-white">
-        <div class="container text-center">
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <h2 class="display-5 fw-bold mb-4">Get Involved</h2>
-                    <p class="lead mb-4">Join us in our mission to empower women and strengthen communities across Nigeria. Together, we can create lasting change.</p>
-                    <div class="d-flex flex-wrap justify-content-center gap-3">
-                        <a href="#" class="btn btn-light btn-lg">Partner With Us</a>
-                        <a href="#" class="btn btn-outline-light btn-lg">Contact Us</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Visitor Counter -->
-    <div class="visitor-counter-container">
-        <div class="visitor-counter">
-            <i class="fas fa-eye"></i>
-            <span>Visitors: </span>
-            <span id="visitor-count">Loading...</span>
-        </div>
-    </div>
-
-    <?php include 'components/main-footer.php'; ?>
-
-    <style>
-        .hero-section {
-            background: linear-gradient(135deg, #013a04 0%, #025a06 100%);
-        }
-        
-        .stat-card {
-            padding: 2rem 1rem;
-            transition: transform 0.3s ease;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
-        }
-        
-        .scrolling-text {
-            display: inline-block;
-            animation: scroll-text 20s linear infinite;
-        }
-        
-        @keyframes scroll-text {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-        
-        .visitor-counter-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
-        
-        .visitor-counter {
-            background: rgba(1, 58, 4, 0.9);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 25px;
-            font-size: 14px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        
-        @media (max-width: 768px) {
-            .visitor-counter-container {
-                bottom: 10px;
-                right: 10px;
-            }
             
-            .visitor-counter {
-                padding: 8px 12px;
-                font-size: 12px;
-            }
-        }
-    </style>
+            <!-- Footer Bottom -->
+            <div class="footer-bottom border-top border-secondary pt-4 mt-4">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="text-muted mb-0">
+                            &copy; 2025 Federal Ministry of Women Affairs. All rights reserved.
+                        </p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <a href="#" class="text-muted text-decoration-none me-3">Privacy Policy</a>
+                        <a href="#" class="text-muted text-decoration-none me-3">Terms of Service</a>
+                        <a href="#" class="text-muted text-decoration-none">Sitemap</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" 
+            crossorigin="anonymous" 
+            defer></script>
+    
+    <!-- Custom Scripts -->
     <script>
-        // Initialize visitor counter
-        document.addEventListener('DOMContentLoaded', function() {
-            // Simple visitor counter (you can replace with actual backend implementation)
-            let count = localStorage.getItem('visitorCount') || 0;
-            count = parseInt(count) + 1;
-            localStorage.setItem('visitorCount', count);
-            document.getElementById('visitor-count').textContent = count.toLocaleString();
+    // Initialize components
+    document.addEventListener('DOMContentLoaded', function() {
+        // Remove any existing offcanvas backdrops
+        document.querySelectorAll('.offcanvas-backdrop').forEach(el => el.remove());
+        
+        // Add smooth scrolling to all links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
         });
+    });
     </script>
+    
+    <!-- Initialize components with defer -->
+    <script defer>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize tooltips
+        if (typeof bootstrap !== 'undefined') {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+                new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+            
+            // Initialize popovers
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+            popoverTriggerList.forEach(function (popoverTriggerEl) {
+                new bootstrap.Popover(popoverTriggerEl);
+            });
+        }
+    });
+    </script>
+
+    <!-- Visitor Counter Display -->
+    <div id="visitor-counter"></div>
+
+</body>
+</html>
