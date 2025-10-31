@@ -89,30 +89,30 @@
         <div class="container">
             <h2 class="section-title text-center mb-5">Leadership</h2>
             
-            <div class="row">
+            <div class="row justify-content-center">
                 <!-- Minister -->
-                <div class="col-md-6 mb-4">
+                <div class="col-md-5 mb-4 mb-md-0">
                     <div class="card h-100 border-0 shadow-sm">
                         <div class="card-body text-center p-4">
                             <div class="profile-image-container minister mx-auto">
-                                <img src="images/imaan_sulaiman.jpg" loading="lazy" class="profile-image" alt="Hajiya Imaan Sulaiman-Ibrahim">
+                                <img src="images/imaan_sulaiman.jpg" class="profile-image" alt="Hajiya Imaan Sulaiman-Ibrahim">
                             </div>
-                            <h4 class="mb-1">Hajiya Imaan Sulaiman-Ibrahim</h4>
-                            <h5 class="text-muted mb-3">Honourable Minister</h5>
+                            <h5 class="text-muted mb-2">Honourable Minister</h5>
+                            <h4 class="mb-3">Hajiya Imaan Sulaiman-Ibrahim</h4>
                             <p class="card-text">Hajiya Imaan Sulaiman-Ibrahim is the Honourable Minister of Women Affairs, appointed to oversee the affairs of the Federal Ministry of Women Affairs. With a strong background in public service and a passion for women's empowerment, she is committed to advancing gender equality, protecting women's rights, and implementing policies that promote the welfare of women and children across Nigeria.</p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Permanent Secretary -->
-                <div class="col-md-6 mb-4">
+                <div class="col-md-5">
                     <div class="card h-100 border-0 shadow-sm">
                         <div class="card-body text-center p-4">
                             <div class="profile-image-container mx-auto">
-                                <img src="images/2025_07_11_16_37_IMG_2803.JPG" class="profile-image permsec" alt="Dr. Maryam Ismaila Keshinro">
+                                <img src="images/2025_07_11_16_37_IMG_2803.JPG" class="profile-image" alt="Dr. Maryam Ismaila Keshinro">
                             </div>
-                            <h4 class="mb-1">Dr. Maryam Ismaila Keshinro</h4>
-                            <h5 class="text-muted mb-3">Permanent Secretary</h5>
+                            <h5 class="text-muted mb-2">Permanent Secretary</h5>
+                            <h4 class="mb-3">Dr. Maryam Ismaila Keshinro</h4>
                             <p class="card-text">Dr. Maryam Ismaila Keshinro serves as the Permanent Secretary of the Federal Ministry of Women Affairs, bringing extensive experience in public administration and policy implementation. She works closely with the Honourable Minister to ensure the effective execution of policies and programs that advance gender equality, women's empowerment, and the protection of women's and children's rights across Nigeria.</p>
                         </div>
                     </div>
