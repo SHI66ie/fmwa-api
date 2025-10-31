@@ -57,6 +57,29 @@ $site_title = isset($page_title) ? $page_title : 'Federal Ministry of Women Affa
             filter: invert(1);
         }
         
+        /* Compact dropdown styling */
+        .dropdown-menu {
+            min-width: 200px !important;
+            padding: 0.25rem 0 !important;
+            font-size: 0.875rem !important;
+            border-radius: 6px !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+        }
+        
+        .dropdown-item {
+            padding: 0.375rem 0.75rem !important;
+            font-size: 0.875rem !important;
+            line-height: 1.4 !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #f8f9fa !important;
+            color: #025a06 !important;
+        }
+        
         @media (max-width: 768px) {
             .fmwa-logo {
                 height: 70px !important;
