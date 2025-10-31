@@ -34,7 +34,13 @@ include '../components/head.php';
                     <div class="content-section">
                         <h2>About Happy Woman Program</h2>
                         <p>The Happy Woman program is designed to provide comprehensive support services to women across Nigeria, focusing on empowerment, skill development, and overall well-being.</p>
-                        
+
+                        <div class="ratio ratio-16x9 my-4">
+                            <iframe src="https://happywoman.ng/" title="Happy Woman Portal" loading="lazy" allowfullscreen style="border: 0;"></iframe>
+                        </div>
+
+                        <p class="small text-muted">Having trouble viewing the embedded site? <a href="https://happywoman.ng/" target="_blank" rel="noopener">Open HappyWoman.ng in a new tab</a>.</p>
+
                         <h3>Our Services Include:</h3>
                         <ul>
                             <li>Women empowerment workshops</li>
@@ -43,7 +49,7 @@ include '../components/head.php';
                             <li>Economic empowerment initiatives</li>
                             <li>Counseling and support services</li>
                         </ul>
-                        
+
                         <h3>How to Access Our Services</h3>
                         <p>Women interested in participating in the Happy Woman program can contact us through the following channels:</p>
                         <ul>

@@ -11,18 +11,6 @@ Components Directory:
 - Create /public_html/components/ folder
 - Upload all files from components/ folder
 
-ComponentsCSS Directory:
-- Create /public_html/css/ folder (if it doesn't exist)
-- Upload all files from css/ folder (especially logo-position-fix.css)
-
-Services Directory:
-- Create /public_html/services/ folder
-- Upload all files from services/ folder (happy-woman.php, spesse.php, mail.php)
-
-JavaScript Directory:
-- Create /public_html/js/ folder (if it doesn't exist)
-- Upload all files from js/ folder (especially include-components.js)
-
 Departments Directory:
 - Upload all .php files to /public_html/departments/
 - Upload .htaccess to /public_html/departments/.htaccess
@@ -57,4 +45,4 @@ Departments Directory:
 If issues occur, rename index.php to index.php.backup
 and restore original .htaccess to rollback.
 
-Generated: 2025-10-31 12:55:55
+Generated: 2025-10-31 13:16:19
