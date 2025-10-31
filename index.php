@@ -23,6 +23,34 @@
     <link rel="stylesheet" href="css/welcome-banner.css">
     <link rel="stylesheet" href="css/visitor-counter.css">
     
+    <!-- Profile Image Fix -->
+    <style>
+        .profile-image-container {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px auto;
+            overflow: hidden;
+            border-radius: 50%;
+            border: 4px solid #f8f9fa;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        
+        /* Ensure both images are the same size */
+        .profile-image-container.minister .profile-image,
+        .profile-image-container .profile-image {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+        }
+    </style>
+    
     <!-- Include components -->
     <script src="js/include-components.js" defer></script>
     <script src="js/visitor-counter.js" defer></script>
