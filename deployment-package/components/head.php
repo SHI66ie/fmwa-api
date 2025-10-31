@@ -33,6 +33,28 @@ $site_title = isset($page_title) ? $page_title : 'Federal Ministry of Women Affa
         
         .logo-divider {
             height: 80px !important;
+            background-color: white !important;
+        }
+        
+        /* Green header with white text */
+        .navbar {
+            background: linear-gradient(135deg, #013a04 0%, #025a06 100%) !important;
+        }
+        
+        .navbar-brand .fmwa-navbar-title {
+            color: white !important;
+        }
+        
+        .nav-link {
+            color: white !important;
+        }
+        
+        .nav-link:hover {
+            color: #ffc107 !important;
+        }
+        
+        .navbar-toggler-icon {
+            filter: invert(1);
         }
         
         @media (max-width: 768px) {
