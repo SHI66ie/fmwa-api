@@ -25,34 +25,34 @@ document.addEventListener('DOMContentLoaded', function() {
                                 Departments
                             </a>
                             <ul aria-labelledby="departmentsDropdown" class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="./departments/child-development.html" title="Child Development Department">
+                                <li><a class="dropdown-item" href="./departments/child-development.php" title="Child Development Department">
                                     Child Development
                                 </a></li>
-                                <li><a class="dropdown-item" href="./departments/community-development-social-intervention.html" title="Community Development & Social Intervention Department">
+                                <li><a class="dropdown-item" href="./departments/community-development-social-intervention.php" title="Community Development & Social Intervention Department">
                                     Community Development & Social Intervention
                                 </a></li>
-                                <li><a class="dropdown-item" href="./departments/finance-accounting.html" title="Finance & Accounting Department">
+                                <li><a class="dropdown-item" href="./departments/finance-accounting.php" title="Finance & Accounting Department">
                                     Finance & Accounting
                                 </a></li>
-                                <li><a class="dropdown-item" href="./departments/gender-affairs.html" title="Gender Affairs Department">
+                                <li><a class="dropdown-item" href="./departments/gender-affairs.php" title="Gender Affairs Department">
                                     Gender Affairs
                                 </a></li>
-                                <li><a class="dropdown-item" href="./departments/general-services.html" title="General Services Department">
+                                <li><a class="dropdown-item" href="./departments/general-services.php" title="General Services Department">
                                     General Services
                                 </a></li>
-                                <li><a class="dropdown-item" href="./departments/nutrition.html" title="Nutrition Department">
+                                <li><a class="dropdown-item" href="./departments/nutrition.php" title="Nutrition Department">
                                     Nutrition
                                 </a></li>
-                                <li><a class="dropdown-item" href="./departments/planning-research-statistics.html" title="Planning, Research & Statistics Department">
+                                <li><a class="dropdown-item" href="./departments/planning-research-statistics.php" title="Planning, Research & Statistics Department">
                                     Planning, Research & Statistics
                                 </a></li>
-                                <li><a class="dropdown-item" href="./departments/procurement.html" title="Procurement Department">
+                                <li><a class="dropdown-item" href="./departments/procurement.php" title="Procurement Department">
                                     Procurement
                                 </a></li>
-                                <li><a class="dropdown-item" href="./departments/reform-coordination-service-improvement.html" title="Reform Coordination & Service Improvement Department">
+                                <li><a class="dropdown-item" href="./departments/reform-coordination-service-improvement.php" title="Reform Coordination & Service Improvement Department">
                                     Reform Coordination & Service Improvement
                                 </a></li>
-                                <li><a class="dropdown-item" href="./departments/women-development.html" title="Women Development Department">
+                                <li><a class="dropdown-item" href="./departments/women-development.php" title="Women Development Department">
                                     Women Development
                                 </a></li>
                             </ul>
