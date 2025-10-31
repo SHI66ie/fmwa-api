@@ -251,6 +251,16 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                             <li><a class="dropdown-item <?php echo ($current_page == 'women-development') ? 'active' : ''; ?>" href="women-development.php">Women Development</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Services
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="servicesDropdown">
+                            <li><a class="dropdown-item" href="../services/happy-woman.php">Happy Woman</a></li>
+                            <li><a class="dropdown-item" href="../services/spesse.php">SPESSE</a></li>
+                            <li><a class="dropdown-item" href="../services/mail.php">Mail</a></li>
+                        </ul>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link <?php echo ($current_page == 'mandate') ? 'active' : ''; ?>" href="../mandate.html">Mandate</a>
                     </li>
