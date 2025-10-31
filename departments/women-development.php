@@ -116,26 +116,41 @@ include '../components/header.php';
                 <div class="card shadow-sm mb-4">
                     <div class="card-header bg-primary text-white">
                         <h5 class="card-title mb-0">
-                            <i class="fas fa-phone me-2"></i>Contact Information
+                            <i class="fas fa-user-tie me-2"></i>Department Director
                         </h5>
                     </div>
-                    <div class="card-body">
-                        <p class="mb-2">
-                            <strong>Director:</strong><br>
-                            Dr. Amina Hassan
-                        </p>
-                        <p class="mb-2">
-                            <strong>Phone:</strong><br>
-                            +234-9-461-0001
-                        </p>
-                        <p class="mb-2">
-                            <strong>Email:</strong><br>
-                            womendevelopment@fmwa.gov.ng
-                        </p>
-                        <p class="mb-0">
-                            <strong>Office Hours:</strong><br>
-                            Monday - Friday: 8:00 AM - 4:00 PM
-                        </p>
+                    <div class="card-body text-center">
+                        <!-- Director Photo -->
+                        <div class="director-photo-container mb-3">
+                            <img src="../images/directors/women-development-director.jpg" 
+                                 alt="Dr. Amina Hassan - Director" 
+                                 class="director-photo img-fluid rounded-circle"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <div class="director-placeholder" style="display: none;">
+                                <i class="fas fa-user-tie fa-3x text-white"></i>
+                                <div class="placeholder-text">
+                                    <small>DIRECTOR</small><br>
+                                    <small>Photo Coming Soon</small>
+                                </div>
+                            </div>
+                        </div>
+                        <h6 class="mb-1">Dr. Amina Hassan</h6>
+                        <p class="text-muted small mb-3">Director, Women Development</p>
+                        
+                        <div class="contact-details text-start">
+                            <p class="mb-2">
+                                <i class="fas fa-phone text-primary me-2"></i>
+                                <strong>Phone:</strong> +234-9-461-0001
+                            </p>
+                            <p class="mb-2">
+                                <i class="fas fa-envelope text-primary me-2"></i>
+                                <strong>Email:</strong> womendevelopment@fmwa.gov.ng
+                            </p>
+                            <p class="mb-0">
+                                <i class="fas fa-clock text-primary me-2"></i>
+                                <strong>Office Hours:</strong> Mon - Fri: 8:00 AM - 4:00 PM
+                            </p>
+                        </div>
                     </div>
                 </div>
 

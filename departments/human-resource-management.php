@@ -1,7 +1,7 @@
 <?php
 // Page configuration
-$page_title = "Community Development & Social Intervention Department - Federal Ministry of Women Affairs";
-$department_name = "Community Development & Social Intervention";
+$page_title = "Human Resource Management Department - Federal Ministry of Women Affairs";
+$department_name = "Human Resource Management";
 $show_maintenance_notice = false; // Set to true if you want to show maintenance notice
 
 // Include header
@@ -19,7 +19,7 @@ include '../components/header.php';
             </ol>
         </nav>
         <h1><?php echo $department_name; ?> Department</h1>
-        <p class="lead">Building stronger communities through social intervention programs and community-based development initiatives.</p>
+        <p class="lead">Managing human capital and organizational development to enhance ministry performance and staff welfare.</p>
     </div>
 </section>
 
@@ -32,25 +32,25 @@ include '../components/header.php';
                 <div class="card shadow-sm mb-4">
                     <div class="card-body">
                         <h2 class="h4 mb-3">About the Department</h2>
-                        <p>Building stronger communities through social intervention programs and community-based development initiatives.</p>
+                        <p>Managing human capital and organizational development to enhance ministry performance and staff welfare.</p>
                         
                         <h3 class="h5 mt-4 mb-3">Our Objectives</h3>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item border-0 px-0">
                                 <i class="fas fa-check-circle text-success me-2"></i>
-                                Strengthen community resilience and social cohesion
+                                Develop and implement human resource policies and procedures
                             </li>
                             <li class="list-group-item border-0 px-0">
                                 <i class="fas fa-check-circle text-success me-2"></i>
-                                Implement poverty reduction and livelihood programs
+                                Manage recruitment, selection, and staff development programs
                             </li>
                             <li class="list-group-item border-0 px-0">
                                 <i class="fas fa-check-circle text-success me-2"></i>
-                                Promote community participation in development
+                                Ensure compliance with civil service rules and regulations
                             </li>
                             <li class="list-group-item border-0 px-0">
                                 <i class="fas fa-check-circle text-success me-2"></i>
-                                Address social issues through targeted interventions
+                                Promote staff welfare and organizational development
                             </li>
                         </ul>
                     </div>
@@ -64,44 +64,44 @@ include '../components/header.php';
                             <div class="col-md-6 mb-3">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
-                                        <i class="fas fa-hands-helping text-primary fa-2x"></i>
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <h5>Community Mobilization</h5>
-                                        <p class="text-muted">Organizing communities for collective development action.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="d-flex">
-                                    <div class="flex-shrink-0">
-                                        <i class="fas fa-seedling text-primary fa-2x"></i>
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <h5>Livelihood Programs</h5>
-                                        <p class="text-muted">Income generation and skills development for community members.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="d-flex">
-                                    <div class="flex-shrink-0">
-                                        <i class="fas fa-home text-primary fa-2x"></i>
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <h5>Social Housing</h5>
-                                        <p class="text-muted">Affordable housing initiatives for vulnerable populations.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="d-flex">
-                                    <div class="flex-shrink-0">
                                         <i class="fas fa-users text-primary fa-2x"></i>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h5>Social Cohesion</h5>
-                                        <p class="text-muted">Programs to promote unity and peaceful coexistence.</p>
+                                        <h5>Staff Development</h5>
+                                        <p class="text-muted">Training and capacity building programs for ministry personnel.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-clipboard-list text-primary fa-2x"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5>Performance Management</h5>
+                                        <p class="text-muted">Performance evaluation and improvement systems.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-handshake text-primary fa-2x"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5>Staff Welfare</h5>
+                                        <p class="text-muted">Employee welfare programs and support services.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-chart-line text-primary fa-2x"></i>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h5>Organizational Development</h5>
+                                        <p class="text-muted">Strategic planning and organizational improvement initiatives.</p>
                                     </div>
                                 </div>
                             </div>
@@ -114,8 +114,6 @@ include '../components/header.php';
             <div class="col-lg-4">
                 <!-- Contact Information -->
                 <div class="card shadow-sm mb-4">
-                    <!-- Contact Information -->
-                <div class="card shadow-sm mb-4">
                     <div class="card-header bg-primary text-white">
                         <h5 class="card-title mb-0">
                             <i class="fas fa-user-tie me-2"></i>Department Director
@@ -124,8 +122,8 @@ include '../components/header.php';
                     <div class="card-body text-center">
                         <!-- Director Photo -->
                         <div class="director-photo-container mb-3">
-                            <img src="../images/directors/community-development-social-intervention-director.jpg" 
-                                 alt="Mallam Ibrahim Yusuf - Director" 
+                            <img src="../images/directors/human-resource-management-director.jpg" 
+                                 alt="Mrs. Folake Adeyemi - Director" 
                                  class="director-photo img-fluid rounded-circle"
                                  onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                             <div class="director-placeholder" style="display: none;">
@@ -136,17 +134,17 @@ include '../components/header.php';
                                 </div>
                             </div>
                         </div>
-                        <h6 class="mb-1">Mallam Ibrahim Yusuf</h6>
-                        <p class="text-muted small mb-3">Director, Community Development & Social Intervention</p>
+                        <h6 class="mb-1">Mrs. Folake Adeyemi</h6>
+                        <p class="text-muted small mb-3">Director, Human Resource Management</p>
                         
                         <div class="contact-details text-start">
                             <p class="mb-2">
                                 <i class="fas fa-phone text-primary me-2"></i>
-                                <strong>Phone:</strong> +234-9-461-0003
+                                <strong>Phone:</strong> +234-9-461-0011
                             </p>
                             <p class="mb-2">
                                 <i class="fas fa-envelope text-primary me-2"></i>
-                                <strong>Email:</strong> community@fmwa.gov.ng
+                                <strong>Email:</strong> hr@fmwa.gov.ng
                             </p>
                             <p class="mb-0">
                                 <i class="fas fa-clock text-primary me-2"></i>

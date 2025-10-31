@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Director Placeholder Generator</title>
+</head>
+<body>
+    <canvas id="canvas" width="300" height="300"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Create a professional placeholder image
+        // Background gradient
+        const gradient = ctx.createLinearGradient(0, 0, 300, 300);
+        gradient.addColorStop(0, '#013a04');
+        gradient.addColorStop(1, '#025a06');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 300, 300);
+        
+        // Person silhouette
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+        ctx.beginPath();
+        // Head
+        ctx.arc(150, 100, 40, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Body
+        ctx.beginPath();
+        ctx.ellipse(150, 200, 60, 80, 0, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Text
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.font = 'bold 16px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('DIRECTOR', 150, 270);
+        ctx.font = '12px Arial';
+        ctx.fillText('Photo Coming Soon', 150, 290);
+        
+        // Download the image
+        const link = document.createElement('a');
+        link.download = 'placeholder-director.jpg';
+        link.href = canvas.toDataURL('image/jpeg', 0.8);
+        link.click();
+    </script>
+</body>
+</html>

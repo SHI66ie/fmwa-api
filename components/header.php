@@ -61,6 +61,67 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
             padding: 40px 0;
         }
         
+        /* Director Photo Styles */
+        .director-photo-container {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 50%;
+            border: 4px solid #f8f9fa;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .director-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .director-photo:hover {
+            transform: scale(1.05);
+        }
+        
+        .contact-details {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .contact-details p {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .contact-details i {
+            width: 20px;
+        }
+        
+        .director-placeholder {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #013a04 0%, #025a06 100%);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            border: 4px solid #f8f9fa;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .director-placeholder .placeholder-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 10px;
+            text-align: center;
+            margin-top: 5px;
+            line-height: 1.2;
+        }
+        
         @media (max-width: 768px) {
             body {
                 padding-top: 70px;
@@ -72,6 +133,28 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
             
             .department-header h1 {
                 font-size: 2rem;
+            }
+            
+            .director-photo-container {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .contact-details {
+                padding: 12px;
+            }
+            
+            .director-placeholder {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .director-placeholder .fa-3x {
+                font-size: 2rem;
+            }
+            
+            .director-placeholder .placeholder-text {
+                font-size: 9px;
             }
         }
     </style>
@@ -105,13 +188,16 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="departmentsDropdown">
                             <li><a class="dropdown-item <?php echo ($current_page == 'child-development') ? 'active' : ''; ?>" href="./departments/child-development.php">Child Development</a></li>
                             <li><a class="dropdown-item <?php echo ($current_page == 'community-development-social-intervention') ? 'active' : ''; ?>" href="./departments/community-development-social-intervention.php">Community Development & Social Intervention</a></li>
+                            <li><a class="dropdown-item <?php echo ($current_page == 'economic-services') ? 'active' : ''; ?>" href="./departments/economic-services.php">Economic Services</a></li>
                             <li><a class="dropdown-item <?php echo ($current_page == 'finance-accounting') ? 'active' : ''; ?>" href="./departments/finance-accounting.php">Finance & Accounting</a></li>
                             <li><a class="dropdown-item <?php echo ($current_page == 'gender-affairs') ? 'active' : ''; ?>" href="./departments/gender-affairs.php">Gender Affairs</a></li>
                             <li><a class="dropdown-item <?php echo ($current_page == 'general-services') ? 'active' : ''; ?>" href="./departments/general-services.php">General Services</a></li>
+                            <li><a class="dropdown-item <?php echo ($current_page == 'human-resource-management') ? 'active' : ''; ?>" href="./departments/human-resource-management.php">Human Resource Management</a></li>
                             <li><a class="dropdown-item <?php echo ($current_page == 'nutrition') ? 'active' : ''; ?>" href="./departments/nutrition.php">Nutrition</a></li>
                             <li><a class="dropdown-item <?php echo ($current_page == 'planning-research-statistics') ? 'active' : ''; ?>" href="./departments/planning-research-statistics.php">Planning, Research & Statistics</a></li>
                             <li><a class="dropdown-item <?php echo ($current_page == 'procurement') ? 'active' : ''; ?>" href="./departments/procurement.php">Procurement</a></li>
                             <li><a class="dropdown-item <?php echo ($current_page == 'reform-coordination-service-improvement') ? 'active' : ''; ?>" href="./departments/reform-coordination-service-improvement.php">Reform Coordination & Service Improvement</a></li>
+                            <li><a class="dropdown-item <?php echo ($current_page == 'special-duties') ? 'active' : ''; ?>" href="./departments/special-duties.php">Special Duties</a></li>
                             <li><a class="dropdown-item <?php echo ($current_page == 'women-development') ? 'active' : ''; ?>" href="./departments/women-development.php">Women Development</a></li>
                         </ul>
                     </li>

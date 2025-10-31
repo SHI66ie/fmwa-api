@@ -31,6 +31,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <li><a class="dropdown-item" href="./departments/community-development-social-intervention.php" title="Community Development & Social Intervention Department">
                                     Community Development & Social Intervention
                                 </a></li>
+                                <li><a class="dropdown-item" href="./departments/economic-services.php" title="Economic Services Department">
+                                    Economic Services
+                                </a></li>
                                 <li><a class="dropdown-item" href="./departments/finance-accounting.php" title="Finance & Accounting Department">
                                     Finance & Accounting
                                 </a></li>
@@ -39,6 +42,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </a></li>
                                 <li><a class="dropdown-item" href="./departments/general-services.php" title="General Services Department">
                                     General Services
+                                </a></li>
+                                <li><a class="dropdown-item" href="./departments/human-resource-management.php" title="Human Resource Management Department">
+                                    Human Resource Management
                                 </a></li>
                                 <li><a class="dropdown-item" href="./departments/nutrition.php" title="Nutrition Department">
                                     Nutrition
@@ -51,6 +57,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </a></li>
                                 <li><a class="dropdown-item" href="./departments/reform-coordination-service-improvement.php" title="Reform Coordination & Service Improvement Department">
                                     Reform Coordination & Service Improvement
+                                </a></li>
+                                <li><a class="dropdown-item" href="./departments/special-duties.php" title="Special Duties Department">
+                                    Special Duties
                                 </a></li>
                                 <li><a class="dropdown-item" href="./departments/women-development.php" title="Women Development Department">
                                     Women Development

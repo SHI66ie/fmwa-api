@@ -1,7 +1,7 @@
 <?php
 // Page configuration
-$page_title = "Community Development & Social Intervention Department - Federal Ministry of Women Affairs";
-$department_name = "Community Development & Social Intervention";
+$page_title = "Special Duties Department - Federal Ministry of Women Affairs";
+$department_name = "Special Duties";
 $show_maintenance_notice = false; // Set to true if you want to show maintenance notice
 
 // Include header
@@ -19,7 +19,7 @@ include '../components/header.php';
             </ol>
         </nav>
         <h1><?php echo $department_name; ?> Department</h1>
-        <p class="lead">Building stronger communities through social intervention programs and community-based development initiatives.</p>
+        <p class="lead">Addressing unique challenges and implementing special initiatives for women and children's welfare.</p>
     </div>
 </section>
 
@@ -32,25 +32,25 @@ include '../components/header.php';
                 <div class="card shadow-sm mb-4">
                     <div class="card-body">
                         <h2 class="h4 mb-3">About the Department</h2>
-                        <p>Building stronger communities through social intervention programs and community-based development initiatives.</p>
+                        <p>Addressing unique challenges and implementing special initiatives for women and children's welfare.</p>
                         
                         <h3 class="h5 mt-4 mb-3">Our Objectives</h3>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item border-0 px-0">
                                 <i class="fas fa-check-circle text-success me-2"></i>
-                                Strengthen community resilience and social cohesion
+                                Handle special assignments and emergency interventions
                             </li>
                             <li class="list-group-item border-0 px-0">
                                 <i class="fas fa-check-circle text-success me-2"></i>
-                                Implement poverty reduction and livelihood programs
+                                Coordinate inter-agency collaborations and partnerships
                             </li>
                             <li class="list-group-item border-0 px-0">
                                 <i class="fas fa-check-circle text-success me-2"></i>
-                                Promote community participation in development
+                                Implement special programs for vulnerable populations
                             </li>
                             <li class="list-group-item border-0 px-0">
                                 <i class="fas fa-check-circle text-success me-2"></i>
-                                Address social issues through targeted interventions
+                                Address emerging issues affecting women and children
                             </li>
                         </ul>
                     </div>
@@ -64,44 +64,44 @@ include '../components/header.php';
                             <div class="col-md-6 mb-3">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
-                                        <i class="fas fa-hands-helping text-primary fa-2x"></i>
+                                        <i class="fas fa-exclamation-triangle text-primary fa-2x"></i>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h5>Community Mobilization</h5>
-                                        <p class="text-muted">Organizing communities for collective development action.</p>
+                                        <h5>Emergency Response</h5>
+                                        <p class="text-muted">Rapid response to crises affecting women and children.</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
-                                        <i class="fas fa-seedling text-primary fa-2x"></i>
+                                        <i class="fas fa-link text-primary fa-2x"></i>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h5>Livelihood Programs</h5>
-                                        <p class="text-muted">Income generation and skills development for community members.</p>
+                                        <h5>Inter-Agency Coordination</h5>
+                                        <p class="text-muted">Collaboration with other ministries and agencies.</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
-                                        <i class="fas fa-home text-primary fa-2x"></i>
+                                        <i class="fas fa-heart text-primary fa-2x"></i>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h5>Social Housing</h5>
-                                        <p class="text-muted">Affordable housing initiatives for vulnerable populations.</p>
+                                        <h5>Vulnerable Groups Support</h5>
+                                        <p class="text-muted">Special programs for at-risk populations.</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
-                                        <i class="fas fa-users text-primary fa-2x"></i>
+                                        <i class="fas fa-lightbulb text-primary fa-2x"></i>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h5>Social Cohesion</h5>
-                                        <p class="text-muted">Programs to promote unity and peaceful coexistence.</p>
+                                        <h5>Innovation Projects</h5>
+                                        <p class="text-muted">Pilot programs and innovative solutions.</p>
                                     </div>
                                 </div>
                             </div>
@@ -114,8 +114,6 @@ include '../components/header.php';
             <div class="col-lg-4">
                 <!-- Contact Information -->
                 <div class="card shadow-sm mb-4">
-                    <!-- Contact Information -->
-                <div class="card shadow-sm mb-4">
                     <div class="card-header bg-primary text-white">
                         <h5 class="card-title mb-0">
                             <i class="fas fa-user-tie me-2"></i>Department Director
@@ -124,8 +122,8 @@ include '../components/header.php';
                     <div class="card-body text-center">
                         <!-- Director Photo -->
                         <div class="director-photo-container mb-3">
-                            <img src="../images/directors/community-development-social-intervention-director.jpg" 
-                                 alt="Mallam Ibrahim Yusuf - Director" 
+                            <img src="../images/directors/special-duties-director.jpg" 
+                                 alt="Dr. Zainab Usman - Director" 
                                  class="director-photo img-fluid rounded-circle"
                                  onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                             <div class="director-placeholder" style="display: none;">
@@ -136,17 +134,17 @@ include '../components/header.php';
                                 </div>
                             </div>
                         </div>
-                        <h6 class="mb-1">Mallam Ibrahim Yusuf</h6>
-                        <p class="text-muted small mb-3">Director, Community Development & Social Intervention</p>
+                        <h6 class="mb-1">Dr. Zainab Usman</h6>
+                        <p class="text-muted small mb-3">Director, Special Duties</p>
                         
                         <div class="contact-details text-start">
                             <p class="mb-2">
                                 <i class="fas fa-phone text-primary me-2"></i>
-                                <strong>Phone:</strong> +234-9-461-0003
+                                <strong>Phone:</strong> +234-9-461-0012
                             </p>
                             <p class="mb-2">
                                 <i class="fas fa-envelope text-primary me-2"></i>
-                                <strong>Email:</strong> community@fmwa.gov.ng
+                                <strong>Email:</strong> specialduties@fmwa.gov.ng
                             </p>
                             <p class="mb-0">
                                 <i class="fas fa-clock text-primary me-2"></i>
