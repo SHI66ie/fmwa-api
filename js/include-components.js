@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 Services
                             </a>
                             <ul aria-labelledby="servicesDropdown" class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="./services/happy-woman.php" title="Happy Woman Program">
+                                <li><a class="dropdown-item" href="https://happywoman.ng/" title="Happy Woman Program" target="_blank" rel="noopener">
                                     Happy Woman
                                 </a></li>
                                 <li><a class="dropdown-item" href="./services/spesse.php" title="SPESSE Program">
