@@ -26,11 +26,11 @@
     <!-- Profile Image Fix -->
     <style>
         .profile-image-container {
-            width: 150px;
-            height: 150px;
+            width: 200px;
+            height: 250px;
             margin: 0 auto 20px auto;
             overflow: hidden;
-            border-radius: 50%;
+            border-radius: 8px;
             border: 4px solid #f8f9fa;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
