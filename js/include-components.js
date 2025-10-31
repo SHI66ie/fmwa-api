@@ -74,10 +74,10 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <li><a class="dropdown-item" href="https://happywoman.ng/" title="Happy Woman Program" target="_blank" rel="noopener">
                                     Happy Woman
                                 </a></li>
-                                <li><a class="dropdown-item" href="./services/spesse.php" title="SPESSE Program">
+                                <li><a class="dropdown-item" href="https://www.spesse.edu.ng/" title="SPESSE Program" target="_blank" rel="noopener">
                                     SPESSE
                                 </a></li>
-                                <li><a class="dropdown-item" href="./services/mail.php" title="Mail Services">
+                                <li><a class="dropdown-item" href="https://webmail.womenaffairs.gov.ng/" title="Mail Services" target="_blank" rel="noopener">
                                     Mail
                                 </a></li>
                             </ul>

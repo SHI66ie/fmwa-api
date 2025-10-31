@@ -257,8 +257,8 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="servicesDropdown">
                             <li><a class="dropdown-item" href="https://happywoman.ng/" target="_blank" rel="noopener">Happy Woman</a></li>
-                            <li><a class="dropdown-item" href="../services/spesse.php">SPESSE</a></li>
-                            <li><a class="dropdown-item" href="../services/mail.php">Mail</a></li>
+                            <li><a class="dropdown-item" href="https://www.spesse.edu.ng/" target="_blank" rel="noopener">SPESSE</a></li>
+                            <li><a class="dropdown-item" href="https://webmail.womenaffairs.gov.ng/" target="_blank" rel="noopener">Mail</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
