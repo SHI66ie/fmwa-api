@@ -186,19 +186,19 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                             Departments
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="departmentsDropdown">
-                            <li><a class="dropdown-item <?php echo ($current_page == 'child-development') ? 'active' : ''; ?>" href="./departments/child-development.php">Child Development</a></li>
-                            <li><a class="dropdown-item <?php echo ($current_page == 'community-development-social-intervention') ? 'active' : ''; ?>" href="./departments/community-development-social-intervention.php">Community Development & Social Intervention</a></li>
-                            <li><a class="dropdown-item <?php echo ($current_page == 'economic-services') ? 'active' : ''; ?>" href="./departments/economic-services.php">Economic Services</a></li>
-                            <li><a class="dropdown-item <?php echo ($current_page == 'finance-accounting') ? 'active' : ''; ?>" href="./departments/finance-accounting.php">Finance & Accounting</a></li>
-                            <li><a class="dropdown-item <?php echo ($current_page == 'gender-affairs') ? 'active' : ''; ?>" href="./departments/gender-affairs.php">Gender Affairs</a></li>
-                            <li><a class="dropdown-item <?php echo ($current_page == 'general-services') ? 'active' : ''; ?>" href="./departments/general-services.php">General Services</a></li>
-                            <li><a class="dropdown-item <?php echo ($current_page == 'human-resource-management') ? 'active' : ''; ?>" href="./departments/human-resource-management.php">Human Resource Management</a></li>
-                            <li><a class="dropdown-item <?php echo ($current_page == 'nutrition') ? 'active' : ''; ?>" href="./departments/nutrition.php">Nutrition</a></li>
-                            <li><a class="dropdown-item <?php echo ($current_page == 'planning-research-statistics') ? 'active' : ''; ?>" href="./departments/planning-research-statistics.php">Planning, Research & Statistics</a></li>
-                            <li><a class="dropdown-item <?php echo ($current_page == 'procurement') ? 'active' : ''; ?>" href="./departments/procurement.php">Procurement</a></li>
-                            <li><a class="dropdown-item <?php echo ($current_page == 'reform-coordination-service-improvement') ? 'active' : ''; ?>" href="./departments/reform-coordination-service-improvement.php">Reform Coordination & Service Improvement</a></li>
-                            <li><a class="dropdown-item <?php echo ($current_page == 'special-duties') ? 'active' : ''; ?>" href="./departments/special-duties.php">Special Duties</a></li>
-                            <li><a class="dropdown-item <?php echo ($current_page == 'women-development') ? 'active' : ''; ?>" href="./departments/women-development.php">Women Development</a></li>
+                            <li><a class="dropdown-item <?php echo ($current_page == 'child-development') ? 'active' : ''; ?>" href="child-development.php">Child Development</a></li>
+                            <li><a class="dropdown-item <?php echo ($current_page == 'community-development-social-intervention') ? 'active' : ''; ?>" href="community-development-social-intervention.php">Community Development & Social Intervention</a></li>
+                            <li><a class="dropdown-item <?php echo ($current_page == 'economic-services') ? 'active' : ''; ?>" href="economic-services.php">Economic Services</a></li>
+                            <li><a class="dropdown-item <?php echo ($current_page == 'finance-accounting') ? 'active' : ''; ?>" href="finance-accounting.php">Finance & Accounting</a></li>
+                            <li><a class="dropdown-item <?php echo ($current_page == 'gender-affairs') ? 'active' : ''; ?>" href="gender-affairs.php">Gender Affairs</a></li>
+                            <li><a class="dropdown-item <?php echo ($current_page == 'general-services') ? 'active' : ''; ?>" href="general-services.php">General Services</a></li>
+                            <li><a class="dropdown-item <?php echo ($current_page == 'human-resource-management') ? 'active' : ''; ?>" href="human-resource-management.php">Human Resource Management</a></li>
+                            <li><a class="dropdown-item <?php echo ($current_page == 'nutrition') ? 'active' : ''; ?>" href="nutrition.php">Nutrition</a></li>
+                            <li><a class="dropdown-item <?php echo ($current_page == 'planning-research-statistics') ? 'active' : ''; ?>" href="planning-research-statistics.php">Planning, Research & Statistics</a></li>
+                            <li><a class="dropdown-item <?php echo ($current_page == 'procurement') ? 'active' : ''; ?>" href="procurement.php">Procurement</a></li>
+                            <li><a class="dropdown-item <?php echo ($current_page == 'reform-coordination-service-improvement') ? 'active' : ''; ?>" href="reform-coordination-service-improvement.php">Reform Coordination & Service Improvement</a></li>
+                            <li><a class="dropdown-item <?php echo ($current_page == 'special-duties') ? 'active' : ''; ?>" href="special-duties.php">Special Duties</a></li>
+                            <li><a class="dropdown-item <?php echo ($current_page == 'women-development') ? 'active' : ''; ?>" href="women-development.php">Women Development</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
