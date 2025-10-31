@@ -49,6 +49,34 @@
             height: 100% !important;
             object-fit: cover !important;
         }
+        
+        /* Force logo to be 100px */
+        .fmwa-logo {
+            height: 100px !important;
+            width: auto !important;
+        }
+        
+        .logo-divider {
+            height: 80px !important;
+        }
+        
+        @media (max-width: 768px) {
+            .fmwa-logo {
+                height: 70px !important;
+            }
+            .logo-divider {
+                height: 60px !important;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .fmwa-logo {
+                height: 60px !important;
+            }
+            .logo-divider {
+                height: 50px !important;
+            }
+        }
     </style>
     
     <!-- Include components -->
