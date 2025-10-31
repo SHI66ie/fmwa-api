@@ -19,6 +19,10 @@ Services Directory:
 - Create /public_html/services/ folder
 - Upload all files from services/ folder (happy-woman.php, spesse.php, mail.php)
 
+JavaScript Directory:
+- Create /public_html/js/ folder (if it doesn't exist)
+- Upload all files from js/ folder (especially include-components.js)
+
 Departments Directory:
 - Upload all .php files to /public_html/departments/
 - Upload .htaccess to /public_html/departments/.htaccess
