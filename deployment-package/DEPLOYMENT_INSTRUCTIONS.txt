@@ -1,0 +1,48 @@
+FMWA Website - Production Deployment Instructions
+=================================================
+
+📦 UPLOAD THESE FILES TO YOUR WEB SERVER:
+
+Root Directory Files:
+- index.php → /public_html/index.php
+- .htaccess → /public_html/.htaccess (REPLACE existing)
+
+Components Directory:
+- Create /public_html/components/ folder
+- Upload all files from components/ folder
+
+Departments Directory:
+- Upload all .php files to /public_html/departments/
+- Upload .htaccess to /public_html/departments/.htaccess
+
+🔧 AFTER UPLOAD:
+
+1. Set file permissions:
+   - PHP files: 644 or 755
+   - Directories: 755
+   - .htaccess files: 644
+
+2. Test these URLs:
+   - https://womenaffairs.gov.ng/ (should serve index.php)
+   - https://womenaffairs.gov.ng/index.php
+   - https://womenaffairs.gov.ng/departments/women-development.php
+
+3. Verify navigation works between pages
+
+✅ WHAT YOU'LL GET:
+- Professional PHP homepage
+- 13 consistent department pages
+- Unified navigation system
+- Director photo placeholders
+- Mobile-responsive design
+- SEO-optimized structure
+
+🚨 BACKUP FIRST:
+- Backup your current index.html and .htaccess
+- Keep them as rollback option
+
+📞 SUPPORT:
+If issues occur, rename index.php to index.php.backup
+and restore original .htaccess to rollback.
+
+Generated: 2025-10-31 10:21:28
