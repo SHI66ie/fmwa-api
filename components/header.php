@@ -157,6 +157,34 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                 font-size: 9px;
             }
         }
+        
+        /* Force logo to be 100px on all department pages */
+        .fmwa-logo {
+            height: 100px !important;
+            width: auto !important;
+        }
+        
+        .logo-divider {
+            height: 80px !important;
+        }
+        
+        @media (max-width: 768px) {
+            .fmwa-logo {
+                height: 70px !important;
+            }
+            .logo-divider {
+                height: 60px !important;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .fmwa-logo {
+                height: 60px !important;
+            }
+            .logo-divider {
+                height: 50px !important;
+            }
+        }
     </style>
 </head>
 <body>

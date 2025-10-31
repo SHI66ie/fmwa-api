@@ -23,4 +23,34 @@ $site_title = isset($page_title) ? $page_title : 'Federal Ministry of Women Affa
     <link rel="stylesheet" href="css/logo-position-fix.css">
     <link rel="stylesheet" href="css/welcome-banner.css">
     <link rel="stylesheet" href="css/visitor-counter.css">
+    
+    <!-- Force logo size -->
+    <style>
+        .fmwa-logo {
+            height: 100px !important;
+            width: auto !important;
+        }
+        
+        .logo-divider {
+            height: 80px !important;
+        }
+        
+        @media (max-width: 768px) {
+            .fmwa-logo {
+                height: 70px !important;
+            }
+            .logo-divider {
+                height: 60px !important;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .fmwa-logo {
+                height: 60px !important;
+            }
+            .logo-divider {
+                height: 50px !important;
+            }
+        }
+    </style>
 </head>
