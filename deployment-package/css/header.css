@@ -1,0 +1,81 @@
+/* Header Styles */
+.navbar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1060 !important;
+    background-color: #fff !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: #013a04 !important;
+}
+
+.nav-link {
+    color: #013a04 !important;
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    color: #025a06 !important;
+}
+
+/* Dropdown Styles */
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-radius: 8px;
+    padding: 8px 0;
+    margin-top: 4px;
+}
+
+.dropdown-item {
+    color: #013a04;
+    padding: 8px 20px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #025a06;
+}
+
+.dropdown-toggle::after {
+    margin-left: 0.5em;
+}
+
+/* Ensure content doesn't hide behind fixed navbar */
+body {
+    padding-top: 80px;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 70px;
+    }
+    
+    .dropdown-menu {
+        border-radius: 4px;
+        margin-top: 2px;
+    }
+    
+    .dropdown-item {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 576px) {
+    body {
+        padding-top: 60px;
+    }
+    
+    .dropdown-item {
+        padding: 12px 16px;
+        font-size: 13px;
+    }
+}

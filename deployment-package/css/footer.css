@@ -1,0 +1,115 @@
+/* Footer Styles */
+.footer {
+    background: linear-gradient(135deg, #013a04 0%, #025a06 100%);
+    color: white;
+    padding: 50px 0 20px 0;
+    margin-top: 50px;
+}
+
+.footer h5 {
+    color: #fff;
+    margin-bottom: 20px;
+    font-weight: 600;
+    position: relative;
+}
+
+.footer h5::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background-color: #ffc107;
+}
+
+.footer a {
+    color: #ccc;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.footer a:hover {
+    color: #fff;
+    text-decoration: none;
+    transform: translateX(5px);
+}
+
+.footer .social-links a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    margin-right: 10px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.footer .social-links a:hover {
+    background-color: #ffc107;
+    color: #013a04;
+    transform: translateY(-3px);
+}
+
+.footer .contact-info i {
+    color: #ffc107;
+    width: 20px;
+}
+
+.footer .list-unstyled li {
+    transition: all 0.2s ease;
+}
+
+.footer .list-unstyled li:hover {
+    padding-left: 5px;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
+    margin-top: 30px;
+    color: #ccc;
+}
+
+.footer-bottom a:hover {
+    color: #ffc107;
+    transform: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .footer {
+        padding: 40px 0 20px 0;
+    }
+    
+    .footer .social-links {
+        text-align: center;
+        margin-top: 20px;
+    }
+    
+    .footer-bottom .col-md-6:last-child {
+        text-align: center !important;
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .footer {
+        padding: 30px 0 15px 0;
+    }
+    
+    .footer h5 {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+    
+    .footer .social-links a {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        font-size: 14px;
+    }
+}

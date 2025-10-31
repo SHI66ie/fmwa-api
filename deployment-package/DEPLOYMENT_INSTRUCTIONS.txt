@@ -15,6 +15,10 @@ Departments Directory:
 - Upload all .php files to /public_html/departments/
 - Upload .htaccess to /public_html/departments/.htaccess
 
+CSS Directory:
+- Create /public_html/css/ folder (if it doesn't exist)
+- Upload all files from css/ folder (especially logo-position-fix.css)
+
 🔧 AFTER UPLOAD:
 
 1. Set file permissions:
@@ -45,4 +49,4 @@ Departments Directory:
 If issues occur, rename index.php to index.php.backup
 and restore original .htaccess to rollback.
 
-Generated: 2025-10-31 11:17:26
+Generated: 2025-10-31 11:54:46

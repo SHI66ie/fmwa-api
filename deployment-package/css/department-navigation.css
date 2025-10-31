@@ -1,0 +1,39 @@
+/* Department Navigation Styles */
+.department-nav {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    padding: 10px 0;
+}
+
+.department-nav .nav-link {
+    color: #013a04;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 5px;
+    margin: 0 2px;
+}
+
+.department-nav .nav-link:hover {
+    background-color: #e9ecef;
+    color: #025a06;
+}
+
+.department-nav .nav-link.active {
+    background-color: #013a04;
+    color: white;
+}
+
+.department-dropdown .dropdown-menu {
+    border: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.department-dropdown .dropdown-item {
+    color: #013a04;
+    padding: 10px 20px;
+}
+
+.department-dropdown .dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #025a06;
+}
