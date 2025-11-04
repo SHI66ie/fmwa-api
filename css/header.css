@@ -5,22 +5,26 @@
     left: 0 !important;
     right: 0 !important;
     z-index: 1060 !important;
-    background-color: #fff !important;
+    background: linear-gradient(135deg, #013a04 0%, #025a06 100%) !important;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .navbar-brand {
     font-weight: bold;
-    color: #013a04 !important;
+    color: #ffffff !important;
 }
 
 .nav-link {
-    color: #013a04 !important;
+    color: #ffffff !important;
     font-weight: 500;
 }
 
 .nav-link:hover {
-    color: #025a06 !important;
+    color: #ffc107 !important;
+}
+
+.nav-link.active {
+    color: #ffc107 !important;
 }
 
 /* Dropdown Styles */
@@ -46,6 +50,29 @@
 
 .dropdown-toggle::after {
     margin-left: 0.5em;
+}
+
+/* Navbar toggler styling for green background */
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='m4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25) !important;
+}
+
+/* Logo and brand text styling */
+.fmwa-navbar-title {
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+.logo-divider {
+    background-color: rgba(255, 255, 255, 0.3) !important;
 }
 
 /* Ensure content doesn't hide behind fixed navbar */

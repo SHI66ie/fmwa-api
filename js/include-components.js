@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" href="./" title="Go to home page">Home</a>
+                            <a class="nav-link" href="./" title="Go to home page">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="./about.php" title="Learn about the ministry">About Us</a>
@@ -93,6 +93,23 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Insert header at the beginning of body
     document.body.insertAdjacentHTML('afterbegin', headerHTML);
+    
+    // Set active navigation link based on current page
+    setTimeout(() => {
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === './' && (currentPath === '/' || currentPath.includes('index'))) {
+                link.classList.add('active');
+            } else if (href === './about.php' && currentPath.includes('about')) {
+                link.classList.add('active');
+            } else if (href === './mandate.php' && currentPath.includes('mandate')) {
+                link.classList.add('active');
+            }
+        });
+    }, 50);
     
     // Initialize Bootstrap dropdowns
     setTimeout(() => {
