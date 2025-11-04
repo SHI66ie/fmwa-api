@@ -9,12 +9,12 @@ include '../components/header.php';
 ?>
 
 <!-- Department Title Bar -->
-<section class="department-title-bar bg-primary text-white py-4">
+<section class="department-title-bar text-white py-5" style="background: linear-gradient(135deg, #013a04 0%, #025a06 100%); margin-top: 0;">
     <div class="container">
         <div class="row">
             <div class="col-12 text-center">
-                <h1 class="h2 mb-2"><?php echo $department_name; ?> Department</h1>
-                <p class="lead mb-0">Conducting research, planning, and statistical analysis to inform evidence-based policy making and program development.</p>
+                <h1 class="display-5 mb-3 fw-bold"><?php echo $department_name; ?> Department</h1>
+                <p class="lead mb-0 fs-5" style="line-height: 1.6; max-width: 800px; margin: 0 auto;">Conducting research, planning, and statistical analysis to inform evidence-based policy making and program development.</p>
             </div>
         </div>
     </div>
