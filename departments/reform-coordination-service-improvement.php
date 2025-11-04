@@ -8,6 +8,18 @@ $show_maintenance_notice = false; // Set to true if you want to show maintenance
 include '../components/header.php';
 ?>
 
+<!-- Department Title Bar -->
+<section class="department-title-bar bg-primary text-white py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="h2 mb-2"><?php echo $department_name; ?> Department</h1>
+                <p class="lead mb-0">Leading organizational reforms and service improvement initiatives to enhance ministry effectiveness and public service delivery.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Department Content -->
 <section class="department-content">
     <div class="container">
