@@ -28,39 +28,15 @@
     
     <style>
         body {
-            padding-top: 80px;
-        }
-        
-        .page-header {
-            background: linear-gradient(135deg, #013a04 0%, #025a06 100%);
-            color: white;
-            padding: 60px 0 40px 0;
-            margin-top: 0;
-        }
-        
-        .page-header h1 {
-            font-size: 2.5rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-        
-        .page-header .breadcrumb {
-            background: transparent;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .page-header .breadcrumb-item a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-        }
-        
-        .page-header .breadcrumb-item.active {
-            color: #ffc107;
+            padding-top: 120px;
         }
         
         .content-section {
-            padding: 40px 0;
+            padding: 60px 0;
+        }
+        
+        .content-section:first-of-type {
+            padding-top: 80px;
         }
         
         .section-title {
@@ -229,24 +205,6 @@
 </head>
 <body>
     <!-- Navigation will be inserted here by js/include-components.js -->
-
-    <!-- Page Header -->
-    <section class="page-header">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="./">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">About Us</li>
-                        </ol>
-                    </nav>
-                    <h1><i class="fas fa-users me-3"></i>About Us</h1>
-                    <p class="lead">Learn about our mission, vision, and commitment to empowering women across Nigeria</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Mission, Vision & Values -->
     <section class="content-section">

@@ -161,17 +161,6 @@
 <!-- Main Navigation -->
 <!-- Main Navigation -->
 
-<!-- Page Header -->
-<section class="page-header bg-white py-5">
-<div class="container">
-<div class="row">
-<div class="col-12">
-<h1 class="display-4 mb-3 text-dark"><i class="fas fa-landmark me-3 text-primary"></i>Our Mandate</h1>
-
-</div>
-</div>
-</div>
-</section>
 <!-- Mandate Content -->
 <section class="py-5">
 <div class="container">
