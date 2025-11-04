@@ -8,21 +8,6 @@ $show_maintenance_notice = false; // Set to true if you want to show maintenance
 include '../components/header.php';
 ?>
 
-<!-- Department Header -->
-<section class="department-header">
-    <div class="container">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
-                <li class="breadcrumb-item"><a href="#" onclick="history.back()">Departments</a></li>
-                <li class="breadcrumb-item active" aria-current="page"><?php echo $department_name; ?></li>
-            </ol>
-        </nav>
-        <h1><?php echo $department_name; ?> Department</h1>
-        <p class="lead">Protecting and nurturing children through comprehensive development programs and child welfare initiatives.</p>
-    </div>
-</section>
-
 <!-- Department Content -->
 <section class="department-content">
     <div class="container">
