@@ -1,5 +1,5 @@
 # Set PHP as the default homepage
-DirectoryIndex index.php index.html
+DirectoryIndex index-main.php index.php index.html
 
 # Enable PHP processing
 AddType application/x-httpd-php .php
@@ -7,9 +7,21 @@ AddType application/x-httpd-php .php
 # Start URL Rewriting
 RewriteEngine On
 
-# Redirect index.html to index.php
+# Redirect HTML files to PHP equivalents
 RewriteCond %{THE_REQUEST} /index\.html[\s?] [NC]
-RewriteRule ^index\.html$ /index.php [R=301,L]
+RewriteRule ^index\.html$ /index-main.php [R=301,L]
+
+RewriteCond %{THE_REQUEST} /about\.html[\s?] [NC]
+RewriteRule ^about\.html$ /about.php [R=301,L]
+
+RewriteCond %{THE_REQUEST} /mandate\.html[\s?] [NC]
+RewriteRule ^mandate\.html$ /mandate.php [R=301,L]
+
+RewriteCond %{THE_REQUEST} /organogram\.html[\s?] [NC]
+RewriteRule ^organogram\.html$ /organogram.php [R=301,L]
+
+RewriteCond %{THE_REQUEST} /admin\.html[\s?] [NC]
+RewriteRule ^admin\.html$ /admin.php [R=301,L]
 
 # Redirect .php extension to clean URL (except for admin, setup, and index files)
 RewriteCond %{THE_REQUEST} \s/+(.+)\.php[\s?] [NC]
