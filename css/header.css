@@ -111,7 +111,7 @@ body {
 .department-title-bar {
     position: relative;
     z-index: 1;
-    padding-top: 1.5rem !important;
+    padding-top: 3rem !important;
     margin-top: 0 !important;
 }
 
@@ -133,6 +133,10 @@ body {
 }
 
 @media (max-width: 768px) {
+    .department-title-bar {
+        padding-top: 2.5rem !important;
+    }
+    
     .department-title-bar h1 {
         font-size: 1.3rem !important;
     }
@@ -143,6 +147,10 @@ body {
 }
 
 @media (max-width: 576px) {
+    .department-title-bar {
+        padding-top: 2rem !important;
+    }
+    
     .department-title-bar h1 {
         font-size: 1.1rem !important;
     }

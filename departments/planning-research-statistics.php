@@ -9,7 +9,7 @@ include '../components/header.php';
 ?>
 
 <!-- Department Title Bar -->
-<section class="department-title-bar text-white py-4" style="background: linear-gradient(135deg, #013a04 0%, #025a06 100%); margin-top: 0; padding-top: 1.5rem !important;">
+<section class="department-title-bar text-white py-4" style="background: linear-gradient(135deg, #013a04 0%, #025a06 100%); margin-top: 0; padding-top: 3rem !important;">
     <div class="container">
         <div class="row">
             <div class="col-12 text-center">
