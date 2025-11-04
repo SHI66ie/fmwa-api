@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <a class="nav-link active" href="./" title="Go to home page">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="./about.html" title="Learn about the ministry">About Us</a>
+                            <a class="nav-link" href="./about.php" title="Learn about the ministry">About Us</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="departmentsDropdown" role="button" title="Explore our departments">
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="./mandate.html" title="Our mandate">Mandate</a>
+                            <a class="nav-link" href="./mandate.php" title="Our mandate">Mandate</a>
                         </li>
                     </ul>
                 </div>

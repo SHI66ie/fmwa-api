@@ -1,14 +1,12 @@
 <?php
 // about.php - About page for Federal Ministry of Women Affairs
-$page_title = "About Us - Federal Ministry of Women Affairs";
-$current_page = "about";
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $page_title; ?></title>
+    <title>About Us - Federal Ministry of Women Affairs</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="images/2025_07_14_13_42_IMG_2808.PNG">
@@ -21,7 +19,12 @@ $current_page = "about";
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/department-navigation.css">
-    <link rel="stylesheet" href="css/logo-position-fix.css">
+    <link rel="stylesheet" href="css/logo-position-fix.css?v=1.1">
+    <link rel="stylesheet" href="css/welcome-banner.css">
+    <link rel="stylesheet" href="css/visitor-counter.css">
+    
+    <!-- Include components -->
+    <script src="js/include-components.js" defer></script>
     
     <style>
         body {
@@ -225,8 +228,7 @@ $current_page = "about";
     </style>
 </head>
 <body>
-    <!-- Include Navigation -->
-    <?php include 'components/navigation.php'; ?>
+    <!-- Navigation will be inserted here by js/include-components.js -->
 
     <!-- Page Header -->
     <section class="page-header">
@@ -429,8 +431,88 @@ $current_page = "about";
         </div>
     </section>
 
-    <!-- Include Footer -->
-    <?php include 'components/main-footer.php'; ?>
+    <!-- Footer -->
+    <footer class="footer bg-dark text-light py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <!-- About Section -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5 class="mb-3">Federal Ministry of Women Affairs</h5>
+                    <p class="text-muted">Empowering women and promoting gender equality across Nigeria through comprehensive policies, programs, and initiatives that advance the welfare of women and children.</p>
+                    <div class="social-links mt-3">
+                        <a href="https://www.facebook.com/FMWAngr" class="text-light me-3" title="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://x.com/FMWA_ng" class="text-light me-3" title="Twitter" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/FMWAngr" class="text-light me-3" title="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-light me-3" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="http://www.youtube.com/@fmwangr" class="text-light" title="YouTube" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="./" class="text-muted text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="about.php" class="text-muted text-decoration-none">About Us</a></li>
+                        <li class="mb-2"><a href="mandate.php" class="text-muted text-decoration-none">Our Mandate</a></li>
+                        <li class="mb-2"><a href="organogram.php" class="text-muted text-decoration-none">Organogram</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Departments -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="mb-3">Key Departments</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="departments/women-development" class="text-muted text-decoration-none">Women Development</a></li>
+                        <li class="mb-2"><a href="departments/child-development" class="text-muted text-decoration-none">Child Development</a></li>
+                        <li class="mb-2"><a href="departments/gender-affairs" class="text-muted text-decoration-none">Gender Affairs</a></li>
+                        <li class="mb-2"><a href="departments/nutrition" class="text-muted text-decoration-none">Nutrition</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="mb-3">Contact Us</h5>
+                    <div class="contact-info">
+                        <p class="text-muted mb-2">
+                            <i class="fas fa-map-marker-alt me-2"></i>
+                            Plot 1070, Central Business District, Cadastral Zone AO, Shehu Shagari Way, by Ralph Shodeinde Street, opposite the Court of Appeal, in Abuja, FCT
+                        </p>
+                        <p class="text-muted mb-2">
+                            <i class="fas fa-envelope me-2"></i>
+                            info@womenaffairs.gov.ng
+                        </p>
+                        <p class="text-muted mb-0">
+                            <i class="fas fa-clock me-2"></i>
+                            Mon - Fri: 8:00 AM - 4:00 PM
+                        </p>
+                    </div>
+                    <div class="mt-4">
+                        <h6 class="mb-3">Newsletter</h6>
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="Your Email" aria-label="Email">
+                            <button class="btn btn-warning" type="button">Subscribe</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer Bottom -->
+            <div class="footer-bottom border-top border-secondary pt-4 mt-4">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="text-muted mb-0">
+                            © 2025 Federal Ministry of Women Affairs. All Rights Reserved.
+                        </p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <a href="#" class="text-muted me-3">Privacy Policy</a>
+                        <a href="#" class="text-muted">Terms of Use</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
