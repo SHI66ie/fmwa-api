@@ -13,7 +13,7 @@ include '../components/header.php';
     <div class="container">
         <div class="row">
             <div class="col-12 text-center">
-                <h1 class="h4 mb-2 fw-bold" style="color: white !important; font-size: 1.25rem;"><?php echo $department_name; ?> Department</h1>
+                <h1 class="mb-2 fw-bold" style="color: #ffffff !important; font-size: 1.5rem !important; display: block !important; opacity: 1 !important; visibility: visible !important;"><?php echo $department_name; ?> Department</h1>
                 <p class="mb-0" style="font-size: 0.85rem; line-height: 1.3; max-width: 650px; margin: 0 auto;">Empowering women through comprehensive development programs, capacity building, and economic opportunities.</p>
             </div>
         </div>

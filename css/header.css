@@ -106,3 +106,45 @@ body {
         font-size: 13px;
     }
 }
+
+/* Department Title Bar Styles */
+.department-title-bar {
+    position: relative;
+    z-index: 1;
+}
+
+.department-title-bar h1 {
+    color: #ffffff !important;
+    font-size: 1.5rem !important;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    margin-bottom: 0.5rem !important;
+    font-weight: 700 !important;
+    line-height: 1.4 !important;
+}
+
+.department-title-bar p {
+    color: #ffffff !important;
+    opacity: 0.95 !important;
+}
+
+@media (max-width: 768px) {
+    .department-title-bar h1 {
+        font-size: 1.3rem !important;
+    }
+    
+    .department-title-bar p {
+        font-size: 0.8rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .department-title-bar h1 {
+        font-size: 1.1rem !important;
+    }
+    
+    .department-title-bar p {
+        font-size: 0.75rem !important;
+    }
+}
