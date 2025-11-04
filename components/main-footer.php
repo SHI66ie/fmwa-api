@@ -20,9 +20,9 @@
                     <h5 class="mb-3">Quick Links</h5>
                     <ul class="list-unstyled">
                         <li class="mb-2"><a href="./" class="text-muted text-decoration-none">Home</a></li>
-                        <li class="mb-2"><a href="about.html" class="text-muted text-decoration-none">About Us</a></li>
-                        <li class="mb-2"><a href="mandate.html" class="text-muted text-decoration-none">Our Mandate</a></li>
-                        <li class="mb-2"><a href="organogram.html" class="text-muted text-decoration-none">Organogram</a></li>
+                        <li class="mb-2"><a href="about.php" class="text-muted text-decoration-none">About Us</a></li>
+                        <li class="mb-2"><a href="mandate.php" class="text-muted text-decoration-none">Our Mandate</a></li>
+                        <li class="mb-2"><a href="organogram.php" class="text-muted text-decoration-none">Organogram</a></li>
                     </ul>
                 </div>
                 

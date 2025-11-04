@@ -252,7 +252,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                         <a class="nav-link <?php echo ($current_page == 'index') ? 'active' : ''; ?>" href="../">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?php echo ($current_page == 'about') ? 'active' : ''; ?>" href="../about.html">About Us</a>
+                        <a class="nav-link <?php echo ($current_page == 'about') ? 'active' : ''; ?>" href="../about.php">About Us</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="departmentsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -285,7 +285,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?php echo ($current_page == 'mandate') ? 'active' : ''; ?>" href="../mandate.html">Mandate</a>
+                        <a class="nav-link <?php echo ($current_page == 'mandate') ? 'active' : ''; ?>" href="../mandate.php">Mandate</a>
                     </li>
                 </ul>
             </div>
