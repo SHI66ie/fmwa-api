@@ -51,7 +51,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?php echo ($current_page == 'mandate') ? 'active' : ''; ?>" href="mandate.html">Mandate</a>
+                    <a class="nav-link <?php echo ($current_page == 'mandate') ? 'active' : ''; ?>" href="mandate.php">Mandate</a>
                 </li>
             </ul>
         </div>
