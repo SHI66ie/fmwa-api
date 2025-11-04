@@ -5,7 +5,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
 <!-- Navigation Header -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
     <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center" href="index.php">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
             <img alt="Federal Ministry of Women Affairs Logo" class="fmwa-logo" src="images/2025_07_14_13_42_IMG_2808.PNG" style="height: 50px;">
             <span class="logo-divider"></span>
             <span class="fmwa-navbar-title">FEDERAL MINISTRY OF WOMEN AFFAIRS</span>
@@ -18,7 +18,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link <?php echo ($current_page == 'index') ? 'active' : ''; ?>" href="index.php">Home</a>
+                    <a class="nav-link <?php echo ($current_page == 'index') ? 'active' : ''; ?>" href="index.html">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <?php echo ($current_page == 'about') ? 'active' : ''; ?>" href="about.html">About Us</a>
@@ -28,16 +28,16 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                         Departments
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="departmentsDropdown">
-                        <li><a class="dropdown-item" href="departments/child-development.php">Child Development</a></li>
-                        <li><a class="dropdown-item" href="departments/community-development-social-intervention.php">Community Development & Social Intervention</a></li>
-                        <li><a class="dropdown-item" href="departments/finance-accounting.php">Finance & Accounting</a></li>
-                        <li><a class="dropdown-item" href="departments/gender-affairs.php">Gender Affairs</a></li>
-                        <li><a class="dropdown-item" href="departments/general-services.php">General Services</a></li>
-                        <li><a class="dropdown-item" href="departments/nutrition.php">Nutrition</a></li>
-                        <li><a class="dropdown-item" href="departments/planning-research-statistics.php">Planning, Research & Statistics</a></li>
-                        <li><a class="dropdown-item" href="departments/procurement.php">Procurement</a></li>
-                        <li><a class="dropdown-item" href="departments/reform-coordination-service-improvement.php">Reform Coordination & Service Improvement</a></li>
-                        <li><a class="dropdown-item" href="departments/women-development.php">Women Development</a></li>
+                        <li><a class="dropdown-item" href="departments/child-development">Child Development</a></li>
+                        <li><a class="dropdown-item" href="departments/community-development-social-intervention">Community Development & Social Intervention</a></li>
+                        <li><a class="dropdown-item" href="departments/finance-accounting">Finance & Accounting</a></li>
+                        <li><a class="dropdown-item" href="departments/gender-affairs">Gender Affairs</a></li>
+                        <li><a class="dropdown-item" href="departments/general-services">General Services</a></li>
+                        <li><a class="dropdown-item" href="departments/nutrition">Nutrition</a></li>
+                        <li><a class="dropdown-item" href="departments/planning-research-statistics">Planning, Research & Statistics</a></li>
+                        <li><a class="dropdown-item" href="departments/procurement">Procurement</a></li>
+                        <li><a class="dropdown-item" href="departments/reform-coordination-service-improvement">Reform Coordination & Service Improvement</a></li>
+                        <li><a class="dropdown-item" href="departments/women-development">Women Development</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">

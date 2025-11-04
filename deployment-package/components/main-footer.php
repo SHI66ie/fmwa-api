@@ -19,7 +19,7 @@
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h5 class="mb-3">Quick Links</h5>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="index.php" class="text-muted text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="index.html" class="text-muted text-decoration-none">Home</a></li>
                         <li class="mb-2"><a href="about.html" class="text-muted text-decoration-none">About Us</a></li>
                         <li class="mb-2"><a href="mandate.html" class="text-muted text-decoration-none">Our Mandate</a></li>
                         <li class="mb-2"><a href="organogram.html" class="text-muted text-decoration-none">Organogram</a></li>
@@ -30,10 +30,10 @@
                 <div class="col-lg-3 col-md-6 mb-4">
                     <h5 class="mb-3">Key Departments</h5>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="./departments/women-development.php" class="text-muted text-decoration-none">Women Development</a></li>
-                        <li class="mb-2"><a href="./departments/child-development.php" class="text-muted text-decoration-none">Child Development</a></li>
-                        <li class="mb-2"><a href="./departments/gender-affairs.php" class="text-muted text-decoration-none">Gender Affairs</a></li>
-                        <li class="mb-2"><a href="./departments/nutrition.php" class="text-muted text-decoration-none">Nutrition</a></li>
+                        <li class="mb-2"><a href="./departments/women-development" class="text-muted text-decoration-none">Women Development</a></li>
+                        <li class="mb-2"><a href="./departments/child-development" class="text-muted text-decoration-none">Child Development</a></li>
+                        <li class="mb-2"><a href="./departments/gender-affairs" class="text-muted text-decoration-none">Gender Affairs</a></li>
+                        <li class="mb-2"><a href="./departments/nutrition" class="text-muted text-decoration-none">Nutrition</a></li>
                     </ul>
                 </div>
                 
