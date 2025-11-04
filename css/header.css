@@ -111,6 +111,8 @@ body {
 .department-title-bar {
     position: relative;
     z-index: 1;
+    padding-top: 1.5rem !important;
+    margin-top: 0 !important;
 }
 
 .department-title-bar h1 {
@@ -127,6 +129,7 @@ body {
 .department-title-bar p {
     color: #ffffff !important;
     opacity: 0.95 !important;
+    line-height: 1.3 !important;
 }
 
 @media (max-width: 768px) {
