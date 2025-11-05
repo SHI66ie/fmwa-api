@@ -396,7 +396,7 @@
                 <!-- About Section -->
                 <div class="col-lg-4 col-md-6 mb-4">
                     <h5 class="mb-3">Federal Ministry of Women Affairs</h5>
-                    <p class="text-muted">Empowering women and promoting gender equality across Nigeria through comprehensive policies, programs, and initiatives that advance the welfare of women and children.</p>
+                    <p class="text-light">Empowering women and promoting gender equality across Nigeria through comprehensive policies, programs, and initiatives that advance the welfare of women and children.</p>
                     <div class="social-links mt-3">
                         <a href="https://www.facebook.com/FMWAngr" class="text-light me-3" title="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
                         <a href="https://x.com/FMWA_ng" class="text-light me-3" title="X (Twitter)" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>

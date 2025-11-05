@@ -5,7 +5,7 @@
                 <!-- About Section -->
                 <div class="col-lg-4 col-md-6 mb-4">
                     <h5 class="mb-3">Federal Ministry of Women Affairs</h5>
-                    <p class="text-muted">Empowering women and promoting gender equality across Nigeria through comprehensive policies, programs, and initiatives that advance the welfare of women and children.</p>
+                    <p class="text-light">Empowering women and promoting gender equality across Nigeria through comprehensive policies, programs, and initiatives that advance the welfare of women and children.</p>
                     <div class="social-links mt-3">
                         <a href="https://www.facebook.com/FMWAngr" class="text-light me-3" title="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
                         <a href="https://x.com/FMWA_ng" class="text-light me-3" title="X (Twitter)" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
@@ -18,10 +18,10 @@
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h5 class="mb-3">Quick Links</h5>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="./" class="text-muted text-decoration-none">Home</a></li>
-                        <li class="mb-2"><a href="about.php" class="text-muted text-decoration-none">About Us</a></li>
-                        <li class="mb-2"><a href="mandate.php" class="text-muted text-decoration-none">Our Mandate</a></li>
-                        <li class="mb-2"><a href="organogram.php" class="text-muted text-decoration-none">Organogram</a></li>
+                        <li class="mb-2"><a href="./" class="text-light text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="about.php" class="text-light text-decoration-none">About Us</a></li>
+                        <li class="mb-2"><a href="mandate.php" class="text-light text-decoration-none">Our Mandate</a></li>
+                        <li class="mb-2"><a href="organogram.php" class="text-light text-decoration-none">Organogram</a></li>
                     </ul>
                 </div>
                 
@@ -29,10 +29,10 @@
                 <div class="col-lg-3 col-md-6 mb-4">
                     <h5 class="mb-3">Key Departments</h5>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="./departments/women-development" class="text-muted text-decoration-none">Women Development</a></li>
-                        <li class="mb-2"><a href="./departments/child-development" class="text-muted text-decoration-none">Child Development</a></li>
-                        <li class="mb-2"><a href="./departments/gender-affairs" class="text-muted text-decoration-none">Gender Affairs</a></li>
-                        <li class="mb-2"><a href="./departments/nutrition" class="text-muted text-decoration-none">Nutrition</a></li>
+                        <li class="mb-2"><a href="./departments/women-development" class="text-light text-decoration-none">Women Development</a></li>
+                        <li class="mb-2"><a href="./departments/child-development" class="text-light text-decoration-none">Child Development</a></li>
+                        <li class="mb-2"><a href="./departments/gender-affairs" class="text-light text-decoration-none">Gender Affairs</a></li>
+                        <li class="mb-2"><a href="./departments/nutrition" class="text-light text-decoration-none">Nutrition</a></li>
                     </ul>
                 </div>
                 
@@ -40,21 +40,21 @@
                 <div class="col-lg-3 col-md-6 mb-4">
                     <h5 class="mb-3">Contact Us</h5>
                     <div class="contact-info">
-                        <p class="text-muted mb-2">
-                            <i class="fas fa-map-marker-alt me-2"></i>
+                        <p class="text-light mb-2">
+                            <i class="fas fa-map-marker-alt me-2 text-warning"></i>
                             Federal Secretariat Complex<br>
                             <span class="ms-4">Shehu Shagari Way, Abuja</span>
                         </p>
-                        <p class="text-muted mb-2">
-                            <i class="fas fa-phone me-2"></i>
+                        <p class="text-light mb-2">
+                            <i class="fas fa-phone me-2 text-warning"></i>
                             +234-9-461-0000
                         </p>
-                        <p class="text-muted mb-2">
-                            <i class="fas fa-envelope me-2"></i>
+                        <p class="text-light mb-2">
+                            <i class="fas fa-envelope me-2 text-warning"></i>
                             info@fmwa.gov.ng
                         </p>
-                        <p class="text-muted mb-0">
-                            <i class="fas fa-clock me-2"></i>
+                        <p class="text-light mb-0">
+                            <i class="fas fa-clock me-2 text-warning"></i>
                             Mon - Fri: 8:00 AM - 4:00 PM
                         </p>
                     </div>
