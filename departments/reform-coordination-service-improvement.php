@@ -133,14 +133,10 @@ include '../components/header.php';
                                 </div>
                             </div>
                         </div>
-                        <h6 class="mb-1">Dr. Musa Abdullahi</h6>
+                        <h6 class="mb-1">Mr. Winifred Onoja</h6>
                         <p class="text-muted small mb-3">Director, Reform Coordination & Service Improvement</p>
                         
                         <div class="contact-details text-start">
-                            <p class="mb-2">
-                                <i class="fas fa-phone text-primary me-2"></i>
-                                <strong>Phone:</strong> +234-9-461-0010
-                            </p>
                             <p class="mb-2">
                                 <i class="fas fa-envelope text-primary me-2"></i>
                                 <strong>Email:</strong> reform@fmwa.gov.ng

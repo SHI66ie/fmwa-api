@@ -136,10 +136,6 @@ include '../components/header.php';
                         
                         <div class="contact-details text-start">
                             <p class="mb-2">
-                                <i class="fas fa-phone text-primary me-2"></i>
-                                <strong>Phone:</strong> +234-9-461-0001
-                            </p>
-                            <p class="mb-2">
                                 <i class="fas fa-envelope text-primary me-2"></i>
                                 <strong>Email:</strong> womendevelopment@fmwa.gov.ng
                             </p>

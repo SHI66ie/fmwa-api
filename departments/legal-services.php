@@ -1,7 +1,7 @@
 <?php
 // Page configuration
-$page_title = "Special Duties Department - Federal Ministry of Women Affairs";
-$department_name = "Special Duties";
+$page_title = "Legal Services Department - Federal Ministry of Women Affairs";
+$department_name = "Legal Services";
 $show_maintenance_notice = false; // Set to true if you want to show maintenance notice
 
 // Include header
@@ -14,7 +14,7 @@ include '../components/header.php';
         <div class="row">
             <div class="col-12 text-center">
                 <h1 class="mb-2 fw-bold" style="color: #ffffff !important; font-size: 1.5rem !important; display: block !important; opacity: 1 !important; visibility: visible !important;"><?php echo $department_name; ?> Department</h1>
-                <p class="mb-0" style="font-size: 0.85rem; line-height: 1.3; max-width: 650px; margin: 0 auto;">Handling special assignments and strategic initiatives to support ministry objectives and government priorities.</p>
+                <p class="mb-0" style="font-size: 0.85rem; line-height: 1.3; max-width: 650px; margin: 0 auto;">Providing legal guidance and ensuring compliance with laws and regulations in all ministry operations.</p>
             </div>
         </div>
     </div>
@@ -29,25 +29,25 @@ include '../components/header.php';
                 <div class="card shadow-sm mb-4">
                     <div class="card-body">
                         <h2 class="h4 mb-3">About the Department</h2>
-                        <p>Addressing unique challenges and implementing special initiatives for women and children's welfare.</p>
+                        <p>Providing legal guidance and ensuring compliance with laws and regulations in all ministry operations.</p>
                         
                         <h3 class="h5 mt-4 mb-3">Our Objectives</h3>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item border-0 px-0">
                                 <i class="fas fa-check-circle text-success me-2"></i>
-                                Handle special assignments and emergency interventions
+                                Provide legal advice on ministry policies and programs
                             </li>
                             <li class="list-group-item border-0 px-0">
                                 <i class="fas fa-check-circle text-success me-2"></i>
-                                Coordinate inter-agency collaborations and partnerships
+                                Ensure compliance with federal laws and regulations
                             </li>
                             <li class="list-group-item border-0 px-0">
                                 <i class="fas fa-check-circle text-success me-2"></i>
-                                Implement special programs for vulnerable populations
+                                Handle legal matters and litigation involving the ministry
                             </li>
                             <li class="list-group-item border-0 px-0">
                                 <i class="fas fa-check-circle text-success me-2"></i>
-                                Address emerging issues affecting women and children
+                                Review and draft legal documents and contracts
                             </li>
                         </ul>
                     </div>
@@ -56,49 +56,49 @@ include '../components/header.php';
                 <!-- Programs and Services -->
                 <div class="card shadow-sm mb-4">
                     <div class="card-body">
-                        <h2 class="h4 mb-3">Programs and Services</h2>
+                        <h2 class="h4 mb-3">Services</h2>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
-                                        <i class="fas fa-exclamation-triangle text-primary fa-2x"></i>
+                                        <i class="fas fa-gavel text-primary fa-2x"></i>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h5>Emergency Response</h5>
-                                        <p class="text-muted">Rapid response to crises affecting women and children.</p>
+                                        <h5>Legal Advisory</h5>
+                                        <p class="text-muted">Expert legal counsel on ministry operations and policies.</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
-                                        <i class="fas fa-link text-primary fa-2x"></i>
+                                        <i class="fas fa-file-contract text-primary fa-2x"></i>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h5>Inter-Agency Coordination</h5>
-                                        <p class="text-muted">Collaboration with other ministries and agencies.</p>
+                                        <h5>Contract Review</h5>
+                                        <p class="text-muted">Comprehensive review and drafting of legal documents.</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
-                                        <i class="fas fa-heart text-primary fa-2x"></i>
+                                        <i class="fas fa-balance-scale text-primary fa-2x"></i>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h5>Vulnerable Groups Support</h5>
-                                        <p class="text-muted">Special programs for at-risk populations.</p>
+                                        <h5>Compliance</h5>
+                                        <p class="text-muted">Ensuring adherence to federal laws and regulations.</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
-                                        <i class="fas fa-lightbulb text-primary fa-2x"></i>
+                                        <i class="fas fa-users text-primary fa-2x"></i>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h5>Innovation Projects</h5>
-                                        <p class="text-muted">Pilot programs and innovative solutions.</p>
+                                        <h5>Legal Training</h5>
+                                        <p class="text-muted">Training programs on legal compliance for ministry staff.</p>
                                     </div>
                                 </div>
                             </div>
@@ -119,8 +119,8 @@ include '../components/header.php';
                     <div class="card-body text-center">
                         <!-- Director Photo -->
                         <div class="director-photo-container mb-3">
-                            <img src="../images/directors/special-duties-director.jpg" 
-                                 alt="Dr. Zainab Usman - Director" 
+                            <img src="../images/directors/legal-services-director.jpg" 
+                                 alt="Mrs. Sweet Adesuwa - Director" 
                                  class="director-photo img-fluid rounded-circle"
                                  onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                             <div class="director-placeholder" style="display: none;">
@@ -131,13 +131,13 @@ include '../components/header.php';
                                 </div>
                             </div>
                         </div>
-                        <h6 class="mb-1">Mrs. Aku Daniella Ladi</h6>
-                        <p class="text-muted small mb-3">Director, Special Duties</p>
+                        <h6 class="mb-1">Mrs. Sweet Adesuwa</h6>
+                        <p class="text-muted small mb-3">Director, Legal Services</p>
                         
                         <div class="contact-details text-start">
                             <p class="mb-2">
                                 <i class="fas fa-envelope text-primary me-2"></i>
-                                <strong>Email:</strong> specialduties@fmwa.gov.ng
+                                <strong>Email:</strong> legal@fmwa.gov.ng
                             </p>
                             <p class="mb-0">
                                 <i class="fas fa-clock text-primary me-2"></i>
@@ -157,23 +157,23 @@ include '../components/header.php';
                     <div class="card-body">
                         <ul class="list-unstyled mb-0">
                             <li class="mb-2">
-                                <a href="women-development.php" class="text-decoration-none">
-                                    <i class="fas fa-arrow-right me-2"></i>Women Development
+                                <a href="finance-accounting.php" class="text-decoration-none">
+                                    <i class="fas fa-arrow-right me-2"></i>Finance & Accounting
                                 </a>
                             </li>
                             <li class="mb-2">
-                                <a href="gender-affairs.php" class="text-decoration-none">
-                                    <i class="fas fa-arrow-right me-2"></i>Gender Affairs
+                                <a href="procurement.php" class="text-decoration-none">
+                                    <i class="fas fa-arrow-right me-2"></i>Procurement
                                 </a>
                             </li>
                             <li class="mb-2">
-                                <a href="child-development.php" class="text-decoration-none">
-                                    <i class="fas fa-arrow-right me-2"></i>Child Development
+                                <a href="human-resource-management.php" class="text-decoration-none">
+                                    <i class="fas fa-arrow-right me-2"></i>Human Resource Management
                                 </a>
                             </li>
                             <li class="mb-0">
-                                <a href="nutrition.php" class="text-decoration-none">
-                                    <i class="fas fa-arrow-right me-2"></i>Nutrition
+                                <a href="general-services.php" class="text-decoration-none">
+                                    <i class="fas fa-arrow-right me-2"></i>General Services
                                 </a>
                             </li>
                         </ul>
@@ -189,14 +189,14 @@ include '../components/header.php';
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <h6 class="card-subtitle mb-1">Department Workshop 2025</h6>
+                            <h6 class="card-subtitle mb-1">Legal Workshop 2025</h6>
                             <small class="text-muted">March 15, 2025</small>
-                            <p class="small mt-1">Join us for our annual department workshop and training session.</p>
+                            <p class="small mt-1">Join us for our annual legal compliance workshop and training session.</p>
                         </div>
                         <div class="mb-3">
-                            <h6 class="card-subtitle mb-1">New Program Launch</h6>
+                            <h6 class="card-subtitle mb-1">Policy Review</h6>
                             <small class="text-muted">February 20, 2025</small>
-                            <p class="small mt-1">Exciting new initiatives to better serve our beneficiaries.</p>
+                            <p class="small mt-1">Comprehensive review of ministry policies and procedures.</p>
                         </div>
                         <a href="#" class="btn btn-sm btn-outline-info">View All Updates</a>
                     </div>

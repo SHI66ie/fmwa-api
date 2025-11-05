@@ -133,14 +133,10 @@ include '../components/header.php';
                                 </div>
                             </div>
                         </div>
-                        <h6 class="mb-1">Dr. Hauwa Mohammed</h6>
+                        <h6 class="mb-1">Mr. Samaila Adamu Web</h6>
                         <p class="text-muted small mb-3">Director, Gender Affairs</p>
                         
                         <div class="contact-details text-start">
-                            <p class="mb-2">
-                                <i class="fas fa-phone text-primary me-2"></i>
-                                <strong>Phone:</strong> +234-9-461-0005
-                            </p>
                             <p class="mb-2">
                                 <i class="fas fa-envelope text-primary me-2"></i>
                                 <strong>Email:</strong> gender@fmwa.gov.ng

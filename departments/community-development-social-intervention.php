@@ -133,14 +133,10 @@ include '../components/header.php';
                                 </div>
                             </div>
                         </div>
-                        <h6 class="mb-1">Mallam Ibrahim Yusuf</h6>
+                        <h6 class="mb-1">Mr. Oliko</h6>
                         <p class="text-muted small mb-3">Director, Community Development & Social Intervention</p>
                         
                         <div class="contact-details text-start">
-                            <p class="mb-2">
-                                <i class="fas fa-phone text-primary me-2"></i>
-                                <strong>Phone:</strong> +234-9-461-0003
-                            </p>
                             <p class="mb-2">
                                 <i class="fas fa-envelope text-primary me-2"></i>
                                 <strong>Email:</strong> community@fmwa.gov.ng
