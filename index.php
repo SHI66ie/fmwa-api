@@ -452,11 +452,10 @@
                     <h5 class="mb-3">Federal Ministry of Women Affairs</h5>
                     <p class="text-muted">Empowering women and promoting gender equality across Nigeria through comprehensive policies, programs, and initiatives that advance the welfare of women and children.</p>
                     <div class="social-links mt-3">
-                        <a href="#" class="text-light me-3" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-light me-3" title="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-light me-3" title="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-light me-3" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="text-light" title="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.facebook.com/FMWAngr" class="text-light me-3" title="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://x.com/FMWA_ng" class="text-light me-3" title="X (Twitter)" target="_blank" rel="noopener noreferrer"><i class="fab fa-x-twitter"></i></a>
+                        <a href="https://www.instagram.com/FMWAngr" class="text-light me-3" title="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                        <a href="http://www.youtube.com/@fmwangr" class="text-light" title="YouTube" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
                 
