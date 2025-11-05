@@ -612,10 +612,10 @@
                         <h4>Federal Ministry of Women Affairs</h4>
                         <p>Empowering women for national development</p>
                         <div class="social-links mt-3">
-                            <a href="#" class="me-2" title="Follow us on Facebook"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="me-2" title="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="me-2" title="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="me-2" title="Connect with us on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://www.facebook.com/FMWAngr" class="me-2" title="Follow us on Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://x.com/FMWA_ng" class="me-2" title="Follow us on X (Twitter)" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.instagram.com/FMWAngr" class="me-2" title="Follow us on Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                            <a href="http://www.youtube.com/@fmwangr" class="me-2" title="Watch us on YouTube" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
                         </div>
                     </div>
                 </div>
