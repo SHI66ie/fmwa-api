@@ -98,11 +98,29 @@ function handleUploadMedia() {
     }
 
     if ($field === null) {
+        error_log('Media upload failed: No file field found. FILES: ' . print_r($_FILES, true));
         echo json_encode(['success' => false, 'message' => 'No file uploaded']);
         return;
     }
     
     $file = $_FILES[$field];
+    
+    // Check for upload errors
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        $errorMessages = [
+            UPLOAD_ERR_INI_SIZE => 'File exceeds upload_max_filesize in php.ini',
+            UPLOAD_ERR_FORM_SIZE => 'File exceeds MAX_FILE_SIZE in HTML form',
+            UPLOAD_ERR_PARTIAL => 'File was only partially uploaded',
+            UPLOAD_ERR_NO_FILE => 'No file was uploaded',
+            UPLOAD_ERR_NO_TMP_DIR => 'Missing temporary upload folder',
+            UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk (check permissions)',
+            UPLOAD_ERR_EXTENSION => 'Upload stopped by PHP extension'
+        ];
+        $message = $errorMessages[$file['error']] ?? 'Unknown upload error';
+        error_log('Media upload failed: ' . $message . ' (Error code: ' . $file['error'] . ')');
+        echo json_encode(['success' => false, 'message' => $message, 'error_code' => $file['error']]);
+        return;
+    }
     
     // Validate file - allow any image/*, any video/* and PDF
     $mimeType = $file['type'] ?? '';
@@ -126,13 +144,27 @@ function handleUploadMedia() {
     // Create upload directory if it doesn't exist
     $uploadDir = '../../images/uploads/';
     if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0755, true);
+        if (!mkdir($uploadDir, 0755, true)) {
+            error_log('Media upload failed: Could not create directory ' . $uploadDir);
+            echo json_encode(['success' => false, 'message' => 'Upload directory does not exist and could not be created']);
+            return;
+        }
+    }
+    
+    // Check if directory is writable
+    if (!is_writable($uploadDir)) {
+        error_log('Media upload failed: Directory not writable ' . $uploadDir);
+        echo json_encode(['success' => false, 'message' => 'Upload directory is not writable. Please check folder permissions.']);
+        return;
     }
     
     // Generate unique filename
     $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
     $filename = uniqid() . '_' . time() . '.' . $extension;
     $filepath = $uploadDir . $filename;
+    
+    // Attempt to move uploaded file
+    error_log('Attempting to move uploaded file from ' . $file['tmp_name'] . ' to ' . $filepath);
     
     if (move_uploaded_file($file['tmp_name'], $filepath)) {
         // Save to database
@@ -160,7 +192,20 @@ function handleUploadMedia() {
             ]
         ]);
     } else {
-        echo json_encode(['success' => false, 'message' => 'Failed to upload file']);
+        $error = error_get_last();
+        $errorMsg = $error ? $error['message'] : 'Unknown error';
+        error_log('Media upload failed: move_uploaded_file() failed. From: ' . $file['tmp_name'] . ' To: ' . $filepath . ' Error: ' . $errorMsg);
+        echo json_encode([
+            'success' => false, 
+            'message' => 'Failed to move uploaded file. Check server permissions and paths.',
+            'debug' => [
+                'tmp_file' => $file['tmp_name'],
+                'target_path' => $filepath,
+                'upload_dir' => $uploadDir,
+                'dir_exists' => is_dir($uploadDir),
+                'dir_writable' => is_writable($uploadDir)
+            ]
+        ]);
     }
 }
 
