@@ -85,12 +85,20 @@ function handleGetMedia() {
 function handleUploadMedia() {
     global $pdo, $auth;
     
-    if (!isset($_FILES['media'])) {
+    // Support both 'file' (frontend) and 'media' (legacy) field names
+    $field = null;
+    if (isset($_FILES['file'])) {
+        $field = 'file';
+    } elseif (isset($_FILES['media'])) {
+        $field = 'media';
+    }
+
+    if ($field === null) {
         echo json_encode(['success' => false, 'message' => 'No file uploaded']);
         return;
     }
     
-    $file = $_FILES['media'];
+    $file = $_FILES[$field];
     
     // Validate file
     $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml', 'video/mp4', 'video/webm', 'application/pdf'];
@@ -170,9 +178,10 @@ function handleUpdateMedia() {
 }
 
 function handleDeleteMedia() {
-    global $pdo;
+    global $pdo, $input;
     
-    $id = $_GET['id'] ?? null;
+    // Allow ID via query string or JSON body
+    $id = $_GET['id'] ?? ($input['id'] ?? null);
     
     if (!$id) {
         echo json_encode(['success' => false, 'message' => 'Media ID required']);

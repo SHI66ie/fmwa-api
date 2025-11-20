@@ -443,22 +443,30 @@ $user = $auth->getCurrentUser();
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        mediaFiles = data.media;
+                        // API may return the list under data.media or data.data; support both
+                        const list = Array.isArray(data.media)
+                            ? data.media
+                            : (Array.isArray(data.data) ? data.data : []);
+
+                        mediaFiles = list;
                         displayMedia(mediaFiles);
                     } else {
-                        showError('Failed to load media');
+                        showError(data.message || 'Failed to load media');
+                        displayMedia([]);
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
                     showError('Failed to load media');
+                    displayMedia([]);
                 });
         }
         
         function displayMedia(files) {
             const grid = document.getElementById('mediaGrid');
+            const list = Array.isArray(files) ? files : [];
             
-            if (files.length === 0) {
+            if (list.length === 0) {
                 grid.innerHTML = `
                     <div class="text-center py-5" style="grid-column: 1/-1;">
                         <i class="fas fa-images fa-3x text-muted mb-3"></i>
@@ -469,7 +477,7 @@ $user = $auth->getCurrentUser();
             }
             
             let html = '';
-            files.forEach(file => {
+            list.forEach(file => {
                 const thumbnail = getThumbnail(file);
                 const size = formatFileSize(file.file_size);
                 const date = new Date(file.created_at).toLocaleDateString();
