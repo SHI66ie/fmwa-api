@@ -100,9 +100,15 @@ function handleUploadMedia() {
     
     $file = $_FILES[$field];
     
-    // Validate file
-    $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml', 'video/mp4', 'video/webm', 'application/pdf'];
-    if (!in_array($file['type'], $allowedTypes)) {
+    // Validate file - allow any image/*, any video/* and PDF
+    $mimeType = $file['type'] ?? '';
+    $isImage = strpos($mimeType, 'image/') === 0;
+    $isVideo = strpos($mimeType, 'video/') === 0;
+    $isPdf   = ($mimeType === 'application/pdf');
+
+    if (!$isImage && !$isVideo && !$isPdf) {
+        // Log unexpected mime type for debugging
+        error_log('Media upload blocked. Mime type: ' . $mimeType . ' Name: ' . ($file['name'] ?? '')); 
         echo json_encode(['success' => false, 'message' => 'File type not allowed']);
         return;
     }
