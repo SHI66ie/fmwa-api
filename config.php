@@ -13,31 +13,34 @@ define('UPLOAD_DIR', BASE_PATH . '/images/uploads/');
 define('SITE_NAME', 'Federal Ministry of Women Affairs');
 define('SITE_URL', 'http://' . ($_SERVER['HTTP_HOST'] ?? 'localhost'));
 
-// Error reporting (disable in production for security)
+// Error reporting (disable on production site for security and clean output)
 error_reporting(E_ALL);
-ini_set('display_errors', '1');
+ini_set('display_errors', '0');
 
 // Timezone
 date_default_timezone_set('Africa/Lagos');
 
-// Session settings - Fix for cPanel
+// Session settings - always use local /sessions directory so cPanel path issues don't break login
 if (session_status() === PHP_SESSION_NONE) {
-    // Set custom session path for cPanel compatibility
-    $session_path = sys_get_temp_dir();
-    if (!is_writable($session_path)) {
-        $session_path = dirname(__FILE__) . '/sessions';
-        if (!file_exists($session_path)) {
-            @mkdir($session_path, 0755, true);
+    $session_path = __DIR__ . '/sessions';
+
+    // Ensure the directory exists
+    if (!is_dir($session_path)) {
+        @mkdir($session_path, 0755, true);
+    }
+
+    // If writable, force PHP to use this directory for session files
+    if (is_writable($session_path)) {
+        if (function_exists('session_save_path')) {
+            session_save_path($session_path);
+        } else {
+            ini_set('session.save_path', $session_path);
         }
     }
-    
-    if (is_writable($session_path)) {
-        ini_set('session.save_path', $session_path);
-    }
-    
+
     ini_set('session.cookie_httponly', 1);
     ini_set('session.use_only_cookies', 1);
-    ini_set('session.cookie_secure', isset($_SERVER['HTTPS']) ? 1 : 0);
+    ini_set('session.cookie_secure', (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 1 : 0);
     session_start();
 }
 

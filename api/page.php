@@ -90,7 +90,7 @@ function handleSavePage() {
         $user = $auth->getCurrentUser();
         
         try {
-            $stmt = $pdo->prepare("INSERT INTO activity_logs (user_id, action, description, ip_address, created_at) VALUES (?, ?, ?, ?, NOW())");
+            $stmt = $pdo->prepare("INSERT INTO activity_log (user_id, action, description, ip_address, created_at) VALUES (?, ?, ?, ?, NOW())");
             $stmt->execute([
                 $user['id'],
                 'page_edit',

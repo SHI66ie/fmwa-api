@@ -124,7 +124,7 @@ class Auth {
      */
     private function logActivity($user_id, $action, $description) {
         try {
-            $stmt = $this->db->prepare("INSERT INTO activity_logs (user_id, action, description, ip_address, user_agent, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
+            $stmt = $this->db->prepare("INSERT INTO activity_log (user_id, action, description, ip_address, user_agent, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
             $stmt->execute([
                 $user_id,
                 $action,

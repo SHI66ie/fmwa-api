@@ -30,7 +30,7 @@ try {
     
     // Get recent activity
     $stmt = $pdo->query("SELECT u.username, al.action, al.description, al.created_at 
-                        FROM activity_logs al 
+                        FROM activity_log al 
                         LEFT JOIN users u ON al.user_id = u.id 
                         ORDER BY al.created_at DESC LIMIT 10");
     $recent_activity = $stmt->fetchAll(PDO::FETCH_ASSOC);
