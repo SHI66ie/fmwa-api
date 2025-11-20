@@ -33,12 +33,27 @@ if ($_POST) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
+            justify-content: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 0 15px;
         }
         
         .login-container {
@@ -49,6 +64,7 @@ if ($_POST) {
             overflow: hidden;
             max-width: 900px;
             width: 100%;
+            margin: 0 auto;
         }
         
         .login-left {
@@ -143,15 +159,36 @@ if ($_POST) {
             line-height: 1.6;
         }
         
+        .row {
+            margin: 0;
+        }
+        
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
             .login-left {
                 padding: 40px 30px;
             }
+            
             .login-right {
                 padding: 40px 30px;
             }
+            
             .welcome-text {
                 font-size: 2rem;
+            }
+            
+            .login-container {
+                margin: 10px 0;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .login-left,
+            .login-right {
+                padding: 30px 20px;
             }
         }
     </style>
