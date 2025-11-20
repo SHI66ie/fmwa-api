@@ -7,22 +7,67 @@ $auth->requireLogin();
 
 $user = $auth->getCurrentUser();
 
-// Get list of editable pages
-$pages = [
-    'index.php' => 'Home Page',
-    'about.php' => 'About Page',
-    'mandate.php' => 'Mandate Page',
-    'organogram.php' => 'Organogram Page',
+// Organize pages into categories
+$pageCategories = [];
+
+// Main Pages
+$pageCategories['Main Pages'] = [
+    'index.php' => ['name' => 'Home Page', 'icon' => 'fa-home', 'description' => 'Main landing page'],
+    'about.php' => ['name' => 'About Us', 'icon' => 'fa-info-circle', 'description' => 'Ministry information'],
+    'mandate.php' => ['name' => 'Mandate', 'icon' => 'fa-file-alt', 'description' => 'Ministry mandate'],
+    'organogram.php' => ['name' => 'Organogram', 'icon' => 'fa-sitemap', 'description' => 'Organizational structure'],
 ];
 
-// Scan departments directory
+// Departments
 $departmentsDir = '../departments';
+$pageCategories['Departments'] = [];
 if (is_dir($departmentsDir)) {
     $deptFiles = glob($departmentsDir . '/*.php');
     foreach ($deptFiles as $file) {
         $filename = basename($file);
         $name = ucwords(str_replace(['-', '_', '.php'], [' ', ' ', ''], $filename));
-        $pages['departments/' . $filename] = $name;
+        $pageCategories['Departments']['departments/' . $filename] = [
+            'name' => $name,
+            'icon' => 'fa-building',
+            'description' => 'Department page'
+        ];
+    }
+}
+
+// Services
+$servicesDir = '../services';
+$pageCategories['Services'] = [];
+if (is_dir($servicesDir)) {
+    $serviceFiles = glob($servicesDir . '/*.php');
+    foreach ($serviceFiles as $file) {
+        $filename = basename($file);
+        $name = ucwords(str_replace(['-', '_', '.php'], [' ', ' ', ''], $filename));
+        $pageCategories['Services']['services/' . $filename] = [
+            'name' => $name,
+            'icon' => 'fa-hands-helping',
+            'description' => 'Service page'
+        ];
+    }
+}
+
+// Special Pages
+$pageCategories['Special Pages'] = [
+    'press-release-actu-inauguration.php' => ['name' => 'Press Release - ACTU Inauguration', 'icon' => 'fa-newspaper', 'description' => 'Press release'],
+];
+
+// Components (includes)
+$includesDir = '../includes';
+$pageCategories['Components'] = [];
+if (is_dir($includesDir)) {
+    $includeFiles = glob($includesDir . '/*.php');
+    foreach ($includeFiles as $file) {
+        $filename = basename($file);
+        $name = ucwords(str_replace(['-', '_', '.php'], [' ', ' ', ''], $filename));
+        $pageCategories['Components']['includes/' . $filename] = [
+            'name' => $name,
+            'icon' => 'fa-puzzle-piece',
+            'description' => 'Reusable component'
+        ];
     }
 }
 ?>
@@ -151,6 +196,96 @@ if (is_dir($departmentsDir)) {
             box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
         }
         
+        .category-section {
+            margin-bottom: 30px;
+        }
+        
+        .category-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #495057;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .page-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .page-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .page-card:hover {
+            border-color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+        
+        .page-card.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+        
+        .page-card-icon {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .page-card-name {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 5px;
+        }
+        
+        .page-card-description {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        
+        .tab-navigation {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 10px 20px;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .tab-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .tab-btn.active {
+            background: var(--primary-gradient);
+            border-color: #667eea;
+            color: white;
+        }
+        
+        .search-box {
+            margin-bottom: 20px;
+        }
+        
         .CodeMirror {
             height: 600px;
             border-radius: 10px;
@@ -253,20 +388,61 @@ if (is_dir($departmentsDir)) {
                 <strong>Tip:</strong> Use <kbd>Ctrl+S</kbd> to save. Changes are automatically backed up before saving.
             </div>
 
-            <div class="mb-4">
-                <label for="pageSelect" class="form-label">Select Page to Edit</label>
-                <select class="form-select" id="pageSelect" onchange="loadPage()">
-                    <option value="">-- Choose a page --</option>
-                    <?php foreach ($pages as $path => $name): ?>
-                        <option value="<?php echo htmlspecialchars($path); ?>">
-                            <?php echo htmlspecialchars($name); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+            <!-- Search Box -->
+            <div class="search-box">
+                <input type="text" class="form-control" id="searchPages" placeholder="Search pages..." onkeyup="filterPages()">
+            </div>
+            
+            <!-- Tab Navigation -->
+            <div class="tab-navigation">
+                <?php $first = true; foreach ($pageCategories as $category => $pages): ?>
+                    <?php if (!empty($pages)): ?>
+                        <button class="tab-btn <?php echo $first ? 'active' : ''; ?>" onclick="showCategory('<?php echo strtolower(str_replace(' ', '-', $category)); ?>')">
+                            <?php echo $category; ?> (<?php echo count($pages); ?>)
+                        </button>
+                        <?php $first = false; ?>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+            
+            <!-- Page Selection Panels -->
+            <div id="pagePanels">
+                <?php $firstCat = true; foreach ($pageCategories as $category => $pages): ?>
+                    <?php if (!empty($pages)): ?>
+                        <div class="category-section" id="cat-<?php echo strtolower(str_replace(' ', '-', $category)); ?>" style="display: <?php echo $firstCat ? 'block' : 'none'; ?>;">
+                            <h5 class="category-title">
+                                <i class="fas fa-folder-open me-2"></i><?php echo $category; ?>
+                            </h5>
+                            <div class="page-grid">
+                                <?php foreach ($pages as $path => $info): ?>
+                                    <div class="page-card" onclick="selectPage('<?php echo htmlspecialchars($path); ?>')" data-path="<?php echo htmlspecialchars($path); ?>" data-name="<?php echo htmlspecialchars($info['name']); ?>">
+                                        <div class="page-card-icon">
+                                            <i class="fas <?php echo $info['icon']; ?>"></i>
+                                        </div>
+                                        <div class="page-card-name"><?php echo htmlspecialchars($info['name']); ?></div>
+                                        <div class="page-card-description"><?php echo htmlspecialchars($info['description']); ?></div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                        <?php $firstCat = false; ?>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+            
+            <div id="selectedPageInfo" style="display: none;" class="alert alert-success mb-4">
+                <i class="fas fa-check-circle me-2"></i>
+                <strong>Selected:</strong> <span id="selectedPageName"></span>
+                <button class="btn btn-sm btn-outline-success float-end" onclick="loadSelectedPage()">
+                    <i class="fas fa-edit me-1"></i>Edit This Page
+                </button>
             </div>
 
             <div id="editorSection" style="display: none;">
                 <div class="editor-toolbar">
+                    <button class="btn btn-outline-secondary btn-sm" onclick="backToSelection()">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Selection
+                    </button>
                     <button class="btn btn-gradient btn-sm" onclick="savePage()">
                         <i class="fas fa-save me-2"></i>Save Changes
                     </button>
@@ -302,6 +478,8 @@ if (is_dir($departmentsDir)) {
         let editor;
         let currentPage = '';
         let originalContent = '';
+        let selectedPath = '';
+        let selectedName = '';
         
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize CodeMirror
@@ -329,18 +507,89 @@ if (is_dir($departmentsDir)) {
             });
         });
         
-        function loadPage() {
-            const select = document.getElementById('pageSelect');
-            const path = select.value;
+        // Show category tab
+        function showCategory(categoryId) {
+            // Hide all category sections
+            document.querySelectorAll('.category-section').forEach(section => {
+                section.style.display = 'none';
+            });
             
+            // Show selected category
+            const selected = document.getElementById('cat-' + categoryId);
+            if (selected) {
+                selected.style.display = 'block';
+            }
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+        
+        // Select a page card
+        function selectPage(path) {
+            // Remove selection from all cards
+            document.querySelectorAll('.page-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selection to clicked card
+            const clickedCard = document.querySelector(`[data-path="${path}"]`);
+            if (clickedCard) {
+                clickedCard.classList.add('selected');
+                selectedPath = path;
+                selectedName = clickedCard.getAttribute('data-name');
+                
+                // Show selected page info
+                document.getElementById('selectedPageName').textContent = selectedName;
+                document.getElementById('selectedPageInfo').style.display = 'block';
+            }
+        }
+        
+        // Load the selected page into editor
+        function loadSelectedPage() {
+            if (!selectedPath) {
+                showError('No page selected');
+                return;
+            }
+            
+            loadPage(selectedPath);
+            
+            // Scroll to editor
+            document.getElementById('editorSection').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Filter pages by search
+        function filterPages() {
+            const searchTerm = document.getElementById('searchPages').value.toLowerCase();
+            
+            document.querySelectorAll('.page-card').forEach(card => {
+                const name = card.getAttribute('data-name').toLowerCase();
+                const path = card.getAttribute('data-path').toLowerCase();
+                
+                if (name.includes(searchTerm) || path.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        function loadPage(path) {
             if (!path) {
-                document.getElementById('editorSection').style.display = 'none';
-                document.getElementById('noPageSelected').style.display = 'block';
+                showError('No page path provided');
                 return;
             }
             
             currentPage = path;
             updateStatus('Loading...');
+            
+            // Hide page panels and show editor
+            document.getElementById('pagePanels').style.display = 'none';
+            document.getElementById('selectedPageInfo').style.display = 'none';
+            document.querySelector('.tab-navigation').style.display = 'none';
+            document.querySelector('.search-box').style.display = 'none';
             
             fetch(`../api/page.php?path=${encodeURIComponent(path)}`)
                 .then(response => response.json())
@@ -354,12 +603,20 @@ if (is_dir($departmentsDir)) {
                     } else {
                         showError(data.message || 'Failed to load page');
                         updateStatus('Error');
+                        // Show panels again
+                        document.getElementById('pagePanels').style.display = 'block';
+                        document.querySelector('.tab-navigation').style.display = 'flex';
+                        document.querySelector('.search-box').style.display = 'block';
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
                     showError('Failed to load page');
                     updateStatus('Error');
+                    // Show panels again
+                    document.getElementById('pagePanels').style.display = 'block';
+                    document.querySelector('.tab-navigation').style.display = 'flex';
+                    document.querySelector('.search-box').style.display = 'block';
                 });
         }
         
@@ -410,7 +667,31 @@ if (is_dir($departmentsDir)) {
                 }
             }
             
-            loadPage();
+            loadPage(currentPage);
+        }
+        
+        function backToSelection() {
+            if (editor.getValue() !== originalContent) {
+                if (!confirm('You have unsaved changes. Are you sure you want to go back?')) {
+                    return;
+                }
+            }
+            
+            // Hide editor and show panels
+            document.getElementById('editorSection').style.display = 'none';
+            document.getElementById('pagePanels').style.display = 'block';
+            document.getElementById('selectedPageInfo').style.display = 'none';
+            document.querySelector('.tab-navigation').style.display = 'flex';
+            document.querySelector('.search-box').style.display = 'block';
+            document.getElementById('noPageSelected').style.display = 'block';
+            
+            // Clear selection
+            document.querySelectorAll('.page-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            selectedPath = '';
+            selectedName = '';
+            currentPage = '';
         }
         
         function previewPage() {
