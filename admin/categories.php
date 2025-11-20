@@ -329,7 +329,7 @@ $user = $auth->getCurrentUser();
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        categories = data.categories;
+                        categories = data.data || data.categories || [];
                         displayCategories(categories);
                     } else {
                         showError('Failed to load categories');

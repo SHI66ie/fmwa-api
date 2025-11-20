@@ -391,7 +391,7 @@ try {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        posts = data.posts;
+                        posts = data.data || data.posts || [];
                         displayPosts(posts);
                     } else {
                         showError('Failed to load posts');
@@ -492,7 +492,7 @@ try {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        const post = data.post;
+                        const post = data.data || data.post;
                         
                         document.getElementById('postId').value = post.id;
                         document.getElementById('postTitle').value = post.title;
