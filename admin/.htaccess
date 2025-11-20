@@ -1,0 +1,42 @@
+# Security rules for admin directory
+
+# Deny access to sensitive files
+<Files "*.log">
+    Deny from all
+</Files>
+
+<Files "*.bak">
+    Deny from all
+</Files>
+
+<Files "*.backup">
+    Deny from all
+</Files>
+
+# Prevent directory browsing
+Options -Indexes
+
+# Security headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# PHP security settings
+<IfModule mod_php7.c>
+    php_value session.cookie_httponly 1
+    php_value session.cookie_secure 1
+    php_value session.use_strict_mode 1
+</IfModule>
+
+# Rewrite rules for clean URLs (optional)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Redirect to login if not authenticated (handled by PHP)
+    # RewriteCond %{REQUEST_FILENAME} !-f
+    # RewriteCond %{REQUEST_URI} !login\.php$
+    # RewriteRule ^(.*)$ login.php [L,R=302]
+</IfModule>
