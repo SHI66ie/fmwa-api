@@ -35,7 +35,11 @@ try {
     }
 } catch (Exception $e) {
     http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Server error: ' . $e->getMessage()]);
+    error_log('Categories API Error: ' . $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());
+    echo json_encode(['success' => false, 'message' => 'Server error: ' . $e->getMessage(), 'debug' => [
+        'file' => $e->getFile(),
+        'line' => $e->getLine()
+    ]]);
 }
 
 function handleGetCategories() {
