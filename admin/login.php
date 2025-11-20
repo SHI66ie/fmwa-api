@@ -39,21 +39,25 @@ if ($_POST) {
             box-sizing: border-box;
         }
         
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 20px;
+        html, body {
+            height: 100%;
+            width: 100%;
             overflow-x: hidden;
         }
         
-        .container {
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+        
+        .login-wrapper {
             width: 100%;
-            max-width: 1200px;
-            padding: 0 15px;
+            max-width: 900px;
+            margin: 0 auto;
         }
         
         .login-container {
@@ -62,9 +66,7 @@ if ($_POST) {
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            max-width: 900px;
             width: 100%;
-            margin: 0 auto;
         }
         
         .login-left {
@@ -159,8 +161,10 @@ if ($_POST) {
             line-height: 1.6;
         }
         
-        .row {
-            margin: 0;
+        @media (max-width: 991px) {
+            .login-left {
+                display: none !important;
+            }
         }
         
         @media (max-width: 768px) {
@@ -168,37 +172,30 @@ if ($_POST) {
                 padding: 10px;
             }
             
-            .login-left {
-                padding: 40px 30px;
-            }
-            
             .login-right {
-                padding: 40px 30px;
+                padding: 40px 25px;
             }
             
             .welcome-text {
-                font-size: 2rem;
-            }
-            
-            .login-container {
-                margin: 10px 0;
+                font-size: 1.8rem;
             }
         }
         
         @media (max-width: 576px) {
-            .login-left,
             .login-right {
                 padding: 30px 20px;
+            }
+            
+            .welcome-text {
+                font-size: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <div class="login-container">
-                    <div class="row g-0">
+    <div class="login-wrapper">
+        <div class="login-container">
+            <div class="row g-0">
                         <!-- Left Side - Welcome -->
                         <div class="col-lg-6 d-none d-lg-block">
                             <div class="login-left">
@@ -277,8 +274,6 @@ if ($_POST) {
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
