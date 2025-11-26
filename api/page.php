@@ -1,4 +1,8 @@
 <?php
+// TEMP: show errors for debugging this 500
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 /**
  * Page Management API
  * Handles reading and writing HTML pages
