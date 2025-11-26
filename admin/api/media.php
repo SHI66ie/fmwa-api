@@ -174,6 +174,9 @@ function handleUploadMedia() {
         $isVideo = $mimeType && strpos($mimeType, 'video/') === 0;
         $isPdf   = ($mimeType === 'application/pdf');
 
+        // Map to logical file type column used in schema
+        $fileType = $isImage ? 'image' : ($isVideo ? 'video' : 'document');
+
         if (!$isImage && !$isVideo && !$isPdf) {
             error_log('Media upload blocked (base64). Mime type: ' . $mimeType . ' Name: ' . $originalName);
             echo json_encode(['success' => false, 'message' => 'File type not allowed']);
@@ -210,11 +213,14 @@ function handleUploadMedia() {
 
         // Save to database
         $user = $auth->getCurrentUser();
-        $stmt = $pdo->prepare("INSERT INTO media (filename, original_name, file_path, file_size, mime_type, uploaded_by, created_at) VALUES (?, ?, ?, ?, ?, ?, NOW())");
+        $stmt = $pdo->prepare("INSERT INTO media (filename, original_filename, file_path, file_url, file_type, file_size, mime_type, uploaded_by, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+        $relativePath = 'images/uploads/' . $filename;
         $stmt->execute([
             $filename,
             $originalName,
-            'images/uploads/' . $filename,
+            $relativePath,
+            $relativePath,
+            $fileType,
             $size,
             $mimeType,
             $user['id']
@@ -275,6 +281,9 @@ function handleUploadMedia() {
     $isVideo = strpos($mimeType, 'video/') === 0;
     $isPdf   = ($mimeType === 'application/pdf');
 
+    // Map to logical file type column used in schema
+    $fileType = $isImage ? 'image' : ($isVideo ? 'video' : 'document');
+
     if (!$isImage && !$isVideo && !$isPdf) {
         // Log unexpected mime type for debugging
         error_log('Media upload blocked. Mime type: ' . $mimeType . ' Name: ' . ($file['name'] ?? '')); 
@@ -316,11 +325,14 @@ function handleUploadMedia() {
     if (move_uploaded_file($file['tmp_name'], $filepath)) {
         // Save to database
         $user = $auth->getCurrentUser();
-        $stmt = $pdo->prepare("INSERT INTO media (filename, original_name, file_path, file_size, mime_type, uploaded_by, created_at) VALUES (?, ?, ?, ?, ?, ?, NOW())");
+        $stmt = $pdo->prepare("INSERT INTO media (filename, original_filename, file_path, file_url, file_type, file_size, mime_type, uploaded_by, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+        $relativePath = 'images/uploads/' . $filename;
         $stmt->execute([
             $filename,
             $file['name'],
-            'images/uploads/' . $filename,
+            $relativePath,
+            $relativePath,
+            $fileType,
             $file['size'],
             $file['type'],
             $user['id']
