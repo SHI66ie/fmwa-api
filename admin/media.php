@@ -515,6 +515,14 @@ $user = $auth->getCurrentUser();
             
             grid.innerHTML = html;
         }
+
+        function buildFileUrl(path) {
+            if (!path) return '';
+            if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('//')) {
+                return path;
+            }
+            return window.location.origin + '/' + path.replace(/^\/+/, '');
+        }
         
         function getThumbnail(file) {
             const isImage = file.mime_type && file.mime_type.startsWith('image/');
@@ -522,7 +530,7 @@ $user = $auth->getCurrentUser();
             const isPdf = file.mime_type === 'application/pdf';
             
             if (isImage) {
-                return `<img src="${file.file_url}" alt="${escapeHtml(file.title || '')}" class="media-thumbnail">`;
+                return `<img src="${buildFileUrl(file.file_url)}" alt="${escapeHtml(file.title || '')}" class="media-thumbnail">`;
             } else if (isVideo) {
                 return `<div class="media-thumbnail d-flex align-items-center justify-content-center bg-dark"><i class="fas fa-video fa-3x text-white"></i></div>`;
             } else if (isPdf) {
@@ -542,12 +550,13 @@ $user = $auth->getCurrentUser();
             document.getElementById('mediaTitle').value = media.title || '';
             document.getElementById('mediaAlt').value = media.alt_text || '';
             document.getElementById('mediaCaption').value = media.caption || '';
-            document.getElementById('mediaUrl').value = window.location.origin + '/' + media.file_url;
+            document.getElementById('mediaUrl').value = buildFileUrl(media.file_url);
             
             // Show preview
             const preview = document.getElementById('mediaPreview');
             if (media.mime_type && media.mime_type.startsWith('image/')) {
-                preview.innerHTML = `<img src="${media.file_url}" alt="" style="max-width: 100%; max-height: 300px; border-radius: 10px;">`;
+                const url = buildFileUrl(media.file_url);
+                preview.innerHTML = `<img src="${url}" alt="" style="max-width: 100%; max-height: 300px; border-radius: 10px;">`;
             } else {
                 preview.innerHTML = `<div class="alert alert-info">${escapeHtml(media.filename)}</div>`;
             }
