@@ -415,27 +415,41 @@ $user = $auth->getCurrentUser();
             });
         }
         
-        function uploadFile(file) {
-            const formData = new FormData();
-            formData.append('file', file);
+        async function uploadFile(file) {
+            if (file.size > 10 * 1024 * 1024) {
+                showError('File too large (max 10MB)');
+                return;
+            }
             
-            fetch('api/media.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
+            try {
+                const base64 = await fileToBase64(file);
+                const payload = {
+                    name: file.name,
+                    type: file.type,
+                    size: file.size,
+                    data: base64
+                };
+                
+                const response = await fetch('api/media.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await response.json();
+                
                 if (data.success) {
                     showSuccess('File uploaded successfully');
                     loadMedia();
                 } else {
                     showError(data.message || 'Upload failed');
                 }
-            })
-            .catch(error => {
+            } catch (error) {
                 console.error('Error:', error);
                 showError('Upload failed');
-            });
+            }
         }
         
         function loadMedia() {
@@ -625,6 +639,25 @@ $user = $auth->getCurrentUser();
             });
             
             displayMedia(filtered);
+        }
+        
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const result = reader.result || '';
+                    const index = result.indexOf(',');
+                    if (index === -1) {
+                        resolve(result);
+                    } else {
+                        resolve(result.substring(index + 1));
+                    }
+                };
+                reader.onerror = () => {
+                    reject(reader.error || new Error('Failed to read file'));
+                };
+                reader.readAsDataURL(file);
+            });
         }
         
         function formatFileSize(bytes) {

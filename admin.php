@@ -1,4 +1,4 @@
-<?php
+-<?php
 // admin.php - Admin Dashboard for Federal Ministry of Women Affairs
 ?>
 <!DOCTYPE html>

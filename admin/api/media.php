@@ -87,8 +87,112 @@ function handleGetMedia() {
 }
 
 function handleUploadMedia() {
-    global $pdo, $auth;
+    global $pdo, $auth, $input;
     
+    // First, support JSON base64 uploads (used by new admin UI)
+    if (is_array($input) && isset($input['data'], $input['name'])) {
+        $rawData      = $input['data'];
+        $originalName = $input['name'];
+        $reportedSize = isset($input['size']) ? (int)$input['size'] : 0;
+        $clientType   = $input['type'] ?? '';
+
+        $binary = base64_decode($rawData, true);
+        if ($binary === false) {
+            error_log('Media upload failed: Invalid base64 data for file ' . $originalName);
+            echo json_encode(['success' => false, 'message' => 'Invalid file data']);
+            return;
+        }
+
+        $size = strlen($binary);
+        if ($reportedSize > 0 && $size > 0 && abs($size - $reportedSize) > 1024) {
+            error_log('Media upload warning: reported size and decoded size differ for ' . $originalName . ' (reported ' . $reportedSize . ', decoded ' . $size . ')');
+        }
+
+        // Enforce 10MB limit server-side
+        if ($size > 10 * 1024 * 1024) {
+            echo json_encode(['success' => false, 'message' => 'File too large (max 10MB)']);
+            return;
+        }
+
+        // Detect/validate mime type - prefer server-side detection when available
+        $mimeType = $clientType;
+        if (function_exists('finfo_open')) {
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            if ($finfo) {
+                $detected = finfo_buffer($finfo, $binary);
+                if ($detected) {
+                    $mimeType = $detected;
+                }
+                finfo_close($finfo);
+            }
+        }
+
+        $isImage = $mimeType && strpos($mimeType, 'image/') === 0;
+        $isVideo = $mimeType && strpos($mimeType, 'video/') === 0;
+        $isPdf   = ($mimeType === 'application/pdf');
+
+        if (!$isImage && !$isVideo && !$isPdf) {
+            error_log('Media upload blocked (JSON). Mime type: ' . $mimeType . ' Name: ' . $originalName);
+            echo json_encode(['success' => false, 'message' => 'File type not allowed']);
+            return;
+        }
+
+        // Create upload directory if it doesn't exist
+        $uploadDir = '../../images/uploads/';
+        if (!is_dir($uploadDir)) {
+            if (!mkdir($uploadDir, 0755, true)) {
+                error_log('Media upload failed (JSON): Could not create directory ' . $uploadDir);
+                echo json_encode(['success' => false, 'message' => 'Upload directory does not exist and could not be created']);
+                return;
+            }
+        }
+        
+        // Check if directory is writable
+        if (!is_writable($uploadDir)) {
+            error_log('Media upload failed (JSON): Directory not writable ' . $uploadDir);
+            echo json_encode(['success' => false, 'message' => 'Upload directory is not writable. Please check folder permissions.']);
+            return;
+        }
+        
+        // Generate unique filename
+        $extension = pathinfo($originalName, PATHINFO_EXTENSION);
+        $filename  = uniqid() . '_' . time() . ($extension ? ('.' . $extension) : '');
+        $filepath  = $uploadDir . $filename;
+
+        if (file_put_contents($filepath, $binary) === false) {
+            error_log('Media upload failed (JSON): file_put_contents failed for ' . $filepath);
+            echo json_encode(['success' => false, 'message' => 'Failed to write uploaded file to disk.']);
+            return;
+        }
+
+        // Save to database
+        $user = $auth->getCurrentUser();
+        $stmt = $pdo->prepare("INSERT INTO media (filename, original_name, file_path, file_size, mime_type, uploaded_by, created_at) VALUES (?, ?, ?, ?, ?, ?, NOW())");
+        $stmt->execute([
+            $filename,
+            $originalName,
+            'images/uploads/' . $filename,
+            $size,
+            $mimeType,
+            $user['id']
+        ]);
+
+        $mediaId = $pdo->lastInsertId();
+
+        echo json_encode([
+            'success' => true,
+            'message' => 'File uploaded successfully',
+            'data' => [
+                'id' => $mediaId,
+                'filename' => $filename,
+                'url' => 'images/uploads/' . $filename,
+                'original_name' => $originalName
+            ]
+        ]);
+        return;
+    }
+
+    // Fallback: classic $_FILES-based upload for legacy clients
     // Support both 'file' (frontend) and 'media' (legacy) field names
     $field = null;
     if (isset($_FILES['file'])) {
