@@ -13,7 +13,32 @@ $auth = new Auth($pdo);
 $auth->requireLogin();
 
 $method = $_SERVER['REQUEST_METHOD'];
-$input = json_decode(file_get_contents('php://input'), true);
+
+/**
+ * Read and decode JSON request body once per request.
+ * Returns an associative array or an empty array if no valid JSON is present.
+ */
+function getJsonInput() {
+    static $cached = null;
+
+    if ($cached !== null) {
+        return $cached;
+    }
+
+    $raw = file_get_contents('php://input');
+    if ($raw === false || $raw === '') {
+        $cached = [];
+        return $cached;
+    }
+
+    $data = json_decode($raw, true);
+    if (!is_array($data)) {
+        $data = [];
+    }
+
+    $cached = $data;
+    return $cached;
+}
 
 try {
     switch ($method) {
@@ -87,9 +112,10 @@ function handleGetMedia() {
 }
 
 function handleUploadMedia() {
-    global $pdo, $auth, $input;
-    
+    global $pdo, $auth;
+
     // First, support JSON base64 uploads (used by new admin UI)
+    $input = getJsonInput();
     if (is_array($input) && isset($input['data'], $input['name'])) {
         $rawData      = $input['data'];
         $originalName = $input['name'];
@@ -314,7 +340,9 @@ function handleUploadMedia() {
 }
 
 function handleUpdateMedia() {
-    global $pdo, $input;
+    global $pdo;
+
+    $input = getJsonInput();
     
     if (!isset($input['id'])) {
         echo json_encode(['success' => false, 'message' => 'Media ID required']);
@@ -337,7 +365,9 @@ function handleUpdateMedia() {
 }
 
 function handleDeleteMedia() {
-    global $pdo, $input;
+    global $pdo;
+
+    $input = getJsonInput();
     
     // Allow ID via query string or JSON body
     $id = $_GET['id'] ?? ($input['id'] ?? null);
