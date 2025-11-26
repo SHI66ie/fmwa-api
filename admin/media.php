@@ -423,19 +423,17 @@ $user = $auth->getCurrentUser();
             
             try {
                 const base64 = await fileToBase64(file);
-                const payload = {
-                    name: file.name,
-                    type: file.type,
-                    size: file.size,
-                    data: base64
-                };
-                
+
+                const formData = new FormData();
+                formData.append('mode', 'base64');
+                formData.append('name', file.name);
+                formData.append('type', file.type);
+                formData.append('size', file.size);
+                formData.append('data', base64);
+
                 const response = await fetch('api/media.php', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
+                    body: formData
                 });
                 
                 const data = await response.json();

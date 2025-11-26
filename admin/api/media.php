@@ -113,9 +113,26 @@ function handleGetMedia() {
 
 function handleUploadMedia() {
     global $pdo, $auth;
+    
+    // First, support base64 uploads sent as regular POST fields (used by new admin UI)
+    $input = [];
+    if (isset($_POST['data'], $_POST['name'])) {
+        $input['data'] = $_POST['data'];
+        $input['name'] = $_POST['name'];
+        if (isset($_POST['size'])) {
+            $input['size'] = (int) $_POST['size'];
+        }
+        if (isset($_POST['type'])) {
+            $input['type'] = $_POST['type'];
+        }
+    } else {
+        // Fallback: JSON base64 uploads (application/json)
+        $jsonInput = getJsonInput();
+        if (is_array($jsonInput)) {
+            $input = $jsonInput;
+        }
+    }
 
-    // First, support JSON base64 uploads (used by new admin UI)
-    $input = getJsonInput();
     if (is_array($input) && isset($input['data'], $input['name'])) {
         $rawData      = $input['data'];
         $originalName = $input['name'];
@@ -158,7 +175,7 @@ function handleUploadMedia() {
         $isPdf   = ($mimeType === 'application/pdf');
 
         if (!$isImage && !$isVideo && !$isPdf) {
-            error_log('Media upload blocked (JSON). Mime type: ' . $mimeType . ' Name: ' . $originalName);
+            error_log('Media upload blocked (base64). Mime type: ' . $mimeType . ' Name: ' . $originalName);
             echo json_encode(['success' => false, 'message' => 'File type not allowed']);
             return;
         }
@@ -167,7 +184,7 @@ function handleUploadMedia() {
         $uploadDir = '../../images/uploads/';
         if (!is_dir($uploadDir)) {
             if (!mkdir($uploadDir, 0755, true)) {
-                error_log('Media upload failed (JSON): Could not create directory ' . $uploadDir);
+                error_log('Media upload failed (base64): Could not create directory ' . $uploadDir);
                 echo json_encode(['success' => false, 'message' => 'Upload directory does not exist and could not be created']);
                 return;
             }
@@ -175,7 +192,7 @@ function handleUploadMedia() {
         
         // Check if directory is writable
         if (!is_writable($uploadDir)) {
-            error_log('Media upload failed (JSON): Directory not writable ' . $uploadDir);
+            error_log('Media upload failed (base64): Directory not writable ' . $uploadDir);
             echo json_encode(['success' => false, 'message' => 'Upload directory is not writable. Please check folder permissions.']);
             return;
         }
@@ -186,7 +203,7 @@ function handleUploadMedia() {
         $filepath  = $uploadDir . $filename;
 
         if (file_put_contents($filepath, $binary) === false) {
-            error_log('Media upload failed (JSON): file_put_contents failed for ' . $filepath);
+            error_log('Media upload failed (base64): file_put_contents failed for ' . $filepath);
             echo json_encode(['success' => false, 'message' => 'Failed to write uploaded file to disk.']);
             return;
         }
