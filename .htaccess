@@ -1,5 +1,5 @@
-# Set PHP as the default homepage
-DirectoryIndex index-main.php index.php index.html
+# Set PHP as the default homepage (use new index.php as primary)
+DirectoryIndex index.php index-main.php index.html
 
 # Enable PHP processing
 AddType application/x-httpd-php .php
@@ -14,7 +14,7 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # Redirect HTML files to PHP equivalents
 RewriteCond %{THE_REQUEST} /index\.html[\s?] [NC]
-RewriteRule ^index\.html$ /index-main.php [R=301,L]
+RewriteRule ^index\.html$ /index.php [R=301,L]
 
 RewriteCond %{THE_REQUEST} /about\.html[\s?] [NC]
 RewriteRule ^about\.html$ /about.php [R=301,L]
