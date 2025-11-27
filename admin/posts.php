@@ -387,19 +387,55 @@ try {
         });
         
         function loadPosts() {
-            fetch('api/posts.php')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
+            fetch('/admin/api/posts.php')
+                .then(response => response.text())
+                .then(text => {
+                    let data;
+                    try {
+                        data = JSON.parse(text);
+                    } catch (e) {
+                        console.error('Failed to parse posts API response:', e, text);
+                        showError('Failed to load posts');
+                        const container = document.getElementById('postsContainer');
+                        if (container) {
+                            container.innerHTML = `
+                                <div class="text-center py-5">
+                                    <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i>
+                                    <p class="text-muted">Failed to load posts. Please try reloading the page.</p>
+                                </div>
+                            `;
+                        }
+                        return;
+                    }
+
+                    if (data && data.success) {
                         posts = data.data || data.posts || [];
                         displayPosts(posts);
                     } else {
-                        showError('Failed to load posts');
+                        showError((data && data.message) || 'Failed to load posts');
+                        const container = document.getElementById('postsContainer');
+                        if (container) {
+                            container.innerHTML = `
+                                <div class="text-center py-5">
+                                    <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i>
+                                    <p class="text-muted">Unable to load posts from the server.</p>
+                                </div>
+                            `;
+                        }
                     }
                 })
                 .catch(error => {
-                    console.error('Error:', error);
+                    console.error('Error loading posts:', error);
                     showError('An error occurred while loading posts');
+                    const container = document.getElementById('postsContainer');
+                    if (container) {
+                        container.innerHTML = `
+                            <div class="text-center py-5">
+                                <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i>
+                                <p class="text-muted">Network error while loading posts. Please check your connection or try again.</p>
+                            </div>
+                        `;
+                    }
                 });
         }
         
@@ -488,7 +524,7 @@ try {
         }
         
         function editPost(id) {
-            fetch(`api/posts.php?id=${id}`)
+            fetch(`/admin/api/posts.php?id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -537,7 +573,7 @@ try {
             
             const postId = document.getElementById('postId').value;
             const method = postId ? 'PUT' : 'POST';
-            const url = 'api/posts.php';
+            const url = '/admin/api/posts.php';
             
             // Convert FormData to JSON
             const data = {};
@@ -575,7 +611,7 @@ try {
                 return;
             }
             
-            fetch('api/posts.php', {
+            fetch('/admin/api/posts.php', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
