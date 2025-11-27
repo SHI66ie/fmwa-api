@@ -299,6 +299,17 @@ if (is_dir($includesDir)) {
             color: #f8f8f2;
         }
         
+        .preview-panel {
+            height: 100%;
+        }
+
+        #pagePreview {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 10px;
+        }
+        
         .editor-toolbar {
             display: flex;
             gap: 10px;
@@ -462,8 +473,21 @@ if (is_dir($includesDir)) {
                         <small class="text-muted" id="editorStatus"></small>
                     </div>
                 </div>
-
-                <textarea id="codeEditor"></textarea>
+                <div class="row g-3">
+                    <div class="col-lg-7 col-md-12">
+                        <textarea id="codeEditor"></textarea>
+                    </div>
+                    <div class="col-lg-5 col-md-12">
+                        <div class="card preview-panel">
+                            <div class="card-header">
+                                <strong>Live Preview</strong>
+                            </div>
+                            <div class="card-body p-0">
+                                <iframe id="pagePreview" title="Page preview"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div id="noPageSelected" class="text-center py-5">
@@ -609,6 +633,11 @@ if (is_dir($includesDir)) {
                         if (editor && typeof editor.refresh === 'function') {
                             editor.refresh();
                         }
+                        // Update live preview iframe to show the current page
+                        const previewFrame = document.getElementById('pagePreview');
+                        if (previewFrame) {
+                            previewFrame.src = '../' + currentPage;
+                        }
                         updateStatus('Ready');
                     } else {
                         showError(data.message || 'Failed to load page');
@@ -710,8 +739,13 @@ if (is_dir($includesDir)) {
                 return;
             }
             
-            const previewUrl = '../' + currentPage;
-            window.open(previewUrl, '_blank');
+            const previewFrame = document.getElementById('pagePreview');
+            if (previewFrame) {
+                previewFrame.src = '../' + currentPage;
+            } else {
+                const previewUrl = '../' + currentPage;
+                window.open(previewUrl, '_blank');
+            }
         }
         
         function updateStatus(status) {
