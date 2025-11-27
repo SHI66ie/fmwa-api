@@ -601,10 +601,14 @@ if (is_dir($includesDir)) {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        originalContent = data.content;
-                        editor.setValue(data.content);
+                        originalContent = data.content || '';
                         document.getElementById('editorSection').style.display = 'block';
                         document.getElementById('noPageSelected').style.display = 'none';
+                        editor.setValue(originalContent);
+                        // Refresh CodeMirror after showing the editor to fix blank display when initialized hidden
+                        if (editor && typeof editor.refresh === 'function') {
+                            editor.refresh();
+                        }
                         updateStatus('Ready');
                     } else {
                         showError(data.message || 'Failed to load page');
