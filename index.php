@@ -360,11 +360,7 @@
                                         <?php if ($excerpt): ?>
                                             <p><?php echo htmlspecialchars($excerpt); ?></p>
                                         <?php endif; ?>
-                                        <?php if (!empty($post->slug)): ?>
-                                            <a href="news.php?slug=<?php echo urlencode($post->slug); ?>" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                                        <?php else: ?>
-                                            <a href="news.php" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                                        <?php endif; ?>
+                                        <a href="news.php?id=<?php echo (int) $post->id; ?><?php echo !empty($post->slug) ? '&amp;slug=' . urlencode($post->slug) : ''; ?>" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
                                     </div>
                                 </div>
                             <?php endforeach; ?>

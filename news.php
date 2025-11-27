@@ -2,14 +2,22 @@
 require_once __DIR__ . '/includes/Post.php';
 
 $postModel = new Post();
+$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 $slug = isset($_GET['slug']) ? trim($_GET['slug']) : '';
-$isDetailView = $slug !== '';
+$isDetailView = $id > 0 || $slug !== '';
 $currentPost = null;
 $recentPosts = [];
 
 try {
     if ($isDetailView) {
-        $currentPost = $postModel->getBySlug($slug);
+        if ($id > 0) {
+            $currentPost = $postModel->getById($id);
+        }
+
+        // Fallback to slug lookup if ID is missing or did not resolve
+        if (!$currentPost && $slug !== '') {
+            $currentPost = $postModel->getBySlug($slug);
+        }
         if ($currentPost && isset($currentPost->id)) {
             $postModel->incrementViews($currentPost->id);
         }
@@ -239,11 +247,9 @@ try {
                                                     <p class="news-excerpt"><?php echo htmlspecialchars($excerpt); ?></p>
                                                 <?php endif; ?>
                                                 <div class="news-read-more">
-                                                    <?php if (!empty($post->slug)): ?>
-                                                        <a href="news.php?slug=<?php echo urlencode($post->slug); ?>" class="text-success fw-semibold">
-                                                            Read More <i class="fas fa-arrow-right ms-1"></i>
-                                                        </a>
-                                                    <?php endif; ?>
+                                                    <a href="news.php?id=<?php echo (int) $post->id; ?>" class="text-success fw-semibold">
+                                                        Read More <i class="fas fa-arrow-right ms-1"></i>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -265,13 +271,9 @@ try {
                             <?php if (!empty($recentPosts)): ?>
                                 <?php foreach ($recentPosts as $post): ?>
                                     <li>
-                                        <?php if (!empty($post->slug)): ?>
-                                            <a href="news.php?slug=<?php echo urlencode($post->slug); ?>">
-                                                <?php echo htmlspecialchars($post->title); ?>
-                                            </a>
-                                        <?php else: ?>
-                                            <span><?php echo htmlspecialchars($post->title); ?></span>
-                                        <?php endif; ?>
+                                        <a href="news.php?id=<?php echo (int) $post->id; ?><?php echo !empty($post->slug) ? '&amp;slug=' . urlencode($post->slug) : ''; ?>">
+                                            <?php echo htmlspecialchars($post->title); ?>
+                                        </a>
                                     </li>
                                 <?php endforeach; ?>
                             <?php else: ?>
