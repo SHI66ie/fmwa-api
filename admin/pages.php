@@ -867,6 +867,121 @@ if (is_dir($includesDir)) {
             return { startLine: startLine, endLine: endLine };
         }
 
+        function triggerImageUpload() {
+            if (!imageUploadInput) {
+                showError('Image upload is not available');
+                return;
+            }
+            imageUploadInput.click();
+        }
+
+        function triggerVideoUpload() {
+            if (!videoUploadInput) {
+                showError('Video upload is not available');
+                return;
+            }
+            videoUploadInput.click();
+        }
+
+        function handleMediaUpload(file, mediaKind) {
+            if (!file) return;
+            if (file.size > 10 * 1024 * 1024) {
+                showError('File too large (max 10MB)');
+                return;
+            }
+
+            const kind = mediaKind === 'video' ? 'video' : 'image';
+            updateStatus('Uploading ' + kind + '...');
+
+            fileToBase64(file)
+                .then(function(base64) {
+                    const formData = new FormData();
+                    formData.append('mode', 'base64');
+                    formData.append('name', file.name);
+                    formData.append('type', file.type);
+                    formData.append('size', file.size);
+                    formData.append('data', base64);
+
+                    return fetch('api/media.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+                })
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    if (!data || !data.success || !data.data || !data.data.url) {
+                        showError((data && data.message) || 'Upload failed');
+                        updateStatus('Upload failed');
+                        return;
+                    }
+
+                    const rawUrl = String(data.data.url || '');
+                    const url = '/' + rawUrl.replace(/^\/+/, '');
+
+                    if (mediaKind === 'video') {
+                        insertVideoAtCursor(url);
+                    } else {
+                        insertImageAtCursor(url, data.data.original_name || '');
+                    }
+
+                    showSuccess('Media uploaded and inserted');
+                    updateStatus('Ready');
+                })
+                .catch(function(error) {
+                    console.error('Media upload error:', error);
+                    showError('Upload failed');
+                    updateStatus('Upload failed');
+                });
+        }
+
+        function insertImageAtCursor(url, altText) {
+            if (!editor || !url) {
+                return;
+            }
+            const doc = editor.getDoc ? editor.getDoc() : editor;
+            const cursor = doc.getCursor ? doc.getCursor() : { line: 0, ch: 0 };
+            const safeAlt = (altText || '').replace(/"/g, '&quot;');
+            const snippet = '<img src="' + url + '" alt="' + safeAlt + '" class="img-fluid">\n';
+            doc.replaceRange(snippet, cursor);
+            if (editor.focus) {
+                editor.focus();
+            }
+        }
+
+        function insertVideoAtCursor(url) {
+            if (!editor || !url) {
+                return;
+            }
+            const doc = editor.getDoc ? editor.getDoc() : editor;
+            const cursor = doc.getCursor ? doc.getCursor() : { line: 0, ch: 0 };
+            const snippet = '<video controls src="' + url + '" class="img-fluid" style="max-width:100%;height:auto;"></video>\n';
+            doc.replaceRange(snippet, cursor);
+            if (editor.focus) {
+                editor.focus();
+            }
+        }
+
+        function fileToBase64(file) {
+            return new Promise(function(resolve, reject) {
+                const reader = new FileReader();
+                reader.onload = function() {
+                    const result = reader.result || '';
+                    const index = result.indexOf(',');
+                    if (index === -1) {
+                        resolve(result);
+                    } else {
+                        resolve(result.substring(index + 1));
+                    }
+                };
+                reader.onerror = function() {
+                    reject(reader.error || new Error('Failed to read file'));
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
         // Select a page card
         function selectPage(path) {
             // Remove selection from all cards
