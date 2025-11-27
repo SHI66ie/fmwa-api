@@ -1,6 +1,6 @@
 <?php
 // TEMP: show errors for debugging this 500
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 error_reporting(E_ALL);
 
 /**
@@ -80,6 +80,24 @@ function handleSavePage() {
     }
     
     $fullPath = '../' . $path;
+
+    // Ensure target file exists
+    if (!file_exists($fullPath)) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Target file does not exist on server: ' . $path
+        ]);
+        return;
+    }
+
+    // Ensure target file is writable (helps diagnose permission problems)
+    if (!is_writable($fullPath)) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Target file is not writable on server: ' . $path
+        ]);
+        return;
+    }
     
     // Create backup before saving
     if (file_exists($fullPath)) {
