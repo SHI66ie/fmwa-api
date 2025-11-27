@@ -479,6 +479,12 @@ if (is_dir($includesDir)) {
                     <button class="btn btn-outline-info btn-sm" onclick="previewPage()">
                         <i class="fas fa-eye me-2"></i>Preview
                     </button>
+                    <button class="btn btn-outline-secondary btn-sm" type="button" onclick="triggerImageUpload()">
+                        <i class="fas fa-image me-2"></i>Upload Image
+                    </button>
+                    <button class="btn btn-outline-secondary btn-sm" type="button" onclick="triggerVideoUpload()">
+                        <i class="fas fa-video me-2"></i>Upload Video
+                    </button>
                     <button class="btn btn-outline-primary btn-sm" id="toggleSectionMapBtn" type="button" onclick="toggleSectionMapping()" title="Toggle section hover sync">
                         <i class="fas fa-mouse-pointer"></i>
                     </button>
@@ -501,6 +507,8 @@ if (is_dir($includesDir)) {
                         </div>
                     </div>
                 </div>
+                <input type="file" id="imageUploadInput" accept="image/*" style="display: none;">
+                <input type="file" id="videoUploadInput" accept="video/*" style="display: none;">
             </div>
 
             <div id="noPageSelected" class="text-center py-5">
@@ -525,6 +533,8 @@ if (is_dir($includesDir)) {
         let selectedName = '';
         let sectionMappingEnabled = false;
         let currentSectionMarker = null;
+        let imageUploadInput = null;
+        let videoUploadInput = null;
         
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize CodeMirror
@@ -551,6 +561,29 @@ if (is_dir($includesDir)) {
             editor.on('change', function() {
                 updateStatus('Modified');
             });
+
+            imageUploadInput = document.getElementById('imageUploadInput');
+            videoUploadInput = document.getElementById('videoUploadInput');
+
+            if (imageUploadInput) {
+                imageUploadInput.addEventListener('change', function(e) {
+                    const file = e.target.files && e.target.files[0];
+                    if (file) {
+                        handleMediaUpload(file, 'image');
+                    }
+                    e.target.value = '';
+                });
+            }
+
+            if (videoUploadInput) {
+                videoUploadInput.addEventListener('change', function(e) {
+                    const file = e.target.files && e.target.files[0];
+                    if (file) {
+                        handleMediaUpload(file, 'video');
+                    }
+                    e.target.value = '';
+                });
+            }
 
             const previewFrame = document.getElementById('pagePreview');
             if (previewFrame) {
@@ -833,27 +866,7 @@ if (is_dir($includesDir)) {
 
             return { startLine: startLine, endLine: endLine };
         }
-        
-        // Show category tab
-        function showCategory(categoryId) {
-            // Hide all category sections
-            document.querySelectorAll('.category-section').forEach(section => {
-                section.style.display = 'none';
-            });
-            
-            // Show selected category
-            const selected = document.getElementById('cat-' + categoryId);
-            if (selected) {
-                selected.style.display = 'block';
-            }
-            
-            // Update tab buttons
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-        }
-        
+
         // Select a page card
         function selectPage(path) {
             // Remove selection from all cards
