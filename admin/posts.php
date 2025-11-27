@@ -23,7 +23,8 @@ try {
     <title>Posts & News - FMWA Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="assets/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+    <!-- Load TinyMCE from CDN instead of missing local assets path -->
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -369,15 +370,19 @@ try {
         document.addEventListener('DOMContentLoaded', function() {
             postModal = new bootstrap.Modal(document.getElementById('postModal'));
             
-            // Initialize TinyMCE
-            tinymce.init({
-                selector: '#postContent',
-                height: 400,
-                menubar: false,
-                plugins: 'lists link image table code',
-                toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image | code',
-            });
-            
+            // Initialize TinyMCE only if it loaded successfully
+            if (window.tinymce) {
+                tinymce.init({
+                    selector: '#postContent',
+                    height: 400,
+                    menubar: false,
+                    plugins: 'lists link image table code',
+                    toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image | code',
+                });
+            } else {
+                console.error('TinyMCE script not loaded; posts editor will use plain textarea.');
+            }
+
             loadPosts();
             
             // Search and filters
@@ -516,7 +521,7 @@ try {
             document.getElementById('postModalTitle').textContent = 'New Post';
             document.querySelectorAll('input[name="categories[]"]').forEach(cb => cb.checked = false);
             
-            if (tinymce.get('postContent')) {
+            if (window.tinymce && tinymce.get('postContent')) {
                 tinymce.get('postContent').setContent('');
             }
             
@@ -536,7 +541,7 @@ try {
                         document.getElementById('postStatus').value = post.status;
                         document.getElementById('postFeaturedImage').value = post.featured_image || '';
                         
-                        if (tinymce.get('postContent')) {
+                        if (window.tinymce && tinymce.get('postContent')) {
                             tinymce.get('postContent').setContent(post.content || '');
                         }
                         
@@ -559,8 +564,8 @@ try {
             const form = document.getElementById('postForm');
             const formData = new FormData(form);
             
-            // Get content from TinyMCE
-            if (tinymce.get('postContent')) {
+            // Get content from TinyMCE if available
+            if (window.tinymce && tinymce.get('postContent')) {
                 formData.set('content', tinymce.get('postContent').getContent());
             }
             
