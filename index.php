@@ -364,7 +364,7 @@
         require_once __DIR__ . '/includes/Post.php';
         $postModel = new Post();
         try {
-            $latestPosts = $postModel->getPublished(3, 0);
+            $latestPosts = $postModel->getPublished(4, 0);
         } catch (Exception $e) {
             $latestPosts = [];
         }
