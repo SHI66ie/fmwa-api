@@ -291,6 +291,12 @@ if (is_dir($includesDir)) {
             border-radius: 10px;
             border: 2px solid #e9ecef;
             font-size: 14px;
+            color: #f8f8f2;
+        }
+
+        .CodeMirror pre,
+        .CodeMirror span {
+            color: #f8f8f2;
         }
         
         .editor-toolbar {
