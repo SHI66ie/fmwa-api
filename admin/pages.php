@@ -303,6 +303,11 @@ if (is_dir($includesDir)) {
         .CodeMirror.editor-highlight {
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.7);
         }
+
+        /* Highlight for specific section lines in the editor */
+        .cm-section-highlight {
+            background-color: rgba(255, 235, 59, 0.18);
+        }
         
         .preview-panel {
             height: 100%;
@@ -474,6 +479,9 @@ if (is_dir($includesDir)) {
                     <button class="btn btn-outline-info btn-sm" onclick="previewPage()">
                         <i class="fas fa-eye me-2"></i>Preview
                     </button>
+                    <button class="btn btn-outline-primary btn-sm" id="toggleSectionMapBtn" type="button" onclick="toggleSectionMapping()" title="Toggle section hover sync">
+                        <i class="fas fa-mouse-pointer"></i>
+                    </button>
                     <div class="ms-auto">
                         <small class="text-muted" id="editorStatus"></small>
                     </div>
@@ -515,6 +523,8 @@ if (is_dir($includesDir)) {
         let originalContent = '';
         let selectedPath = '';
         let selectedName = '';
+        let sectionMappingEnabled = false;
+        let currentSectionMarker = null;
         
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize CodeMirror
@@ -543,18 +553,172 @@ if (is_dir($includesDir)) {
             });
 
             const previewFrame = document.getElementById('pagePreview');
-            if (previewFrame && editor && typeof editor.getWrapperElement === 'function') {
-                const wrapper = editor.getWrapperElement();
-                if (wrapper) {
-                    previewFrame.addEventListener('mouseenter', function() {
-                        wrapper.classList.add('editor-highlight');
-                    });
-                    previewFrame.addEventListener('mouseleave', function() {
-                        wrapper.classList.remove('editor-highlight');
-                    });
+            if (previewFrame) {
+                if (editor && typeof editor.getWrapperElement === 'function') {
+                    const wrapper = editor.getWrapperElement();
+                    if (wrapper) {
+                        previewFrame.addEventListener('mouseenter', function() {
+                            wrapper.classList.add('editor-highlight');
+                        });
+                        previewFrame.addEventListener('mouseleave', function() {
+                            wrapper.classList.remove('editor-highlight');
+                        });
+                    }
                 }
+
+                // When the preview reloads, (re)attach section-level listeners if mapping is enabled
+                previewFrame.addEventListener('load', function() {
+                    if (sectionMappingEnabled) {
+                        setupPreviewSectionListeners();
+                    }
+                });
             }
         });
+        
+        function toggleSectionMapping() {
+            sectionMappingEnabled = !sectionMappingEnabled;
+            const btn = document.getElementById('toggleSectionMapBtn');
+            if (btn) {
+                if (sectionMappingEnabled) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            }
+
+            const previewFrame = document.getElementById('pagePreview');
+            if (sectionMappingEnabled && previewFrame) {
+                setupPreviewSectionListeners();
+            } else {
+                clearCodeSectionHighlight();
+            }
+        }
+
+        function setupPreviewSectionListeners() {
+            const previewFrame = document.getElementById('pagePreview');
+            if (!previewFrame || !previewFrame.contentWindow) {
+                return;
+            }
+
+            let doc;
+            try {
+                doc = previewFrame.contentDocument || previewFrame.contentWindow.document;
+            } catch (e) {
+                console.warn('Unable to access preview frame document', e);
+                return;
+            }
+
+            if (!doc) return;
+
+            // Inject a small style block once for hover outlines in the preview
+            if (!doc.getElementById('fmwa-editor-preview-style')) {
+                const style = doc.createElement('style');
+                style.id = 'fmwa-editor-preview-style';
+                style.textContent = '\n                    .fmwa-section-hover {\n                        outline: 2px solid rgba(102, 126, 234, 0.9);\n                        outline-offset: 2px;\n                        cursor: pointer !important;\n                    }\n                ';
+                if (doc.head) {
+                    doc.head.appendChild(style);
+                }
+            }
+
+            const candidates = doc.querySelectorAll('[data-editor-target], section[id], div[id], article[id]');
+            candidates.forEach(function(el) {
+                if (el.getAttribute('data-fmwa-section-bound') === '1') {
+                    return;
+                }
+
+                const key = el.getAttribute('data-editor-target') || el.id;
+                if (!key) return;
+
+                el.setAttribute('data-fmwa-section-bound', '1');
+
+                el.addEventListener('mouseenter', function() {
+                    if (!sectionMappingEnabled) return;
+                    el.classList.add('fmwa-section-hover');
+                    highlightCodeForIdentifier(key, false);
+                });
+
+                el.addEventListener('mouseleave', function() {
+                    if (!sectionMappingEnabled) return;
+                    el.classList.remove('fmwa-section-hover');
+                    clearCodeSectionHighlight();
+                });
+
+                el.addEventListener('click', function(e) {
+                    if (!sectionMappingEnabled) return;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    highlightCodeForIdentifier(key, true);
+                });
+            });
+        }
+
+        function highlightCodeForIdentifier(identifier, scrollIntoView) {
+            if (!editor || !identifier) {
+                return;
+            }
+
+            const range = findCodeRangeForIdentifier(identifier);
+            if (!range) {
+                clearCodeSectionHighlight();
+                return;
+            }
+
+            clearCodeSectionHighlight();
+
+            const from = { line: range.startLine, ch: 0 };
+            const to = { line: range.endLine, ch: editor.getLine(range.endLine).length };
+            currentSectionMarker = editor.markText(from, to, { className: 'cm-section-highlight' });
+
+            if (scrollIntoView) {
+                editor.scrollIntoView(from, 100);
+                editor.setCursor(from);
+            }
+        }
+
+        function clearCodeSectionHighlight() {
+            if (currentSectionMarker) {
+                currentSectionMarker.clear();
+                currentSectionMarker = null;
+            }
+        }
+
+        function findCodeRangeForIdentifier(identifier) {
+            if (!editor) return null;
+
+            const lineCount = editor.lineCount ? editor.lineCount() : 0;
+            const patterns = [
+                'id="' + identifier + '"',
+                "id='" + identifier + "'",
+                'data-editor-target="' + identifier + '"',
+                "data-editor-target='" + identifier + "'"
+            ];
+
+            let startLine = -1;
+            for (let i = 0; i < lineCount; i++) {
+                const lineText = editor.getLine(i);
+                for (let j = 0; j < patterns.length; j++) {
+                    if (lineText.indexOf(patterns[j]) !== -1) {
+                        startLine = i;
+                        break;
+                    }
+                }
+                if (startLine !== -1) break;
+            }
+
+            if (startLine === -1) return null;
+
+            let endLine = Math.min(startLine + 20, lineCount - 1);
+
+            for (let k = startLine + 1; k <= endLine; k++) {
+                const txt = editor.getLine(k);
+                if (txt.indexOf('</section>') !== -1 || txt.indexOf('</div>') !== -1 || txt.indexOf('</article>') !== -1) {
+                    endLine = k;
+                    break;
+                }
+            }
+
+            return { startLine: startLine, endLine: endLine };
+        }
         
         // Show category tab
         function showCategory(categoryId) {
