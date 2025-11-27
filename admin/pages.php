@@ -683,16 +683,14 @@ if (is_dir($includesDir)) {
             updateStatus('Saving...');
             
             const content = editor.getValue();
+
+            const formData = new FormData();
+            formData.append('path', currentPage);
+            formData.append('content', content);
             
             fetch('/api/page.php', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    path: currentPage,
-                    content: content
-                })
+                body: formData
             })
             .then(response => response.json())
             .then(data => {

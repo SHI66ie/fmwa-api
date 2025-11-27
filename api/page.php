@@ -63,13 +63,32 @@ function handleGetPage() {
 }
 
 function handleSavePage() {
-    $input = json_decode(file_get_contents('php://input'), true);
-    
-    $path = $input['path'] ?? '';
-    $content = $input['content'] ?? '';
-    
-    if (empty($path) || empty($content)) {
-        echo json_encode(['success' => false, 'message' => 'Path and content are required']);
+    // Prefer standard POST fields (FormData) so hosting environments that
+    // interfere with raw JSON bodies still work reliably.
+    $path = $_POST['path'] ?? '';
+    $content = $_POST['content'] ?? '';
+
+    // Fallback to JSON body only if needed
+    if ($path === '' || $content === '') {
+        $rawBody = file_get_contents('php://input');
+        if ($rawBody !== '' && $rawBody !== false) {
+            $input = json_decode($rawBody, true);
+            if (is_array($input)) {
+                if ($path === '' && isset($input['path'])) {
+                    $path = $input['path'];
+                }
+                if ($content === '' && isset($input['content'])) {
+                    $content = $input['content'];
+                }
+            }
+        }
+    }
+
+    if ($path === '' || $content === '') {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Path and content are required'
+        ]);
         return;
     }
     
