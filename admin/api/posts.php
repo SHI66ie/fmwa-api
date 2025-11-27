@@ -125,6 +125,12 @@ function handleCreatePost() {
     $featured_image = $input['featured_image'] ?? '';
     $categories = $input['categories'] ?? [];
     
+    // When publishing, set published_at so the post appears on the public site
+    $publishedAt = null;
+    if ($status === 'published') {
+        $publishedAt = date('Y-m-d H:i:s');
+    }
+    
     if (empty($title) || empty($content)) {
         echo json_encode(['success' => false, 'message' => 'Title and content are required']);
         return;
@@ -136,8 +142,8 @@ function handleCreatePost() {
     $slug = generateSlug($title);
     
     // Insert post
-    $stmt = $pdo->prepare("INSERT INTO posts (title, slug, content, excerpt, status, featured_image, author_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
-    $stmt->execute([$title, $slug, $content, $excerpt, $status, $featured_image, $user['id']]);
+    $stmt = $pdo->prepare("INSERT INTO posts (title, slug, content, excerpt, status, featured_image, author_id, published_at, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
+    $stmt->execute([$title, $slug, $content, $excerpt, $status, $featured_image, $user['id'], $publishedAt]);
     
     $postId = $pdo->lastInsertId();
     
@@ -181,9 +187,15 @@ function handleUpdatePost() {
     // Generate new slug if title changed
     $slug = generateSlug($title);
     
+    // Determine published_at based on status so public queries can filter correctly
+    $publishedAt = null;
+    if ($status === 'published') {
+        $publishedAt = date('Y-m-d H:i:s');
+    }
+    
     // Update post
-    $stmt = $pdo->prepare("UPDATE posts SET title = ?, slug = ?, content = ?, excerpt = ?, status = ?, featured_image = ?, updated_at = NOW() WHERE id = ?");
-    $stmt->execute([$title, $slug, $content, $excerpt, $status, $featured_image, $id]);
+    $stmt = $pdo->prepare("UPDATE posts SET title = ?, slug = ?, content = ?, excerpt = ?, status = ?, featured_image = ?, published_at = ?, updated_at = NOW() WHERE id = ?");
+    $stmt->execute([$title, $slug, $content, $excerpt, $status, $featured_image, $publishedAt, $id]);
     
     // Update categories
     $pdo->prepare("DELETE FROM post_categories WHERE post_id = ?")->execute([$id]);
