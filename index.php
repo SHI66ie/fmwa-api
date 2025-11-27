@@ -325,43 +325,83 @@
     </section>
 
     <!-- News & Updates -->
+    <?php
+        require_once __DIR__ . '/includes/Post.php';
+        $postModel = new Post();
+        try {
+            $latestPosts = $postModel->getPublished(3, 0);
+        } catch (Exception $e) {
+            $latestPosts = [];
+        }
+    ?>
     <section class="news-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
                     <h2 class="section-title">Latest News & Updates</h2>
                     <div class="news-horizontal-container">
-                        <!-- ACTU Committee Inauguration -->
-                        <div class="news-item-horizontal">
-                            <div class="news-item">
-                                <img src="latest-news/IMG-20250731-WA0019.jpg" loading="lazy" alt="ACTU Committee Inauguration" class="img-fluid news-image">
-                                <span class="news-date"><i class="far fa-calendar-alt me-2"></i>July 31, 2025</span>
-                                <h4 class="news-title">FMWA Inaugurates ACTU Committee to Bolster Transparency and Ethical Governance</h4>
-                                <p>In a landmark move toward institutional integrity, the Federal Ministry of Women Affairs inaugurated its Anti-Corruption and Transparency Unit (ACTU) Committee.</p>
-                                <a href="press-release-actu-inauguration.php" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                            </div>
-                        </div>
-                        <!-- Press Statement - Super Falcons WAFCON Victory -->
-                        <div class="news-item-horizontal">
-                            <div class="news-item">
-                                <img src="latest-news/2025-07-28at12.08.39PM.jpeg" loading="lazy" alt="Super Falcons WAFCON Victory" class="img-fluid news-image">
-                                <span class="news-date"><i class="far fa-calendar-alt me-2"></i>July 28, 2025</span>
-                                <h4 class="news-title">Women Affairs Minister Congratulates Super Falcons on Historic 10th WAFCON Victory</h4>
-                                <p>The Honourable Minister of Women Affairs, Hon. Imaan Sulaiman Ibrahim, congratulates Nigeria's Super Falcons on their record-breaking victory.</p>
-                                <a href="press-statement-super-falcons.php" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                            </div>
-                        </div>
-                        <!-- Empty tray for upcoming news -->
-                        <div class="news-item-horizontal">
-                            <div class="news-item">
-                                <div class="news-placeholder" style="height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                                    <i class="far fa-newspaper fa-3x mb-3"></i>
-                                    <p>More News Coming Soon</p>
+                        <?php if (!empty($latestPosts)): ?>
+                            <?php foreach ($latestPosts as $post): ?>
+                                <?php
+                                    $image = !empty($post->featured_image) ? $post->featured_image : 'latest-news/IMG-20250731-WA0019.jpg';
+                                    $dateSource = !empty($post->published_at) ? $post->published_at : ($post->created_at ?? '');
+                                    $dateFormatted = $dateSource ? date('F j, Y', strtotime($dateSource)) : '';
+                                    $rawText = strip_tags($post->excerpt ?: ($post->content ?? ''));
+                                    $rawText = trim($rawText);
+                                    $excerpt = strlen($rawText) > 160 ? substr($rawText, 0, 160) . '...' : $rawText;
+                                ?>
+                                <div class="news-item-horizontal">
+                                    <div class="news-item">
+                                        <img src="<?php echo htmlspecialchars($image); ?>" loading="lazy" alt="<?php echo htmlspecialchars($post->title); ?>" class="img-fluid news-image">
+                                        <?php if ($dateFormatted): ?>
+                                            <span class="news-date"><i class="far fa-calendar-alt me-2"></i><?php echo htmlspecialchars($dateFormatted); ?></span>
+                                        <?php endif; ?>
+                                        <h4 class="news-title"><?php echo htmlspecialchars($post->title); ?></h4>
+                                        <?php if ($excerpt): ?>
+                                            <p><?php echo htmlspecialchars($excerpt); ?></p>
+                                        <?php endif; ?>
+                                        <?php if (!empty($post->slug)): ?>
+                                            <a href="news.php?slug=<?php echo urlencode($post->slug); ?>" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                                        <?php else: ?>
+                                            <a href="news.php" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
-                                <h4 class="news-title mt-3">Stay Tuned for Updates</h4>
-                                <p>Check back later for the latest news and updates from the Federal Ministry of Women Affairs.</p>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <!-- Fallback static items when there are no posts yet -->
+                            <div class="news-item-horizontal">
+                                <div class="news-item">
+                                    <img src="latest-news/IMG-20250731-WA0019.jpg" loading="lazy" alt="ACTU Committee Inauguration" class="img-fluid news-image">
+                                    <span class="news-date"><i class="far fa-calendar-alt me-2"></i>July 31, 2025</span>
+                                    <h4 class="news-title">FMWA Inaugurates ACTU Committee to Bolster Transparency and Ethical Governance</h4>
+                                    <p>In a landmark move toward institutional integrity, the Federal Ministry of Women Affairs inaugurated its Anti-Corruption and Transparency Unit (ACTU) Committee.</p>
+                                    <a href="press-release-actu-inauguration.php" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                                </div>
                             </div>
-                        </div>
+                            <div class="news-item-horizontal">
+                                <div class="news-item">
+                                    <img src="latest-news/2025-07-28at12.08.39PM.jpeg" loading="lazy" alt="Super Falcons WAFCON Victory" class="img-fluid news-image">
+                                    <span class="news-date"><i class="far fa-calendar-alt me-2"></i>July 28, 2025</span>
+                                    <h4 class="news-title">Women Affairs Minister Congratulates Super Falcons on Historic 10th WAFCON Victory</h4>
+                                    <p>The Honourable Minister of Women Affairs, Hon. Imaan Sulaiman Ibrahim, congratulates Nigeria's Super Falcons on their record-breaking victory.</p>
+                                    <a href="press-statement-super-falcons.php" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                                </div>
+                            </div>
+                            <div class="news-item-horizontal">
+                                <div class="news-item">
+                                    <div class="news-placeholder" style="height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                                        <i class="far fa-newspaper fa-3x mb-3"></i>
+                                        <p>More News Coming Soon</p>
+                                    </div>
+                                    <h4 class="news-title mt-3">Stay Tuned for Updates</h4>
+                                    <p>Check back later for the latest news and updates from the Federal Ministry of Women Affairs.</p>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                    <div class="mt-3">
+                        <a href="news.php" class="btn btn-success btn-sm">View all news &amp; updates</a>
                     </div>
                 </div>
             </div>
