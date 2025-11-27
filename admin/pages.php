@@ -588,8 +588,10 @@ if (is_dir($includesDir)) {
 
             const previewFrame = document.getElementById('pagePreview');
             if (sectionMappingEnabled && previewFrame) {
+                setPreviewInteractiveDisabled(true);
                 setupPreviewSectionListeners();
             } else {
+                setPreviewInteractiveDisabled(false);
                 clearCodeSectionHighlight();
             }
         }
@@ -610,6 +612,11 @@ if (is_dir($includesDir)) {
 
             if (!doc) return;
 
+            // When mapping is enabled, make embedded media non-interactive so clicks are used for selection
+            if (sectionMappingEnabled) {
+                setPreviewInteractiveDisabled(true);
+            }
+
             // Inject a small style block once for hover outlines in the preview
             if (!doc.getElementById('fmwa-editor-preview-style')) {
                 const style = doc.createElement('style');
@@ -620,26 +627,63 @@ if (is_dir($includesDir)) {
                 }
             }
 
-            const candidates = doc.querySelectorAll('[data-editor-target], section[id], div[id], article[id]');
+            // Allow clicking "any" element by resolving the nearest logical section
+            const candidates = doc.querySelectorAll('body *');
             candidates.forEach(function(el) {
-                if (el.getAttribute('data-fmwa-section-bound') === '1') {
-                    return;
+                let sectionEl = el.closest('[data-editor-target], section[id], div[id], article[id]');
+                let identifier = null;
+
+                if (sectionEl) {
+                    const idOrTarget = sectionEl.getAttribute('data-editor-target') || sectionEl.id;
+                    if (idOrTarget) {
+                        identifier = 'id::' + idOrTarget;
+                    }
                 }
 
-                const key = el.getAttribute('data-editor-target') || el.id;
-                if (!key) return;
+                // Fallbacks for elements without a useful ancestor id/data-editor-target
+                if (!identifier) {
+                    // Direct link (e.g. Read More)
+                    if (el.tagName === 'A' && el.getAttribute('href')) {
+                        sectionEl = el;
+                        identifier = 'href::' + el.getAttribute('href');
+                    } else if ((el.tagName === 'IFRAME' || el.tagName === 'VIDEO' || el.tagName === 'IMG') && el.getAttribute('src')) {
+                        // Direct media element
+                        sectionEl = el;
+                        identifier = 'src::' + el.getAttribute('src');
+                    } else {
+                        // Look upwards or downwards for a link or media element we can anchor to
+                        const link = el.closest('a[href]');
+                        if (link && link.getAttribute('href')) {
+                            sectionEl = link;
+                            identifier = 'href::' + link.getAttribute('href');
+                        } else {
+                            let media = el.closest('iframe[src], video[src], img[src]');
+                            if (!media) {
+                                media = el.querySelector('iframe[src], video[src], img[src]');
+                            }
+                            if (media && media.getAttribute('src')) {
+                                sectionEl = media;
+                                identifier = 'src::' + media.getAttribute('src');
+                            }
+                        }
+                    }
+                }
 
-                el.setAttribute('data-fmwa-section-bound', '1');
+                if (!sectionEl || !identifier) return;
 
                 el.addEventListener('mouseenter', function() {
                     if (!sectionMappingEnabled) return;
-                    el.classList.add('fmwa-section-hover');
-                    highlightCodeForIdentifier(key, false);
+                    sectionEl.classList.add('fmwa-section-hover');
+                    try {
+                        highlightCodeForIdentifier(identifier, false);
+                    } catch (err) {
+                        console.warn('Highlight error (hover):', err);
+                    }
                 });
 
                 el.addEventListener('mouseleave', function() {
                     if (!sectionMappingEnabled) return;
-                    el.classList.remove('fmwa-section-hover');
+                    sectionEl.classList.remove('fmwa-section-hover');
                     clearCodeSectionHighlight();
                 });
 
@@ -647,8 +691,44 @@ if (is_dir($includesDir)) {
                     if (!sectionMappingEnabled) return;
                     e.preventDefault();
                     e.stopPropagation();
-                    highlightCodeForIdentifier(key, true);
+                    try {
+                        highlightCodeForIdentifier(identifier, true);
+                    } catch (err) {
+                        console.warn('Highlight error (click):', err);
+                    }
                 });
+            });
+        }
+
+        function setPreviewInteractiveDisabled(disabled) {
+            const previewFrame = document.getElementById('pagePreview');
+            if (!previewFrame || !previewFrame.contentWindow) {
+                return;
+            }
+
+            let doc;
+            try {
+                doc = previewFrame.contentDocument || previewFrame.contentWindow.document;
+            } catch (e) {
+                console.warn('Unable to access preview frame document for pointer toggle', e);
+                return;
+            }
+
+            if (!doc) return;
+
+            const mediaNodes = doc.querySelectorAll('iframe, video, audio');
+            mediaNodes.forEach(function(node) {
+                if (disabled) {
+                    if (!node.hasAttribute('data-fmwa-pointer-original')) {
+                        node.setAttribute('data-fmwa-pointer-original', node.style.pointerEvents || '');
+                    }
+                    node.style.pointerEvents = 'none';
+                } else {
+                    if (node.hasAttribute('data-fmwa-pointer-original')) {
+                        node.style.pointerEvents = node.getAttribute('data-fmwa-pointer-original');
+                        node.removeAttribute('data-fmwa-pointer-original');
+                    }
+                }
             });
         }
 
@@ -665,8 +745,15 @@ if (is_dir($includesDir)) {
 
             clearCodeSectionHighlight();
 
-            const from = { line: range.startLine, ch: 0 };
-            const to = { line: range.endLine, ch: editor.getLine(range.endLine).length };
+            const totalLines = editor.lineCount ? editor.lineCount() : 0;
+            if (!totalLines) return;
+
+            const startLine = Math.max(0, Math.min(range.startLine, totalLines - 1));
+            const endLine = Math.max(startLine, Math.min(range.endLine, totalLines - 1));
+            const from = { line: startLine, ch: 0 };
+            const endText = editor.getLine(endLine) || '';
+            const to = { line: endLine, ch: endText.length };
+
             currentSectionMarker = editor.markText(from, to, { className: 'cm-section-highlight' });
 
             if (scrollIntoView) {
@@ -685,13 +772,40 @@ if (is_dir($includesDir)) {
         function findCodeRangeForIdentifier(identifier) {
             if (!editor) return null;
 
+            let mode = 'id';
+            let value = identifier;
+            if (identifier.indexOf('id::') === 0) {
+                mode = 'id';
+                value = identifier.substring(4);
+            } else if (identifier.indexOf('href::') === 0) {
+                mode = 'href';
+                value = identifier.substring(6);
+            } else if (identifier.indexOf('src::') === 0) {
+                mode = 'src';
+                value = identifier.substring(5);
+            }
+
             const lineCount = editor.lineCount ? editor.lineCount() : 0;
-            const patterns = [
-                'id="' + identifier + '"',
-                "id='" + identifier + "'",
-                'data-editor-target="' + identifier + '"',
-                "data-editor-target='" + identifier + "'"
-            ];
+            let patterns;
+            if (mode === 'href') {
+                patterns = [
+                    'href="' + value + '"',
+                    "href='" + value + "'"
+                ];
+            } else if (mode === 'src') {
+                patterns = [
+                    'src="' + value + '"',
+                    "src='" + value + "'"
+                ];
+            } else {
+                // default id / data-editor-target lookup
+                patterns = [
+                    'id="' + value + '"',
+                    "id='" + value + "'",
+                    'data-editor-target="' + value + '"',
+                    "data-editor-target='" + value + "'"
+                ];
+            }
 
             let startLine = -1;
             for (let i = 0; i < lineCount; i++) {
