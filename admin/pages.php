@@ -292,11 +292,16 @@ if (is_dir($includesDir)) {
             border: 2px solid #e9ecef;
             font-size: 14px;
             color: #f8f8f2;
+            transition: box-shadow 0.2s ease;
         }
 
         .CodeMirror pre,
         .CodeMirror span {
             color: #f8f8f2;
+        }
+
+        .CodeMirror.editor-highlight {
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.7);
         }
         
         .preview-panel {
@@ -536,6 +541,19 @@ if (is_dir($includesDir)) {
             editor.on('change', function() {
                 updateStatus('Modified');
             });
+
+            const previewFrame = document.getElementById('pagePreview');
+            if (previewFrame && editor && typeof editor.getWrapperElement === 'function') {
+                const wrapper = editor.getWrapperElement();
+                if (wrapper) {
+                    previewFrame.addEventListener('mouseenter', function() {
+                        wrapper.classList.add('editor-highlight');
+                    });
+                    previewFrame.addEventListener('mouseleave', function() {
+                        wrapper.classList.remove('editor-highlight');
+                    });
+                }
+            }
         });
         
         // Show category tab
