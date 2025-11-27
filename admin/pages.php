@@ -514,7 +514,8 @@ if (is_dir($includesDir)) {
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize CodeMirror
             editor = CodeMirror.fromTextArea(document.getElementById('codeEditor'), {
-                mode: 'application/x-httpd-php',
+                // Use HTML mode instead of PHP mode to avoid php.min.js tokenizer crashes
+                mode: 'text/html',
                 theme: 'dracula',
                 lineNumbers: true,
                 lineWrapping: true,
