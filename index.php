@@ -122,6 +122,41 @@
                 height: 50px !important;
             }
         }
+
+        /* Horizontal layout for Latest News & Updates section */
+        .news-horizontal-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 20px 0;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: #013a04 #f0f0f0;
+        }
+
+        .news-horizontal-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .news-horizontal-container::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 4px;
+        }
+
+        .news-horizontal-container::-webkit-scrollbar-thumb {
+            background-color: #013a04;
+            border-radius: 4px;
+        }
+
+        .news-item-horizontal {
+            flex: 0 0 300px;
+        }
+
+        .news-item-horizontal .news-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
     </style>
     
     <!-- Include components -->
