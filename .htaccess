@@ -7,6 +7,11 @@ AddType application/x-httpd-php .php
 # Start URL Rewriting
 RewriteEngine On
 
+# Force HTTPS for admin and API endpoints
+RewriteCond %{HTTPS} off
+RewriteCond %{REQUEST_URI} ^/(admin|api) [NC]
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
 # Redirect HTML files to PHP equivalents
 RewriteCond %{THE_REQUEST} /index\.html[\s?] [NC]
 RewriteRule ^index\.html$ /index-main.php [R=301,L]

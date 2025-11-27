@@ -622,9 +622,23 @@ if (is_dir($includesDir)) {
             document.querySelector('.search-box').style.display = 'none';
             
             fetch(`/api/page.php?path=${encodeURIComponent(path)}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
+                .then(response => response.text())
+                .then(text => {
+                    let data;
+                    try {
+                        data = JSON.parse(text);
+                    } catch (e) {
+                        console.error('Failed to parse page API response:', e, text);
+                        showError('Failed to load page');
+                        updateStatus('Error');
+                        // Show panels again
+                        document.getElementById('pagePanels').style.display = 'block';
+                        document.querySelector('.tab-navigation').style.display = 'flex';
+                        document.querySelector('.search-box').style.display = 'block';
+                        return;
+                    }
+
+                    if (data && data.success) {
                         originalContent = data.content || '';
                         document.getElementById('editorSection').style.display = 'block';
                         document.getElementById('noPageSelected').style.display = 'none';
@@ -640,7 +654,7 @@ if (is_dir($includesDir)) {
                         }
                         updateStatus('Ready');
                     } else {
-                        showError(data.message || 'Failed to load page');
+                        showError((data && data.message) || 'Failed to load page');
                         updateStatus('Error');
                         // Show panels again
                         document.getElementById('pagePanels').style.display = 'block';
@@ -649,7 +663,7 @@ if (is_dir($includesDir)) {
                     }
                 })
                 .catch(error => {
-                    console.error('Error:', error);
+                    console.error('Error calling page API:', error);
                     showError('Failed to load page');
                     updateStatus('Error');
                     // Show panels again
