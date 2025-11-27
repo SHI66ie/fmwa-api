@@ -591,7 +591,7 @@ if (is_dir($includesDir)) {
             document.querySelector('.tab-navigation').style.display = 'none';
             document.querySelector('.search-box').style.display = 'none';
             
-            fetch(`../api/page.php?path=${encodeURIComponent(path)}`)
+            fetch(`/api/page.php?path=${encodeURIComponent(path)}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -630,7 +630,7 @@ if (is_dir($includesDir)) {
             
             const content = editor.getValue();
             
-            fetch('../api/page.php', {
+            fetch('/api/page.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

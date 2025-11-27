@@ -23,9 +23,9 @@ RewriteRule ^organogram\.html$ /organogram.php [R=301,L]
 RewriteCond %{THE_REQUEST} /admin\.html[\s?] [NC]
 RewriteRule ^admin\.html$ /admin.php [R=301,L]
 
-# Redirect .php extension to clean URL (except for admin, setup, and index files)
+# Redirect .php extension to clean URL (except for admin, api, setup, and index files)
 RewriteCond %{THE_REQUEST} \s/+(.+)\.php[\s?] [NC]
-RewriteCond %1 !^(admin|setup|test_|create-|fix-|update-|add-|optimize-|index)
+RewriteCond %1 !^(admin|api|setup|test_|create-|fix-|update-|add-|optimize-|index)
 RewriteRule ^ /%1? [R=301,L]
 
 # Handle clean URLs for departments (existing rule)
