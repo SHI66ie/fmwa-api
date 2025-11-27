@@ -88,7 +88,8 @@ function handleSavePage() {
     }
     
     // Save the file
-    if (file_put_contents($fullPath, $content) !== false) {
+    $result = file_put_contents($fullPath, $content);
+    if ($result !== false) {
         // Log the activity
         global $auth, $pdo;
         $user = $auth->getCurrentUser();
@@ -108,7 +109,12 @@ function handleSavePage() {
         
         echo json_encode(['success' => true, 'message' => 'Page saved successfully']);
     } else {
-        echo json_encode(['success' => false, 'message' => 'Failed to save page']);
+        $error = error_get_last();
+        $message = 'Failed to save page';
+        if ($error && isset($error['message'])) {
+            $message .= ': ' . $error['message'];
+        }
+        echo json_encode(['success' => false, 'message' => $message]);
     }
 }
 
