@@ -23,8 +23,14 @@ try {
     <title>Posts & News - FMWA Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Load TinyMCE from CDN instead of missing local assets path -->
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <!-- Load CodeMirror for HTML editing (same editor style as Page Editor) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/htmlmixed/htmlmixed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/css/css.min.js"></script>
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -177,6 +183,14 @@ try {
         .form-control:focus, .form-select:focus {
             border-color: #667eea;
             box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
+        }
+
+        /* CodeMirror editor styling for post content */
+        .CodeMirror {
+            height: 400px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            font-size: 14px;
         }
         
         @media (max-width: 768px) {
@@ -366,21 +380,24 @@ try {
     <script>
         let postModal;
         let posts = [];
+        let postEditor;
         
         document.addEventListener('DOMContentLoaded', function() {
             postModal = new bootstrap.Modal(document.getElementById('postModal'));
             
-            // Initialize TinyMCE only if it loaded successfully
-            if (window.tinymce) {
-                tinymce.init({
-                    selector: '#postContent',
-                    height: 400,
-                    menubar: false,
-                    plugins: 'lists link image table code',
-                    toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image | code',
+            // Initialize CodeMirror editor for post content
+            if (window.CodeMirror && document.getElementById('postContent')) {
+                postEditor = CodeMirror.fromTextArea(document.getElementById('postContent'), {
+                    mode: 'text/html',
+                    theme: 'dracula',
+                    lineNumbers: true,
+                    lineWrapping: true,
+                    indentUnit: 4,
+                    tabSize: 4,
+                    indentWithTabs: true,
+                    matchBrackets: true,
+                    autoCloseBrackets: true,
                 });
-            } else {
-                console.error('TinyMCE script not loaded; posts editor will use plain textarea.');
             }
 
             loadPosts();
@@ -521,8 +538,10 @@ try {
             document.getElementById('postModalTitle').textContent = 'New Post';
             document.querySelectorAll('input[name="categories[]"]').forEach(cb => cb.checked = false);
             
-            if (window.tinymce && tinymce.get('postContent')) {
-                tinymce.get('postContent').setContent('');
+            if (postEditor) {
+                postEditor.setValue('');
+            } else if (document.getElementById('postContent')) {
+                document.getElementById('postContent').value = '';
             }
             
             postModal.show();
@@ -541,8 +560,10 @@ try {
                         document.getElementById('postStatus').value = post.status;
                         document.getElementById('postFeaturedImage').value = post.featured_image || '';
                         
-                        if (window.tinymce && tinymce.get('postContent')) {
-                            tinymce.get('postContent').setContent(post.content || '');
+                        if (postEditor) {
+                            postEditor.setValue(post.content || '');
+                        } else if (document.getElementById('postContent')) {
+                            document.getElementById('postContent').value = post.content || '';
                         }
                         
                         // Set categories
@@ -564,9 +585,11 @@ try {
             const form = document.getElementById('postForm');
             const formData = new FormData(form);
             
-            // Get content from TinyMCE if available
-            if (window.tinymce && tinymce.get('postContent')) {
-                formData.set('content', tinymce.get('postContent').getContent());
+            // Get content from CodeMirror editor if available, otherwise from textarea
+            if (postEditor) {
+                formData.set('content', postEditor.getValue());
+            } else if (document.getElementById('postContent')) {
+                formData.set('content', document.getElementById('postContent').value);
             }
             
             // Get selected categories
