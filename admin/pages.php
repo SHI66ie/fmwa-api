@@ -700,6 +700,14 @@ if (is_dir($includesDir)) {
                     originalContent = content;
                     showSuccess('Page saved successfully');
                     updateStatus('Saved');
+                    // Refresh live preview so changes are visible immediately
+                    const previewFrame = document.getElementById('pagePreview');
+                    if (previewFrame && currentPage) {
+                        let url = '../' + currentPage;
+                        const cacheBust = 't=' + Date.now();
+                        url += (url.indexOf('?') === -1 ? '?' : '&') + cacheBust;
+                        previewFrame.src = url;
+                    }
                 } else {
                     showError(data.message || 'Failed to save page');
                     updateStatus('Save failed');
