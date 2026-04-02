@@ -87,7 +87,7 @@ try {
                 
                 $uploadDir = '../../uploads/downloads/';
                 if (!is_dir($uploadDir)) {
-                    if (!mkdir($uploadDir, 0777, true)) {
+                    if (!@mkdir($uploadDir, 0755, true)) {
                         throw new Exception('Failed to create upload directory. Please check permissions.');
                     }
                 }
@@ -103,9 +103,13 @@ try {
                 $filePath = $uploadDir . $fileName;
                 $relativePath = 'uploads/downloads/' . $fileName;
                 
-                if (!move_uploaded_file($file['tmp_name'], $filePath)) {
-                    throw new Exception('Failed to move uploaded file. Check directory permissions.');
+                if (!@move_uploaded_file($file['tmp_name'], $filePath)) {
+                    $lastError = error_get_last();
+                    $errMsg = $lastError ? $lastError['message'] : 'Check directory permissions.';
+                    throw new Exception('Failed to move uploaded file. ' . $errMsg);
                 }
+                
+                $fileType = substr($file['type'] ?: 'application/octet-stream', 0, 50);
                 
                 $stmt = $pdo->prepare("INSERT INTO downloads (title, description, file_path, file_name, file_size, file_type, uploaded_by) VALUES (?, ?, ?, ?, ?, ?, ?)");
                 $stmt->execute([
@@ -114,7 +118,7 @@ try {
                     $relativePath,
                     $file['name'],
                     $file['size'],
-                    $file['type'] ?: 'application/octet-stream',
+                    $fileType,
                     $user['id']
                 ]);
                 
