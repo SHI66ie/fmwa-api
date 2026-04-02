@@ -61,6 +61,12 @@ try {
         case 'POST':
             $user = $auth->getCurrentUser();
             
+            // If the posted content is entirely empty but we have a content length, it means post_max_size was exceeded.
+            if (empty($_POST) && empty($_FILES) && isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['CONTENT_LENGTH'] > 0) {
+                // Post size exceeded
+                throw new Exception('The uploaded file exceeds the server\'s maximum permitted size. Please upload a smaller file or increase post_max_size in php.ini.');
+            }
+            
             if (isset($_FILES['file'])) {
                 $file = $_FILES['file'];
                 $title = $_POST['title'] ?? pathinfo($file['name'], PATHINFO_FILENAME);
@@ -124,7 +130,7 @@ try {
                 
                 echo json_encode(['success' => true, 'message' => 'File uploaded successfully']);
             } else {
-                throw new Exception('No file provided');
+                throw new Exception('No file provided. Check if the file exceeds the maximum upload size.');
             }
             break;
 
