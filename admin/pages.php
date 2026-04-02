@@ -1198,6 +1198,29 @@ if (is_dir($includesDir)) {
             currentPage = '';
         }
         
+        function showCategory(categoryId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            const eventTarget = event && event.currentTarget;
+            if (eventTarget) {
+                eventTarget.classList.add('active');
+            } else {
+                const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(btn => 
+                    btn.getAttribute('onclick') === `showCategory('${categoryId}')`
+                );
+                if (activeBtn) activeBtn.classList.add('active');
+            }
+            
+            document.querySelectorAll('.category-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            const targetSection = document.getElementById('cat-' + categoryId);
+            if (targetSection) {
+                targetSection.style.display = 'block';
+            }
+        }
+        
         function previewPage() {
             if (!currentPage) {
                 showError('No page selected');
