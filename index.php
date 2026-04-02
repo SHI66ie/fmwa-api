@@ -444,12 +444,56 @@
         <div class="container">
             <h2 class="section-title">Publications & Downloads</h2>
             <div class="row">
+                <?php
+                // Fetch dynamic downloads if the table exists
+                try {
+                    $stmt = $pdo->query("SELECT * FROM downloads ORDER BY created_at DESC");
+                    $dynamicDownloads = $stmt->fetchAll();
+                } catch (Exception $e) {
+                    $dynamicDownloads = [];
+                }
+
+                if (!empty($dynamicDownloads)):
+                    foreach ($dynamicDownloads as $download):
+                        $file_ext = pathinfo($download['file_path'], PATHINFO_EXTENSION);
+                        $iconClass = 'fa-file-pdf'; // Default
+                        switch (strtolower($file_ext)) {
+                            case 'doc':
+                            case 'docx':
+                                $iconClass = 'fa-file-word';
+                                break;
+                            case 'xls':
+                            case 'xlsx':
+                                $iconClass = 'fa-file-excel';
+                                break;
+                            case 'zip':
+                            case 'rar':
+                                $iconClass = 'fa-file-archive';
+                                break;
+                        }
+                ?>
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas <?php echo $iconClass; ?> fa-2x mb-2"></i>
+                            <h5><?php echo htmlspecialchars($download['title']); ?></h5>
+                            <?php if ($download['description']): ?>
+                                <p class="text-muted small mb-2"><?php echo htmlspecialchars($download['description']); ?></p>
+                            <?php endif; ?>
+                            <a href="<?php echo htmlspecialchars($download['file_path']); ?>" class="btn btn-outline-primary btn-sm" download>Download <?php echo strtoupper($file_ext); ?></a>
+                        </div>
+                    </div>
+                </div>
+                <?php
+                    endforeach;
+                else: // Fallback to hardcoded ones
+                ?>
                 <div class="col-md-6 col-lg-3 mb-4">
                     <div class="card h-100 border-0 shadow-sm">
                         <div class="card-body text-center">
                             <i class="fas fa-file-pdf fa-2x mb-2"></i>
                             <h5>Public Service Rules</h5>
-                            <a href="/downloadables/PSR_2021_EDITION.pdf" class="btn btn-outline-primary btn-sm" download>Download PDF</a>
+                            <a href="#" class="btn btn-outline-primary btn-sm" onclick="alert('This file is currently being updated. Please try again later.'); return false;">Download PDF</a>
                         </div>
                     </div>
                 </div>
@@ -459,30 +503,31 @@
                             <i class="fas fa-file-word fa-2x mb-2"></i>
                             <h5>Annual Report 2024</h5>
                             <p class="text-muted small mb-2">Published: January 2025</p>
-                            <a href="#" class="btn btn-outline-primary btn-sm">Download DOC</a>
+                            <a href="#" class="btn btn-outline-primary btn-sm" onclick="alert('This file is currently being updated. Please try again later.'); return false;">Download DOC</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-3 mb-4">
                     <div class="card h-100 border-0 shadow-sm">
                         <div class="card-body text-center">
-                            <i class="fas fa-file-excel fa-3x text-success mb-3"></i>
+                            <i class="fas fa-file-excel fa-2x text-success mb-2"></i>
                             <h5>Performance Data</h5>
                             <p class="text-muted small">Q2 2025</p>
-                            <a href="#" class="btn btn-outline-primary btn-sm">Download XLS</a>
+                            <a href="#" class="btn btn-outline-primary btn-sm" onclick="alert('This file is currently being updated. Please try again later.'); return false;">Download XLS</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-3 mb-4">
+                <div class="col-md-6 col-lg-3 mb-4" id="policy-card">
                     <div class="card h-100 border-0 shadow-sm">
                         <div class="card-body text-center">
                             <i class="fas fa-file-archive fa-3x text-warning mb-3"></i>
                             <h5>Policy Documents</h5>
-                            <p class="text-muted small">Collection (ZIP)</p>
-                            <a href="#" class="btn btn-outline-primary btn-sm">Download ZIP</a>
+                            <p class="text-muted small">Collection</p>
+                            <a href="#" class="btn btn-outline-primary btn-sm" onclick="alert('This file was recently edited but no file was uploaded. Please use the new Downloads tab to upload the document.'); return false;">Download PDF</a>
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
             </div>
             <div class="text-center mt-3">
                 <a href="#" class="btn btn-success">View All Publications</a>
