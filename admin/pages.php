@@ -376,6 +376,12 @@ if (is_dir($includesDir)) {
                 </a>
             </div>
             <div class="nav-item">
+                <a href="downloads.php" class="nav-link">
+                    <i class="fas fa-download"></i>
+                    Downloads
+                </a>
+            </div>
+            <div class="nav-item">
                 <a href="pages.php" class="nav-link active">
                     <i class="fas fa-file-code"></i>
                     Page Editor
