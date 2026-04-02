@@ -263,7 +263,8 @@ $user = $auth->getCurrentUser();
                         
                         <div class="mb-3" id="fileGroup">
                             <label class="form-label">File</label>
-                            <input type="file" class="form-control" id="downloadFile" name="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip">
+                            <input type="file" class="form-control" id="downloadFile" name="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip,.rar,.7z,.txt,.csv">
+                            <small class="text-muted">Allowed: PDF, Word, Excel, PowerPoint, ZIP, RAR, 7Z, TXT, CSV</small>
                         </div>
                         
                         <div class="mb-3">
@@ -415,10 +416,11 @@ $user = $auth->getCurrentUser();
                     });
                     const data = await res.json();
                     if(data.success) {
+                        alert(data.message || 'File uploaded successfully');
                         downloadModal.hide();
                         loadDownloads();
                     } else {
-                        alert(data.message);
+                        alert(data.message || 'Upload failed. The file might be too large or type not allowed.');
                     }
                 }
             } catch(e) {

@@ -85,6 +85,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         <li class="nav-item">
                             <a class="nav-link" href="./mandate.php" title="Our mandate">Mandate</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./publications.php" title="Publications & Downloads">Publications</a>
+                        </li>
                     </ul>
                 </div>
             </div>

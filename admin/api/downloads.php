@@ -67,12 +67,36 @@ try {
                 $description = $_POST['description'] ?? '';
                 
                 if ($file['error'] !== UPLOAD_ERR_OK) {
-                    throw new Exception('File upload failed');
+                    $errorMsg = 'File upload failed: ';
+                    switch ($file['error']) {
+                        case UPLOAD_ERR_INI_SIZE:
+                        case UPLOAD_ERR_FORM_SIZE:
+                            $errorMsg .= 'File is too large.';
+                            break;
+                        case UPLOAD_ERR_PARTIAL:
+                            $errorMsg .= 'The file was only partially uploaded.';
+                            break;
+                        case UPLOAD_ERR_NO_FILE:
+                            $errorMsg .= 'No file was uploaded.';
+                            break;
+                        default:
+                            $errorMsg .= 'Internal server error (Code: ' . $file['error'] . ')';
+                    }
+                    throw new Exception($errorMsg);
                 }
                 
                 $uploadDir = '../../uploads/downloads/';
                 if (!is_dir($uploadDir)) {
-                    mkdir($uploadDir, 0777, true);
+                    if (!mkdir($uploadDir, 0777, true)) {
+                        throw new Exception('Failed to create upload directory. Please check permissions.');
+                    }
+                }
+                
+                $fileExt = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+                $allowedExts = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'zip', 'rar', '7z', 'txt', 'csv'];
+                
+                if (!in_array($fileExt, $allowedExts)) {
+                    throw new Exception('File type not allowed. Allowed types: ' . implode(', ', $allowedExts));
                 }
                 
                 $fileName = time() . '_' . preg_replace("/[^a-zA-Z0-9.-]/", "_", basename($file['name']));
@@ -80,7 +104,7 @@ try {
                 $relativePath = 'uploads/downloads/' . $fileName;
                 
                 if (!move_uploaded_file($file['tmp_name'], $filePath)) {
-                    throw new Exception('Failed to move uploaded file');
+                    throw new Exception('Failed to move uploaded file. Check directory permissions.');
                 }
                 
                 $stmt = $pdo->prepare("INSERT INTO downloads (title, description, file_path, file_name, file_size, file_type, uploaded_by) VALUES (?, ?, ?, ?, ?, ?, ?)");
@@ -90,11 +114,11 @@ try {
                     $relativePath,
                     $file['name'],
                     $file['size'],
-                    $file['type'],
+                    $file['type'] ?: 'application/octet-stream',
                     $user['id']
                 ]);
                 
-                echo json_encode(['success' => true, 'message' => 'Download uploaded successfully']);
+                echo json_encode(['success' => true, 'message' => 'File uploaded successfully']);
             } else {
                 throw new Exception('No file provided');
             }

@@ -1,3 +1,4 @@
+<?php require_once 'config.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -447,9 +448,14 @@
                 <?php
                 // Fetch dynamic downloads if the table exists
                 try {
-                    $stmt = $pdo->query("SELECT * FROM downloads ORDER BY created_at DESC");
-                    $dynamicDownloads = $stmt->fetchAll();
-                } catch (Exception $e) {
+                    // Check if $pdo exists and is connected
+                    if (isset($pdo) && $pdo) {
+                        $stmt = $pdo->query("SELECT * FROM downloads ORDER BY created_at DESC");
+                        $dynamicDownloads = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    } else {
+                        $dynamicDownloads = [];
+                    }
+                } catch (Throwable $e) {
                     $dynamicDownloads = [];
                 }
 
@@ -468,7 +474,12 @@
                                 break;
                             case 'zip':
                             case 'rar':
+                            case '7z':
                                 $iconClass = 'fa-file-archive';
+                                break;
+                            case 'txt':
+                            case 'csv':
+                                $iconClass = 'fa-file-alt';
                                 break;
                         }
                 ?>
@@ -530,7 +541,7 @@
                 <?php endif; ?>
             </div>
             <div class="text-center mt-3">
-                <a href="#" class="btn btn-success">View All Publications</a>
+                <a href="publications.php" class="btn btn-success">View All Publications</a>
             </div>
         </div>
     </section>
@@ -583,6 +594,7 @@
                         <li class="mb-2"><a href="about.php" class="text-muted text-decoration-none">About Us</a></li>
                         <li class="mb-2"><a href="mandate.php" class="text-muted text-decoration-none">Our Mandate</a></li>
                         <li class="mb-2"><a href="organogram.php" class="text-muted text-decoration-none">Organogram</a></li>
+                        <li class="mb-2"><a href="publications.php" class="text-muted text-decoration-none">Publications</a></li>
                     </ul>
                 </div>
                 
