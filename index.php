@@ -451,11 +451,11 @@
                     // Check if $pdo exists and is connected
                     if (isset($pdo) && $pdo) {
                         $stmt = $pdo->query("SELECT * FROM downloads ORDER BY created_at DESC");
-                        $dynamicDownloads = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        $dynamicDownloads = ($stmt) ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
                     } else {
                         $dynamicDownloads = [];
                     }
-                } catch (Throwable $e) {
+                } catch (Exception $e) {
                     $dynamicDownloads = [];
                 }
 
