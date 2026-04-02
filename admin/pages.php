@@ -660,52 +660,55 @@ if (is_dir($includesDir)) {
                 }
             }
 
-            // Allow clicking "any" element by resolving the nearest logical section
+            // Allow hovering and clicking ANY element
             const candidates = doc.querySelectorAll('body *');
             candidates.forEach(function(el) {
-                let sectionEl = el.closest('[data-editor-target], section[id], div[id], article[id]');
+                let sectionEl = el;
                 let identifier = null;
 
-                if (sectionEl) {
-                    const idOrTarget = sectionEl.getAttribute('data-editor-target') || sectionEl.id;
-                    if (idOrTarget) {
-                        identifier = 'id::' + idOrTarget;
+                // Priority 1: Id or data-target
+                if (el.getAttribute('data-editor-target')) {
+                    identifier = 'id::' + el.getAttribute('data-editor-target');
+                } else if (el.id) {
+                    identifier = 'id::' + el.id;
+                } 
+                // Priority 2: Core functional attributes
+                else if (el.tagName === 'A' && el.getAttribute('href')) {
+                    identifier = 'href::' + el.getAttribute('href');
+                } else if ((el.tagName === 'IMG' || el.tagName === 'VIDEO' || el.tagName === 'IFRAME') && el.getAttribute('src')) {
+                    identifier = 'src::' + el.getAttribute('src');
+                }
+                // Priority 3: Classes
+                else if (el.className && typeof el.className === 'string' && el.className.trim() !== '') {
+                    const cleanClass = el.className.replace('fmwa-section-hover', '').trim();
+                    if (cleanClass) {
+                        identifier = 'class::' + cleanClass;
                     }
                 }
 
-                // Fallbacks for elements without a useful ancestor id/data-editor-target
+                // Priority 4: Text content snippet
                 if (!identifier) {
-                    // Direct link (e.g. Read More)
-                    if (el.tagName === 'A' && el.getAttribute('href')) {
-                        sectionEl = el;
-                        identifier = 'href::' + el.getAttribute('href');
-                    } else if ((el.tagName === 'IFRAME' || el.tagName === 'VIDEO' || el.tagName === 'IMG') && el.getAttribute('src')) {
-                        // Direct media element
-                        sectionEl = el;
-                        identifier = 'src::' + el.getAttribute('src');
-                    } else {
-                        // Look upwards or downwards for a link or media element we can anchor to
-                        const link = el.closest('a[href]');
-                        if (link && link.getAttribute('href')) {
-                            sectionEl = link;
-                            identifier = 'href::' + link.getAttribute('href');
-                        } else {
-                            let media = el.closest('iframe[src], video[src], img[src]');
-                            if (!media) {
-                                media = el.querySelector('iframe[src], video[src], img[src]');
-                            }
-                            if (media && media.getAttribute('src')) {
-                                sectionEl = media;
-                                identifier = 'src::' + media.getAttribute('src');
-                            }
-                        }
+                    const txt = el.innerText ? el.innerText.trim() : '';
+                    if (txt.length > 0 && txt.length < 200) {
+                        // Clean up newlines and extra spaces
+                        identifier = 'text::' + txt.substring(0, 50).replace(/\s+/g, ' ');
                     }
                 }
 
-                if (!sectionEl || !identifier) return;
+                // Fallback: tag name
+                if (!identifier) {
+                    identifier = 'tag::' + el.tagName.toLowerCase();
+                }
 
-                el.addEventListener('mouseenter', function() {
+                el.addEventListener('mouseenter', function(e) {
                     if (!sectionMappingEnabled) return;
+                    e.stopPropagation(); // Parent won't get the hover event
+                    
+                    // Cleanup previously hovered to prevent stuck styles
+                    doc.querySelectorAll('.fmwa-section-hover').forEach(function(node) {
+                        node.classList.remove('fmwa-section-hover');
+                    });
+                    
                     sectionEl.classList.add('fmwa-section-hover');
                     try {
                         highlightCodeForIdentifier(identifier, false);
@@ -714,7 +717,7 @@ if (is_dir($includesDir)) {
                     }
                 });
 
-                el.addEventListener('mouseleave', function() {
+                el.addEventListener('mouseleave', function(e) {
                     if (!sectionMappingEnabled) return;
                     sectionEl.classList.remove('fmwa-section-hover');
                     clearCodeSectionHighlight();
@@ -790,8 +793,10 @@ if (is_dir($includesDir)) {
             currentSectionMarker = editor.markText(from, to, { className: 'cm-section-highlight' });
 
             if (scrollIntoView) {
-                editor.scrollIntoView(from, 100);
+                const topMargin = 50; 
+                editor.scrollIntoView(from, topMargin);
                 editor.setCursor(from);
+                editor.focus();
             }
         }
 
@@ -803,41 +808,50 @@ if (is_dir($includesDir)) {
         }
 
         function findCodeRangeForIdentifier(identifier) {
-            if (!editor) return null;
+            if (!editor || !identifier) return null;
 
             let mode = 'id';
             let value = identifier;
             if (identifier.indexOf('id::') === 0) {
-                mode = 'id';
-                value = identifier.substring(4);
+                mode = 'id'; value = identifier.substring(4);
             } else if (identifier.indexOf('href::') === 0) {
-                mode = 'href';
-                value = identifier.substring(6);
+                mode = 'href'; value = identifier.substring(6);
             } else if (identifier.indexOf('src::') === 0) {
-                mode = 'src';
-                value = identifier.substring(5);
+                mode = 'src'; value = identifier.substring(5);
+            } else if (identifier.indexOf('class::') === 0) {
+                mode = 'class'; value = identifier.substring(7);
+            } else if (identifier.indexOf('text::') === 0) {
+                mode = 'text'; value = identifier.substring(6);
+            } else if (identifier.indexOf('tag::') === 0) {
+                mode = 'tag'; value = identifier.substring(5);
             }
 
             const lineCount = editor.lineCount ? editor.lineCount() : 0;
-            let patterns;
+            let patterns = [];
+            
             if (mode === 'href') {
-                patterns = [
-                    'href="' + value + '"',
-                    "href='" + value + "'"
-                ];
+                patterns = ['href="' + value + '"', "href='" + value + "'"];
             } else if (mode === 'src') {
+                patterns = ['src="' + value + '"', "src='" + value + "'"];
+            } else if (mode === 'id') {
                 patterns = [
-                    'src="' + value + '"',
-                    "src='" + value + "'"
+                    'id="' + value + '"', "id='" + value + "'",
+                    'data-editor-target="' + value + '"', "data-editor-target='" + value + "'"
                 ];
-            } else {
-                // default id / data-editor-target lookup
-                patterns = [
-                    'id="' + value + '"',
-                    "id='" + value + "'",
-                    'data-editor-target="' + value + '"',
-                    "data-editor-target='" + value + "'"
-                ];
+            } else if (mode === 'class') {
+                // Focus on the first distinctive class part
+                const firstClass = value.split(' ')[0];
+                if (firstClass) {
+                    patterns = ['class="' + firstClass, "class='" + firstClass, '"' + firstClass + '"', "'" + firstClass + "'"];
+                } else {
+                    patterns = ['class="'];
+                }
+            } else if (mode === 'text') {
+                // For text, just search the text itself or a portion of it
+                const searchTxt = value.length > 20 ? value.substring(0, 20) : value;
+                patterns = [searchTxt];
+            } else if (mode === 'tag') {
+                patterns = ['<' + value + ' ', '<' + value + '>'];
             }
 
             let startLine = -1;
@@ -854,11 +868,11 @@ if (is_dir($includesDir)) {
 
             if (startLine === -1) return null;
 
-            let endLine = Math.min(startLine + 20, lineCount - 1);
-
-            for (let k = startLine + 1; k <= endLine; k++) {
+            // Highlight typically 1 to 5 lines for a single element to prevent huge highlights
+            let endLine = startLine;
+            for (let k = startLine; k < Math.min(startLine + 5, lineCount); k++) {
                 const txt = editor.getLine(k);
-                if (txt.indexOf('</section>') !== -1 || txt.indexOf('</div>') !== -1 || txt.indexOf('</article>') !== -1) {
+                if (k > startLine && (txt.includes('</') || txt.includes('>'))) {
                     endLine = k;
                     break;
                 }
