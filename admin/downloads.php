@@ -267,6 +267,14 @@ $user = $auth->getCurrentUser();
                             <small class="text-muted">Allowed: PDF, Word, Excel, PowerPoint, ZIP, RAR, 7Z, TXT, CSV</small>
                         </div>
                         
+                        <!-- Progress Bar -->
+                        <div class="mb-3 d-none" id="uploadProgressContainer">
+                            <label class="form-label" id="uploadStatusLabel">Uploading...</label>
+                            <div class="progress" style="height: 20px;">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" id="uploadProgressBar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                            </div>
+                        </div>
+                        
                         <div class="mb-3">
                             <label class="form-label">Title</label>
                             <input type="text" class="form-control" id="downloadTitle" name="title" required>
@@ -354,6 +362,12 @@ $user = $auth->getCurrentUser();
             document.getElementById('modalTitle').textContent = 'Upload Download';
             document.getElementById('fileGroup').style.display = 'block';
             document.getElementById('downloadFile').required = true;
+            document.getElementById('uploadProgressContainer').classList.add('d-none');
+            
+            // Re-enable save button just in case
+            const saveBtn = document.querySelector('button[onclick="saveDownload()"]');
+            if (saveBtn) saveBtn.disabled = false;
+            
             downloadModal.show();
         }
 
@@ -378,6 +392,7 @@ $user = $auth->getCurrentUser();
             const title = document.getElementById('downloadTitle').value;
             const desc = document.getElementById('downloadDescription').value;
             const fileInput = document.getElementById('downloadFile');
+            const saveBtn = document.querySelector('button[onclick="saveDownload()"]');
 
             if (!title) {
                 alert('Title is required');
@@ -386,13 +401,20 @@ $user = $auth->getCurrentUser();
 
             try {
                 if (id) {
-                    // Update
+                    // Update metadata
+                    saveBtn.disabled = true;
+                    saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Saving...';
+                    
                     const res = await fetch('api/downloads.php', {
                         method: 'PUT',
                         headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({id: id, title: title, description: desc})
                     });
                     const data = await res.json();
+                    
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = 'Save';
+                    
                     if(data.success) {
                         downloadModal.hide();
                         loadDownloads();
@@ -400,32 +422,105 @@ $user = $auth->getCurrentUser();
                         alert(data.message);
                     }
                 } else {
-                    // Create
+                    // Create with file upload and progress bar
                     if (!fileInput.files.length) {
                         alert('File is required for new uploads');
                         return;
                     }
+                    
                     const formData = new FormData();
                     formData.append('file', fileInput.files[0]);
                     formData.append('title', title);
                     formData.append('description', desc);
 
-                    const res = await fetch('api/downloads.php', {
-                        method: 'POST',
-                        body: formData
-                    });
-                    const data = await res.json();
-                    if(data.success) {
-                        alert(data.message || 'File uploaded successfully');
-                        downloadModal.hide();
-                        loadDownloads();
-                    } else {
-                        alert(data.message || 'Upload failed. The file might be too large or type not allowed.');
-                    }
+                    // Show progress UI elements
+                    const progressContainer = document.getElementById('uploadProgressContainer');
+                    const progressBar = document.getElementById('uploadProgressBar');
+                    const statusLabel = document.getElementById('uploadStatusLabel');
+                    
+                    progressContainer.classList.remove('d-none');
+                    progressBar.style.width = '0%';
+                    progressBar.textContent = '0%';
+                    progressBar.classList.remove('bg-success', 'bg-danger');
+                    progressBar.classList.add('bg-primary');
+                    statusLabel.textContent = 'Uploading...';
+                    
+                    saveBtn.disabled = true;
+                    saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Uploading...';
+
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', 'api/downloads.php', true);
+
+                    xhr.upload.onprogress = function(e) {
+                        if (e.lengthComputable) {
+                            const percentComplete = Math.round((e.loaded / e.total) * 100);
+                            progressBar.style.width = percentComplete + '%';
+                            progressBar.textContent = percentComplete + '%';
+                            
+                            if (percentComplete === 100) {
+                                statusLabel.textContent = 'Processing file on server... Please wait.';
+                                progressBar.classList.remove('bg-primary');
+                                progressBar.classList.add('bg-success'); // indicate upload is done but waiting for response
+                            }
+                        }
+                    };
+
+                    xhr.onload = function() {
+                        saveBtn.disabled = false;
+                        saveBtn.innerHTML = 'Save';
+                        
+                        if (xhr.status === 200) {
+                            try {
+                                const data = JSON.parse(xhr.responseText);
+                                if (data.success) {
+                                    statusLabel.textContent = 'Upload Complete!';
+                                    progressBar.style.width = '100%';
+                                    progressBar.textContent = 'Uploaded!';
+                                    progressBar.classList.remove('progress-bar-animated');
+                                    
+                                    setTimeout(() => {
+                                        alert('File uploaded successfully as: ' + title);
+                                        downloadModal.hide();
+                                        loadDownloads();
+                                        progressContainer.classList.add('d-none');
+                                    }, 500); // give the user 500ms to see the full green bar
+                                } else {
+                                    progressBar.classList.remove('bg-success', 'bg-primary');
+                                    progressBar.classList.add('bg-danger');
+                                    statusLabel.textContent = 'Upload Failed!';
+                                    alert(data.message || 'Upload failed. The file might be too large or type not allowed.');
+                                }
+                            } catch (e) {
+                                progressBar.classList.remove('bg-success', 'bg-primary');
+                                progressBar.classList.add('bg-danger');
+                                alert('Server returned an invalid response.');
+                            }
+                        } else {
+                            progressBar.classList.remove('bg-success');
+                            progressBar.classList.add('bg-danger');
+                            alert('HTTP Error: ' + xhr.status);
+                        }
+                    };
+
+                    xhr.onerror = function() {
+                        saveBtn.disabled = false;
+                        saveBtn.innerHTML = 'Save';
+                        progressBar.classList.remove('bg-success');
+                        progressBar.classList.add('bg-danger');
+                        statusLabel.textContent = 'Network Error!';
+                        alert('Upload failed due to a network error.');
+                    };
+
+                    xhr.send(formData);
                 }
             } catch(e) {
                 console.error(e);
                 alert('An error occurred');
+                const saveBtn = document.querySelector('button[onclick="saveDownload()"]');
+                if (saveBtn) {
+                     saveBtn.disabled = false;
+                     saveBtn.innerHTML = 'Save';
+                }
             }
         }
 
