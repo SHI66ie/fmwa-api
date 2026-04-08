@@ -925,6 +925,47 @@
                         </div>
                     </div>
                 </div>
+                <!-- Invisible Placeholders for adding more downloadables -->
+                <div class="col-md-6 col-lg-3 mb-4 d-none placeholder-download">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-file-pdf fa-2x mb-2 text-secondary"></i>
+                            <h5>Untitled Publication 1</h5>
+                            <p class="text-muted small">Placeholder</p>
+                            <a href="#" class="btn btn-outline-primary btn-sm" onclick="return false;">Download</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-4 d-none placeholder-download">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-file-pdf fa-2x mb-2 text-secondary"></i>
+                            <h5>Untitled Publication 2</h5>
+                            <p class="text-muted small">Placeholder</p>
+                            <a href="#" class="btn btn-outline-primary btn-sm" onclick="return false;">Download</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-4 d-none placeholder-download">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-file-pdf fa-2x mb-2 text-secondary"></i>
+                            <h5>Untitled Publication 3</h5>
+                            <p class="text-muted small">Placeholder</p>
+                            <a href="#" class="btn btn-outline-primary btn-sm" onclick="return false;">Download</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-4 d-none placeholder-download">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-file-pdf fa-2x mb-2 text-secondary"></i>
+                            <h5>Untitled Publication 4</h5>
+                            <p class="text-muted small">Placeholder</p>
+                            <a href="#" class="btn btn-outline-primary btn-sm" onclick="return false;">Download</a>
+                        </div>
+                    </div>
+                </div>
                 <?php endif; ?>
             </div>
             <div class="text-center mt-3">
