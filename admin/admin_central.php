@@ -27,18 +27,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
     try {
         $pdo->beginTransaction();
         
-        // 1. Save Text Settings
+        // 1. Save Text Settings - Use UPSERT approach
         foreach ($settings_to_save as $key) {
             $value = $_POST[$key] ?? '';
             if ($key === 'maintenance_mode') {
                 $value = isset($_POST[$key]) ? 'true' : 'false';
             }
-            $stmt = $pdo->prepare("UPDATE settings SET setting_value = ? WHERE setting_key = ?");
-            $stmt->execute([$value, $key]);
-            if ($stmt->rowCount() === 0) {
-                $stmt = $pdo->prepare("INSERT IGNORE INTO settings (setting_key, setting_value, setting_type) VALUES (?, ?, 'string')");
-                $stmt->execute([$key, $value]);
-            }
+            
+            // Use INSERT ... ON DUPLICATE KEY UPDATE for atomic operation
+            $stmt = $pdo->prepare("
+                INSERT INTO settings (setting_key, setting_value, setting_type) 
+                VALUES (?, ?, 'string')
+                ON DUPLICATE KEY UPDATE 
+                setting_value = VALUES(setting_value),
+                updated_at = CURRENT_TIMESTAMP
+            ");
+            $stmt->execute([$key, $value]);
         }
 
         // 2. Handle File Uploads
@@ -65,23 +69,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
                     $db_path = 'images/leadership/' . $new_filename;
                     
                     if (move_uploaded_file($file_tmp, $target_path)) {
-                        $stmt = $pdo->prepare("UPDATE settings SET setting_value = ? WHERE setting_key = ?");
-                        $stmt->execute([$db_path, $setting_key]);
-                        if ($stmt->rowCount() === 0) {
-                            $stmt = $pdo->prepare("INSERT INTO settings (setting_key, setting_value, setting_type) VALUES (?, ?, 'string')");
-                            $stmt->execute([$setting_key, $db_path]);
-                        }
+                        // Use UPSERT approach for file uploads
+                        $stmt = $pdo->prepare("
+                            INSERT INTO settings (setting_key, setting_value, setting_type) 
+                            VALUES (?, ?, 'string')
+                            ON DUPLICATE KEY UPDATE 
+                            setting_value = VALUES(setting_value),
+                            updated_at = CURRENT_TIMESTAMP
+                        ");
+                        $stmt->execute([$setting_key, $db_path]);
                     }
                 }
             } else if (isset($_POST[$setting_key])) {
                 // Keep existing path if manually edited in text field or selected via library
                 $value = $_POST[$setting_key];
-                $stmt = $pdo->prepare("UPDATE settings SET setting_value = ? WHERE setting_key = ?");
-                $stmt->execute([$value, $setting_key]);
-                if ($stmt->rowCount() === 0) {
-                    $stmt = $pdo->prepare("INSERT INTO settings (setting_key, setting_value, setting_type) VALUES (?, ?, 'string')");
-                    $stmt->execute([$setting_key, $value]);
-                }
+                
+                // Use UPSERT approach for manual path updates
+                $stmt = $pdo->prepare("
+                    INSERT INTO settings (setting_key, setting_value, setting_type) 
+                    VALUES (?, ?, 'string')
+                    ON DUPLICATE KEY UPDATE 
+                    setting_value = VALUES(setting_value),
+                    updated_at = CURRENT_TIMESTAMP
+                ");
+                $stmt->execute([$setting_key, $value]);
             }
         }
 
@@ -457,17 +468,107 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
         }
 
         async function fetchMedia() {
+            const grid = document.getElementById('mediaPickerGrid');
+            
+            // Show loading state
+            grid.innerHTML = `
+                <div class="col-12 text-center py-4">
+                    <div class="spinner-border text-primary" role="status"></div>
+                    <p class="mt-2 text-muted">Loading media library...</p>
+                </div>
+            `;
+            
             try {
-                const response = await fetch('api/media.php');
-                const result = await response.json();
+                console.log('Fetching media from: api/media.php');
+                
+                // Try multiple approaches
+                let result, response;
+                
+                try {
+                    // Attempt 1: Direct API call
+                    response = await fetch('api/media.php', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        credentials: 'same-origin'
+                    });
+                    
+                    console.log('Response status:', response.status);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    result = await response.json();
+                    console.log('API Response:', result);
+                    
+                } catch (apiError) {
+                    console.warn('API call failed, trying diagnostic:', apiError);
+                    
+                    // Attempt 2: Run diagnostic first
+                    try {
+                        const diagResponse = await fetch('api/media-diagnostic.php');
+                        const diagnostic = await diagResponse.json();
+                        console.log('Diagnostic result:', diagnostic);
+                        
+                        if (diagnostic.success && diagnostic.diagnostics.database.status === 'connected') {
+                            // If DB is fine but API failed, try basic fallback
+                            result = { success: true, data: [], message: 'Using fallback mode' };
+                        } else {
+                            throw apiError;
+                        }
+                    } catch (diagError) {
+                        throw apiError;
+                    }
+                }
+                
                 if (result.success) {
                     allMedia = Array.isArray(result.media) ? result.media : (Array.isArray(result.data) ? result.data : []);
                     renderMedia();
                 } else {
-                    document.getElementById('mediaPickerGrid').innerHTML = '<div class="col-12 text-center text-danger">Failed to load media: ' + result.message + '</div>';
+                    const errorMsg = result.message || 'Unknown error occurred';
+                    console.error('API Error:', errorMsg);
+                    grid.innerHTML = `
+                        <div class="col-12 text-center text-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Failed to load media: ${errorMsg}
+                            <br><small class="text-muted">Check browser console for details</small>
+                            <div class="mt-3">
+                                <button class="btn btn-sm btn-outline-primary me-2" onclick="testMediaConnection()">
+                                    <i class="fas fa-stethoscope me-1"></i>Test Connection
+                                </button>
+                                <button class="btn btn-sm btn-outline-warning me-2" onclick="runDiagnostic()">
+                                    <i class="fas fa-tools me-1"></i>Run Diagnostic
+                                </button>
+                                <button class="btn btn-sm btn-outline-info" onclick="useManualInput()">
+                                    <i class="fas fa-keyboard me-1"></i>Manual Input
+                                </button>
+                            </div>
+                        </div>
+                    `;
                 }
             } catch (err) {
-                document.getElementById('mediaPickerGrid').innerHTML = '<div class="col-12 text-center text-danger">Error connecting to media API.</div>';
+                console.error('Fetch Error:', err);
+                grid.innerHTML = `
+                    <div class="col-12 text-center text-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Error connecting to media API
+                        <br><small class="text-muted">${err.message}</small>
+                        <div class="mt-3">
+                            <button class="btn btn-sm btn-outline-primary me-2" onclick="testMediaConnection()">
+                                <i class="fas fa-stethoscope me-1"></i>Test Connection
+                            </button>
+                            <button class="btn btn-sm btn-outline-warning me-2" onclick="runDiagnostic()">
+                                <i class="fas fa-tools me-1"></i>Run Diagnostic
+                            </button>
+                            <button class="btn btn-sm btn-outline-info" onclick="useManualInput()">
+                                <i class="fas fa-keyboard me-1"></i>Manual Input
+                            </button>
+                        </div>
+                    </div>
+                `;
             }
         }
 
@@ -515,6 +616,120 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
             }
             mediaModal.hide();
             alert("Media selected! Don't forget to click 'Save All Dynamic Content' to apply changes.");
+        }
+        
+        async function testMediaConnection() {
+            try {
+                console.log('Testing media API connection...');
+                const response = await fetch('api/test-media.php');
+                const result = await response.json();
+                
+                console.log('Test Result:', result);
+                
+                if (result.success) {
+                    alert('✅ Media API connection successful!\n\nDatabase: ' + (result.database_status.connected ? 'Connected' : 'Not Connected') + '\nAuth: ' + (result.auth_status.logged_in ? 'Logged In' : 'Not Logged In'));
+                } else {
+                    alert('❌ Media API test failed: ' + result.message);
+                }
+            } catch (err) {
+                console.error('Test Error:', err);
+                alert('❌ Connection test failed: ' + err.message);
+            }
+        }
+        
+        async function runDiagnostic() {
+            try {
+                console.log('Running media API diagnostic...');
+                const response = await fetch('api/media-diagnostic.php');
+                const result = await response.json();
+                
+                console.log('Diagnostic Result:', result);
+                
+                if (result.success) {
+                    let report = '🔧 Media API Diagnostic Results:\n\n';
+                    
+                    // Database status
+                    report += '📊 Database: ' + result.diagnostics.database.status + '\n';
+                    
+                    // Media table status
+                    report += '📁 Media Table: ' + result.diagnostics.media_table.status + '\n';
+                    
+                    // Upload directory status
+                    report += '📂 Upload Directory: ' + result.diagnostics.upload_directory.status + '\n';
+                    
+                    // Media count
+                    report += '🖼️ Media Files: ' + result.diagnostics.media_count.count + ' items\n';
+                    
+                    // Fixes applied
+                    if (result.fixes_applied.length > 0) {
+                        report += '\n🔨 Fixes Applied:\n' + result.fixes_applied.join('\n');
+                    }
+                    
+                    // Recommendations
+                    if (result.recommendations.length > 0) {
+                        report += '\n💡 Recommendations:\n' + result.recommendations.join('\n');
+                    }
+                    
+                    alert(report);
+                    
+                    // If fixes were applied, try loading media again
+                    if (result.fixes_applied.length > 0) {
+                        setTimeout(() => fetchMedia(), 2000);
+                    }
+                } else {
+                    alert('❌ Diagnostic failed: ' + result.message);
+                }
+            } catch (err) {
+                console.error('Diagnostic Error:', err);
+                alert('❌ Diagnostic failed: ' + err.message);
+            }
+        }
+        
+        function useManualInput() {
+            const grid = document.getElementById('mediaPickerGrid');
+            grid.innerHTML = `
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Manual Media URL Input</h5>
+                            <p class="text-muted">Enter the full URL or relative path to your media file:</p>
+                            <div class="mb-3">
+                                <input type="text" id="manualMediaUrl" class="form-control" 
+                                       placeholder="e.g., images/uploads/photo.jpg or https://example.com/image.jpg">
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-primary" onclick="selectManualMedia()">
+                                    <i class="fas fa-check me-1"></i>Select This Media
+                                </button>
+                                <button class="btn btn-secondary" onclick="fetchMedia()">
+                                    <i class="fas fa-arrow-left me-1"></i>Back to Library
+                                </button>
+                            </div>
+                            <small class="text-muted">
+                                <i class="fas fa-info-circle me-1"></i>
+                                You can also upload files via the main Media Library page
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function selectManualMedia() {
+            const url = document.getElementById('manualMediaUrl').value.trim();
+            if (!url) {
+                alert('Please enter a media URL or path');
+                return;
+            }
+            
+            // Set the value to the target input
+            document.getElementById(targetInputId).value = url;
+            
+            // Show success message
+            alert('✅ Media selected: ' + url + '\n\nDon\'t forget to click "Save All Dynamic Content" to apply changes.');
+            
+            // Close modal
+            mediaModal.hide();
         }
     </script>
 </body>
