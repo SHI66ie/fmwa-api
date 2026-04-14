@@ -438,14 +438,27 @@ try {
                             <div class="col-md-6 col-lg-4 mb-4">
                                 <div class="video-card">
                                     <div class="video-thumbnail">
-                                        <?php if (file_exists('../' . $video['file_url'])): ?>
+                                        <?php 
+                                        $videoPath = '../' . $video['file_url'];
+                                        $fileExists = file_exists($videoPath);
+                                        ?>
+                                        <?php if ($fileExists): ?>
                                             <video muted>
                                                 <source src="../<?php echo htmlspecialchars($video['file_url']); ?>" type="<?php echo htmlspecialchars($video['mime_type']); ?>">
                                             </video>
+                                        <?php else: ?>
+                                            <div class="d-flex align-items-center justify-content-center bg-dark h-100">
+                                                <i class="fas fa-exclamation-triangle fa-2x text-warning"></i>
+                                            </div>
                                         <?php endif; ?>
-                                        <div class="play-overlay" onclick="playVideo('<?php echo htmlspecialchars($video['file_url']); ?>', '<?php echo htmlspecialchars($video['mime_type']); ?>')">
+                                        <div class="play-overlay" onclick="playVideo('<?php echo htmlspecialchars($video['file_url']); ?>', '<?php echo htmlspecialchars($video['mime_type']); ?>', <?php echo $fileExists ? 'true' : 'false'; ?>)">
                                             <i class="fas fa-play"></i>
                                         </div>
+                                        <?php if (!$fileExists): ?>
+                                            <div class="position-absolute top-0 end-0 p-2">
+                                                <span class="badge bg-danger">File Missing</span>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
                                     <div class="mt-3">
                                         <h6 class="mb-1"><?php echo htmlspecialchars($video['title'] || $video['original_filename']); ?></h6>
@@ -462,9 +475,15 @@ try {
                                             <?php echo date('M j, Y', strtotime($video['created_at'])); ?>
                                         </p>
                                         <div class="btn-group w-100" role="group">
-                                            <button class="btn btn-sm btn-outline-primary" onclick="playVideo('<?php echo htmlspecialchars($video['file_url']); ?>', '<?php echo htmlspecialchars($video['mime_type']); ?>')">
-                                                <i class="fas fa-play me-1"></i>Play
-                                            </button>
+                                            <?php if ($fileExists): ?>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="playVideo('<?php echo htmlspecialchars($video['file_url']); ?>', '<?php echo htmlspecialchars($video['mime_type']); ?>', true)">
+                                                    <i class="fas fa-play me-1"></i>Play
+                                                </button>
+                                            <?php else: ?>
+                                                <button class="btn btn-sm btn-outline-warning" onclick="alert('⚠️ Video file not found!\n\nThe video file cannot be played because it does not exist on the server.\n\nPlease delete this record or re-upload the video.')">
+                                                    <i class="fas fa-exclamation-triangle me-1"></i>File Missing
+                                                </button>
+                                            <?php endif; ?>
                                             <button class="btn btn-sm btn-outline-success" onclick="copyVideoUrl('<?php echo htmlspecialchars($video['file_url']); ?>')">
                                                 <i class="fas fa-copy me-1"></i>Copy URL
                                             </button>
@@ -653,7 +672,12 @@ try {
             embedModal.show();
         }
         
-        function playVideo(url, mimeType) {
+        function playVideo(url, mimeType, fileExists = true) {
+            if (!fileExists) {
+                alert('⚠️ Video file not found!\n\nThe video file "' + url + '" does not exist on the server.\n\nThis may happen if:\n• The file was deleted from the server\n• The file path is incorrect\n• The upload was incomplete\n\nOptions:\n• Delete this video record\n• Re-upload the video file');
+                return;
+            }
+            
             const player = document.getElementById('videoPlayer');
             player.src = '../' + url;
             player.type = mimeType;

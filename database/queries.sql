@@ -229,6 +229,46 @@ GROUP BY c.id
 ORDER BY post_count DESC;
 
 -- ============================================
+-- YOUTUBE VIDEOS
+-- ============================================
+
+-- Get all active YouTube videos
+SELECT yv.*, u.full_name as creator_name
+FROM youtube_videos yv
+INNER JOIN users u ON yv.created_by = u.id
+WHERE yv.status = 'active'
+ORDER BY yv.display_order, yv.created_at DESC;
+
+-- Get featured YouTube videos
+SELECT * FROM youtube_videos 
+WHERE status = 'active' AND featured = 1 
+ORDER BY display_order, created_at DESC
+LIMIT 5;
+
+-- Get YouTube video by ID
+SELECT * FROM youtube_videos WHERE video_id = 'DDfjkhRuLKA';
+
+-- Add new YouTube video
+INSERT INTO youtube_videos (title, description, video_id, video_url, thumbnail_url, created_by)
+VALUES ('Civil Service Anthem', 'Official Civil Service Anthem video', 'DDfjkhRuLKA', 'https://www.youtube.com/watch?v=DDfjkhRuLKA', 'https://img.youtube.com/vi/DDfjkhRuLKA/maxresdefault.jpg', 1);
+
+-- Update YouTube video
+UPDATE youtube_videos 
+SET title = 'Updated Title', description = 'Updated description'
+WHERE id = 1;
+
+-- Delete YouTube video
+DELETE FROM youtube_videos WHERE id = 1;
+
+-- Count videos by status
+SELECT status, COUNT(*) as count FROM youtube_videos GROUP BY status;
+
+-- Get recent videos
+SELECT * FROM youtube_videos 
+ORDER BY created_at DESC 
+LIMIT 10;
+
+-- ============================================
 -- VIEWS
 -- ============================================
 
