@@ -15,7 +15,11 @@ $maintenance_mode = get_setting('maintenance_mode', false);
     <title><?php echo htmlspecialchars($site_name); ?></title>
     
     <!-- Favicon -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" type="image/png" href="images/2025_07_14_13_42_IMG_2808.PNG">
+    <link rel="apple-touch-icon" href="images/2025_07_14_13_42_IMG_2808.PNG">
+    <link rel="manifest" href="/site.webmanifest">
     
     <!-- Preload critical resources -->
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">

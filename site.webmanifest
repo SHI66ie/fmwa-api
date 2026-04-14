@@ -1,0 +1,22 @@
+{
+  "name": "Federal Ministry of Women Affairs",
+  "short_name": "FMWA",
+  "description": "Official website of Federal Ministry of Women Affairs",
+  "icons": [
+    {
+      "src": "images/2025_07_14_13_42_IMG_2808.PNG",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "images/2025_07_14_13_42_IMG_2808.PNG",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#013a04",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/"
+}
