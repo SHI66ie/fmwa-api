@@ -310,17 +310,13 @@ try {
         <div class="top-bar">
             <div>
                 <h3 class="mb-0">Videos Management</h3>
-                <small class="text-muted">Manage uploaded videos and YouTube embeds</small>
+                <small class="text-muted">Manage uploaded videos and embedded content</small>
             </div>
             <div>
-                <button class="btn btn-outline-success me-2" data-bs-toggle="modal" data-bs-target="#youtubeModal">
-                    <i class="fab fa-youtube me-2"></i>
-                    Add YouTube Video
+                <button class="btn btn-gradient" data-bs-toggle="modal" data-bs-target="#uploadOptionsModal">
+                    <i class="fas fa-plus me-2"></i>
+                    Add Video
                 </button>
-                <a href="media.php" class="btn btn-gradient">
-                    <i class="fas fa-upload me-2"></i>
-                    Upload Video
-                </a>
             </div>
         </div>
 
@@ -358,160 +354,134 @@ try {
             </div>
         </div>
 
-        <!-- Video Type Tabs -->
-        <div class="content-card mb-4">
-            <ul class="nav nav-tabs" id="videoTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="uploaded-tab" data-bs-toggle="tab" data-bs-target="#uploaded-videos" type="button" role="tab">
-                        <i class="fas fa-upload me-2"></i>Uploaded Videos
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="youtube-tab" data-bs-toggle="tab" data-bs-target="#youtube-videos" type="button" role="tab">
-                        <i class="fab fa-youtube me-2"></i>YouTube Videos
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="embed-tab" data-bs-toggle="tab" data-bs-target="#embed-videos" type="button" role="tab">
-                        <i class="fas fa-code me-2"></i>Embedded Videos
-                    </button>
-                </li>
-            </ul>
-        </div>
-
-        <!-- Tab Content -->
-        <div class="content-card">
-            <div class="tab-content" id="videoTabContent">
-                <!-- Uploaded Videos Tab -->
-                <div class="tab-pane fade show active" id="uploaded-videos" role="tabpanel">
-                    <h5 class="mb-4">
-                        <i class="fas fa-upload me-2"></i>
-                        Uploaded Videos
-                        <?php if (isset($error_message)): ?>
-                            <small class="text-danger ms-2">
-                                <i class="fas fa-exclamation-triangle me-1"></i>
-                                Database Error: <?php echo htmlspecialchars($error_message); ?>
-                            </small>
-                        <?php endif; ?>
-                    </h5>
-                    
-                    <div id="uploadedVideosContainer">
-                        <?php if (isset($error_message)): ?>
-                            <div class="alert alert-danger">
-                                <i class="fas fa-exclamation-triangle me-2"></i>
-                                <strong>Database Error:</strong> <?php echo htmlspecialchars($error_message); ?>
-                                <br><small class="text-muted">Please check your database configuration and try again.</small>
-                                <div class="mt-2">
-                                    <a href="videos-debug.php" class="btn btn-sm btn-outline-primary me-2">
-                                        <i class="fas fa-bug me-1"></i>Debug Page
-                                    </a>
-                                    <button class="btn btn-sm btn-outline-warning" onclick="location.reload()">
-                                        <i class="fas fa-sync me-1"></i>Retry
-                                    </button>
-                                </div>
-                            </div>
-                        <?php elseif (empty($recent_videos)): ?>
-                            <div class="text-center py-5">
-                                <i class="fas fa-upload fa-4x text-muted mb-3"></i>
-                                <h5>No Uploaded Videos</h5>
-                                <p class="text-muted mb-4">You haven't uploaded any videos yet.</p>
-                                <a href="media.php" class="btn btn-gradient">
-                                    <i class="fas fa-upload me-2"></i>
-                                    Upload Your First Video
-                                </a>
-                            </div>
-                        <?php else: ?>
-                            <div class="row">
-                                <?php foreach ($recent_videos as $video): ?>
-                                    <div class="col-md-6 col-lg-4 mb-4">
-                                        <div class="video-card">
-                                            <div class="video-thumbnail">
-                                                <?php if (file_exists('../' . $video['file_url'])): ?>
-                                                    <video muted>
-                                                        <source src="../<?php echo htmlspecialchars($video['file_url']); ?>" type="<?php echo htmlspecialchars($video['mime_type']); ?>">
-                                                    </video>
-                                                <?php endif; ?>
-                                                <div class="play-overlay" onclick="playVideo('<?php echo htmlspecialchars($video['file_url']); ?>', '<?php echo htmlspecialchars($video['mime_type']); ?>')">
-                                                    <i class="fas fa-play"></i>
-                                                </div>
-                                            </div>
-                                            <div class="mt-3">
-                                                <h6 class="mb-1"><?php echo htmlspecialchars($video['title'] || $video['original_filename']); ?></h6>
-                                                <p class="text-muted small mb-2">
-                                                    <i class="fas fa-file me-1"></i>
-                                                    <?php echo htmlspecialchars($video['original_filename']); ?>
-                                                </p>
-                                                <p class="text-muted small mb-2">
-                                                    <i class="fas fa-weight me-1"></i>
-                                                    <?php echo number_format($video['file_size'] / 1024 / 1024, 2); ?> MB
-                                                </p>
-                                                <p class="text-muted small mb-3">
-                                                    <i class="fas fa-calendar me-1"></i>
-                                                    <?php echo date('M j, Y', strtotime($video['created_at'])); ?>
-                                                </p>
-                                                <div class="btn-group w-100" role="group">
-                                                    <button class="btn btn-sm btn-outline-primary" onclick="playVideo('<?php echo htmlspecialchars($video['file_url']); ?>', '<?php echo htmlspecialchars($video['mime_type']); ?>')">
-                                                        <i class="fas fa-play me-1"></i>Play
-                                                    </button>
-                                                    <button class="btn btn-sm btn-outline-success" onclick="copyVideoUrl('<?php echo htmlspecialchars($video['file_url']); ?>')">
-                                                        <i class="fas fa-copy me-1"></i>Copy URL
-                                                    </button>
-                                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteVideo(<?php echo $video['id']; ?>)">
-                                                        <i class="fas fa-trash me-1"></i>Delete
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php endforeach; ?>
-                            </div>
-                        <?php endif; ?>
+        <!-- Upload Options Modal -->
+        <div class="modal fade" id="uploadOptionsModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fas fa-plus me-2"></i>
+                            Add Video
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
-                </div>
-
-                <!-- YouTube Videos Tab -->
-                <div class="tab-pane fade" id="youtube-videos" role="tabpanel">
-                    <h5 class="mb-4">
-                        <i class="fab fa-youtube me-2"></i>
-                        YouTube Videos
-                    </h5>
-                    
-                    <div id="youtubeVideosContainer">
-                        <div class="text-center py-5">
-                            <i class="fab fa-youtube fa-4x text-muted mb-3"></i>
-                            <h5>No YouTube Videos</h5>
-                            <p class="text-muted mb-4">You haven't added any YouTube videos yet.</p>
-                            <button class="btn btn-gradient" data-bs-toggle="modal" data-bs-target="#youtubeModal">
+                    <div class="modal-body">
+                        <div class="d-grid gap-3">
+                            <button class="btn btn-outline-primary btn-lg" onclick="openUploadModal()">
+                                <i class="fas fa-upload me-2"></i>
+                                Upload Video File
+                                <small class="d-block text-muted">Upload MP4, WebM, or OGG files</small>
+                            </button>
+                            <button class="btn btn-outline-danger btn-lg" onclick="openYouTubeModal()">
                                 <i class="fab fa-youtube me-2"></i>
                                 Add YouTube Video
+                                <small class="d-block text-muted">Paste YouTube URL</small>
                             </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Embedded Videos Tab -->
-                <div class="tab-pane fade" id="embed-videos" role="tabpanel">
-                    <h5 class="mb-4">
-                        <i class="fas fa-code me-2"></i>
-                        Embedded Videos
-                        <button class="btn btn-sm btn-outline-success ms-2" data-bs-toggle="modal" data-bs-target="#embedModal">
-                            <i class="fas fa-plus me-1"></i>
-                            Add Embedded Video
-                        </button>
-                    </h5>
-                    
-                    <div id="embedVideosContainer">
-                        <div class="text-center py-5">
-                            <i class="fas fa-code fa-4x text-muted mb-3"></i>
-                            <h5>No Embedded Videos</h5>
-                            <p class="text-muted mb-4">You haven't added any embedded videos yet.</p>
-                            <button class="btn btn-gradient" data-bs-toggle="modal" data-bs-target="#embedModal">
+                            <button class="btn btn-outline-success btn-lg" onclick="openEmbedModal()">
                                 <i class="fas fa-code me-2"></i>
                                 Add Embedded Video
+                                <small class="d-block text-muted">Paste iframe embed code</small>
                             </button>
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-1"></i>
+                            Cancel
+                        </button>
+                    </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- All Videos Content -->
+        <div class="content-card">
+            <h5 class="mb-4">
+                <i class="fas fa-video me-2"></i>
+                All Videos
+                <?php if (isset($error_message)): ?>
+                    <small class="text-danger ms-2">
+                        <i class="fas fa-exclamation-triangle me-1"></i>
+                        Database Error: <?php echo htmlspecialchars($error_message); ?>
+                    </small>
+                <?php endif; ?>
+            </h5>
+            
+            <div id="allVideosContainer">
+                <?php if (isset($error_message)): ?>
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Database Error:</strong> <?php echo htmlspecialchars($error_message); ?>
+                        <br><small class="text-muted">Please check your database configuration and try again.</small>
+                        <div class="mt-2">
+                            <a href="videos-debug.php" class="btn btn-sm btn-outline-primary me-2">
+                                <i class="fas fa-bug me-1"></i>Debug Page
+                            </a>
+                            <button class="btn btn-sm btn-outline-warning" onclick="location.reload()">
+                                <i class="fas fa-sync me-1"></i>Retry
+                            </button>
+                        </div>
+                    </div>
+                <?php elseif (empty($recent_videos)): ?>
+                    <div class="text-center py-5">
+                        <i class="fas fa-video fa-4x text-muted mb-3"></i>
+                        <h5>No Videos Yet</h5>
+                        <p class="text-muted mb-4">You haven't added any videos yet.</p>
+                        <button class="btn btn-gradient" data-bs-toggle="modal" data-bs-target="#uploadOptionsModal">
+                            <i class="fas fa-plus me-2"></i>
+                            Add Your First Video
+                        </button>
+                    </div>
+                <?php else: ?>
+                    <div class="row">
+                        <?php foreach ($recent_videos as $video): ?>
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="video-card">
+                                    <div class="video-thumbnail">
+                                        <?php if (file_exists('../' . $video['file_url'])): ?>
+                                            <video muted>
+                                                <source src="../<?php echo htmlspecialchars($video['file_url']); ?>" type="<?php echo htmlspecialchars($video['mime_type']); ?>">
+                                            </video>
+                                        <?php endif; ?>
+                                        <div class="play-overlay" onclick="playVideo('<?php echo htmlspecialchars($video['file_url']); ?>', '<?php echo htmlspecialchars($video['mime_type']); ?>')">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <h6 class="mb-1"><?php echo htmlspecialchars($video['title'] || $video['original_filename']); ?></h6>
+                                        <p class="text-muted small mb-2">
+                                            <i class="fas fa-file me-1"></i>
+                                            <?php echo htmlspecialchars($video['original_filename']); ?>
+                                        </p>
+                                        <p class="text-muted small mb-2">
+                                            <i class="fas fa-weight me-1"></i>
+                                            <?php echo number_format($video['file_size'] / 1024 / 1024, 2); ?> MB
+                                        </p>
+                                        <p class="text-muted small mb-3">
+                                            <i class="fas fa-calendar me-1"></i>
+                                            <?php echo date('M j, Y', strtotime($video['created_at'])); ?>
+                                        </p>
+                                        <div class="btn-group w-100" role="group">
+                                            <button class="btn btn-sm btn-outline-primary" onclick="playVideo('<?php echo htmlspecialchars($video['file_url']); ?>', '<?php echo htmlspecialchars($video['mime_type']); ?>')">
+                                                <i class="fas fa-play me-1"></i>Play
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-success" onclick="copyVideoUrl('<?php echo htmlspecialchars($video['file_url']); ?>')">
+                                                <i class="fas fa-copy me-1"></i>Copy URL
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteVideo(<?php echo $video['id']; ?>)">
+                                                <i class="fas fa-trash me-1"></i>Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                    
+                    <!-- YouTube and Embedded Videos will be loaded here -->
+                    <div id="youtubeVideosList"></div>
+                    <div id="embedVideosList"></div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -651,46 +621,37 @@ try {
         let videoPlayerModal;
         let youtubeModal;
         let embedModal;
+        let uploadOptionsModal;
         
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize modals
             videoPlayerModal = new bootstrap.Modal(document.getElementById('videoPlayerModal'));
             youtubeModal = new bootstrap.Modal(document.getElementById('youtubeModal'));
             embedModal = new bootstrap.Modal(document.getElementById('embedModal'));
+            uploadOptionsModal = new bootstrap.Modal(document.getElementById('uploadOptionsModal'));
             
-            // Load videos
-            loadYouTubeVideos();
-            loadEmbedVideos();
+            // Load all videos
+            loadAllVideos();
             
             // Handle form submissions
             document.getElementById('youtubeForm').addEventListener('submit', handleYouTubeSubmit);
             document.getElementById('embedForm').addEventListener('submit', handleEmbedSubmit);
-            
-            // Add tab change listeners for debugging
-            const embedTab = document.getElementById('embed-tab');
-            const youtubeTab = document.getElementById('youtube-tab');
-            const uploadedTab = document.getElementById('uploaded-tab');
-            
-            if (embedTab) {
-                embedTab.addEventListener('click', function() {
-                    console.log('Embedded videos tab clicked');
-                    loadEmbedVideos();
-                });
-            }
-            
-            if (youtubeTab) {
-                youtubeTab.addEventListener('click', function() {
-                    console.log('YouTube videos tab clicked');
-                    loadYouTubeVideos();
-                });
-            }
-            
-            if (uploadedTab) {
-                uploadedTab.addEventListener('click', function() {
-                    console.log('Uploaded videos tab clicked');
-                });
-            }
         });
+        
+        function openUploadModal() {
+            uploadOptionsModal.hide();
+            window.location.href = 'media.php';
+        }
+        
+        function openYouTubeModal() {
+            uploadOptionsModal.hide();
+            youtubeModal.show();
+        }
+        
+        function openEmbedModal() {
+            uploadOptionsModal.hide();
+            embedModal.show();
+        }
         
         function playVideo(url, mimeType) {
             const player = document.getElementById('videoPlayer');
@@ -820,8 +781,7 @@ try {
                     alert('YouTube video added successfully!');
                     youtubeModal.hide();
                     document.getElementById('youtubeForm').reset();
-                    loadYouTubeVideos();
-                    updateYouTubeCount();
+                    loadAllVideos();
                 } else {
                     alert('Failed to add YouTube video: ' + data.message);
                 }
@@ -833,6 +793,52 @@ try {
             .finally(() => {
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
+            });
+        }
+        
+        function loadAllVideos() {
+            // Load YouTube videos
+            fetch('api/youtube-api.php', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                credentials: 'same-origin'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    displayYouTubeVideosUnified(data.data);
+                    updateYouTubeCount();
+                } else {
+                    console.error('Failed to load YouTube videos:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error loading YouTube videos:', error);
+            });
+            
+            // Load embedded videos
+            fetch('api/embed-api.php', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                credentials: 'same-origin'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    displayEmbedVideosUnified(data.data);
+                    updateEmbedCount();
+                } else {
+                    console.error('Failed to load embed videos:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error loading embed videos:', error);
             });
         }
         
@@ -848,7 +854,7 @@ try {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    displayYouTubeVideos(data.data);
+                    displayYouTubeVideosUnified(data.data);
                     updateYouTubeCount();
                 } else {
                     console.error('Failed to load YouTube videos:', data.message);
@@ -857,6 +863,61 @@ try {
             .catch(error => {
                 console.error('Error loading YouTube videos:', error);
             });
+        }
+        
+        function displayYouTubeVideosUnified(videos) {
+            const container = document.getElementById('youtubeVideosList');
+            
+            if (videos.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+            
+            let html = '<div class="row">';
+            videos.forEach(video => {
+                html += `
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="video-card">
+                            <div class="video-thumbnail">
+                                ${video.thumbnail_url ? 
+                                    `<img src="${video.thumbnail_url}" alt="${video.title}" style="width: 100%; height: 100%; object-fit: cover;">` :
+                                    `<div class="d-flex align-items-center justify-content-center bg-dark h-100">
+                                        <i class="fab fa-youtube fa-3x text-white"></i>
+                                    </div>`
+                                }
+                                <div class="play-overlay" onclick="playYouTubeVideo('${video.video_id}')">
+                                    <i class="fab fa-youtube"></i>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <h6 class="mb-1">${video.title || 'YouTube Video'}</h6>
+                                ${video.description ? `<p class="text-muted small mb-2">${video.description.substring(0, 100)}...</p>` : ''}
+                                <p class="text-muted small mb-2">
+                                    <i class="fab fa-youtube me-1"></i>
+                                    YouTube Video
+                                </p>
+                                <p class="text-muted small mb-3">
+                                    <i class="fas fa-calendar me-1"></i>
+                                    ${new Date(video.created_at).toLocaleDateString()}
+                                </p>
+                                <div class="btn-group w-100" role="group">
+                                    <button class="btn btn-sm btn-outline-danger" onclick="playYouTubeVideo('${video.video_id}')">
+                                        <i class="fab fa-youtube me-1"></i>Play
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success" onclick="copyYouTubeUrl('${video.youtube_url}', 'https://www.youtube.com/embed/${video.video_id}')">
+                                        <i class="fas fa-copy me-1"></i>Copy Embed
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteYouTubeVideo(${video.id})">
+                                        <i class="fas fa-trash me-1"></i>Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            container.innerHTML = html;
         }
         
         function displayYouTubeVideos(videos) {
@@ -982,8 +1043,7 @@ try {
                     alert('Embedded video added successfully!');
                     embedModal.hide();
                     document.getElementById('embedForm').reset();
-                    loadEmbedVideos();
-                    updateEmbedCount();
+                    loadAllVideos();
                 } else {
                     alert('Failed to add embedded video: ' + data.message);
                 }
@@ -1019,6 +1079,58 @@ try {
             .catch(error => {
                 console.error('Error loading embed videos:', error);
             });
+        }
+        
+        function displayEmbedVideosUnified(videos) {
+            const container = document.getElementById('embedVideosList');
+            
+            if (videos.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+            
+            let html = '<div class="row">';
+            videos.forEach(video => {
+                html += `
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="video-card">
+                            <div class="video-thumbnail">
+                                <div class="d-flex align-items-center justify-content-center bg-dark h-100">
+                                    <i class="fas fa-code fa-3x text-white"></i>
+                                </div>
+                                <div class="play-overlay" onclick="playEmbedVideo('${video.id}')">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <h6 class="mb-1">${video.title || 'Embedded Video'}</h6>
+                                ${video.description ? `<p class="text-muted small mb-2">${video.description.substring(0, 100)}...</p>` : ''}
+                                <p class="text-muted small mb-2">
+                                    <i class="fas fa-code me-1"></i>
+                                    Embedded Video
+                                </p>
+                                <p class="text-muted small mb-3">
+                                    <i class="fas fa-calendar me-1"></i>
+                                    ${new Date(video.created_at).toLocaleDateString()}
+                                </p>
+                                <div class="btn-group w-100" role="group">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="playEmbedVideo('${video.id}')">
+                                        <i class="fas fa-play me-1"></i>Play
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success" onclick="copyEmbedCode('${video.id}')">
+                                        <i class="fas fa-copy me-1"></i>Copy Code
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteEmbedVideo(${video.id})">
+                                        <i class="fas fa-trash me-1"></i>Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            container.innerHTML = html;
         }
         
         function displayEmbedVideos(videos) {
