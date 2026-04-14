@@ -1,41 +1,73 @@
 <?php
-// Database configuration
+/**
+ * Main Configuration File
+ * 
+ * This file contains the core configuration for the Federal Ministry of Women Affairs website.
+ * It handles database connections, path definitions, and system settings.
+ */
+
+// ------------------------------------------------------------------------
+// 1. DATABASE CONFIGURATION
+// ------------------------------------------------------------------------
+// Database credentials - Ensure these match your cPanel environment
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'womenaffairsgov_fmwa_db');
 define('DB_USER', 'womenaffairsgov_admin');
 define('DB_PASS', '@vCoLTL27N.gEfF');
 
-// Application paths
-define('BASE_PATH', realpath(dirname(__DIR__)));
-define('UPLOAD_DIR', BASE_PATH . '/images/uploads/');
+// ------------------------------------------------------------------------
+// 2. SYSTEM PATHS
+// ------------------------------------------------------------------------
+// Use absolute paths to prevent "reverting" behavior due to incorrect path resolution
+if (!defined('BASE_PATH')) {
+    define('BASE_PATH', __DIR__);
+}
 
-// Site settings
+if (!defined('UPLOAD_DIR')) {
+    define('UPLOAD_DIR', BASE_PATH . '/images/uploads/');
+}
+
+if (!defined('DOWNLOAD_DIR')) {
+    define('DOWNLOAD_DIR', BASE_PATH . '/uploads/downloads/');
+}
+
+// ------------------------------------------------------------------------
+// 3. SITE SETTINGS
+// ------------------------------------------------------------------------
 define('SITE_NAME', 'Federal Ministry of Women Affairs');
 define('SITE_URL', 'http://' . ($_SERVER['HTTP_HOST'] ?? 'localhost'));
 
-// Error reporting (disable on production site for security and clean output)
-error_reporting(E_ALL);
-ini_set('display_errors', '0');
+// ------------------------------------------------------------------------
+// 4. ERROR REPORTING & ENVIRONMENT
+// ------------------------------------------------------------------------
+// Set to 0 for production, 1 for development
+$is_development = (($_SERVER['HTTP_HOST'] ?? '') === 'localhost');
 
+if ($is_development) {
+    error_reporting(E_ALL);
+    ini_set('display_errors', '1');
+} else {
+    error_reporting(E_ALL);
+    ini_set('display_errors', '0');
+}
+
+// ------------------------------------------------------------------------
+// 5. SESSION MANAGEMENT
+// ------------------------------------------------------------------------
 // Timezone
 date_default_timezone_set('Africa/Lagos');
 
-// Session settings - always use local /sessions directory so cPanel path issues don't break login
 if (session_status() === PHP_SESSION_NONE) {
-    $session_path = __DIR__ . '/sessions';
+    $session_path = BASE_PATH . '/sessions';
 
     // Ensure the directory exists
     if (!is_dir($session_path)) {
         @mkdir($session_path, 0755, true);
     }
 
-    // If writable, force PHP to use this directory for session files
+    // Use local session directory to avoid cPanel temporary file issues
     if (is_writable($session_path)) {
-        if (function_exists('session_save_path')) {
-            session_save_path($session_path);
-        } else {
-            ini_set('session.save_path', $session_path);
-        }
+        session_save_path($session_path);
     }
 
     ini_set('session.cookie_httponly', 1);
@@ -44,7 +76,10 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Database connection
+// ------------------------------------------------------------------------
+// 6. DATABASE CONNECTION (PDO SINGLETON)
+// ------------------------------------------------------------------------
+// Initialize global PDO object
 $pdo = null;
 try {
     $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4";
@@ -52,10 +87,10 @@ try {
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES => false,
+        PDO::ATTR_PERSISTENT => true, // Use persistent connections for performance
     ];
     $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
 } catch (PDOException $e) {
-    // Log error but don't expose details to users
     error_log("Database connection failed: " . $e->getMessage());
     if (ini_get('display_errors')) {
         die("Database connection failed: " . $e->getMessage());

@@ -1,10 +1,18 @@
-<?php require_once 'config.php'; ?>
+<?php 
+require_once 'config.php'; 
+require_once 'includes/helpers.php'; 
+
+// Fetch site-wide settings
+$site_name = get_setting('site_name', 'Federal Ministry of Women Affairs');
+$site_desc = get_setting('site_description', 'Official website of the Federal Ministry of Women Affairs');
+$maintenance_mode = get_setting('maintenance_mode', false);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Federal Ministry of Women Affairs</title>
+    <title><?php echo htmlspecialchars($site_name); ?></title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="images/2025_07_14_13_42_IMG_2808.PNG">
@@ -170,6 +178,7 @@
 <body>
     <!-- Header will be inserted here by components/header.js -->
     
+    <?php if ($maintenance_mode): ?>
     <!-- Maintenance Notice Section -->
     <div class="maintenance-banner bg-warning text-dark py-2" style="margin-top: 80px;">
         <div class="container">
@@ -184,6 +193,7 @@
             </div>
         </div>
     </div>
+    <?php endif; ?>
     
     <!-- Hero Section -->
     <section class="hero-section py-5">
@@ -224,21 +234,16 @@
     <!-- Leadership Section -->
     <section class="leadership-section py-5">
         <?php
-        // Leadership data
-        $leadership = [
-            'minister' => [
-                'name' => 'Hajiya Imaan Sulaiman-Ibrahim',
-                'title' => 'Honourable Minister',
-                'image' => 'images/imaan_sulaiman.jpg',
-                'description' => 'Hajiya Imaan Sulaiman-Ibrahim is the Honourable Minister of Women Affairs, appointed to oversee the affairs of the Federal Ministry of Women Affairs. With a strong background in public service and a passion for women\'s empowerment, she is committed to advancing gender equality, protecting women\'s rights, and implementing policies that promote the welfare of women and children across Nigeria.'
-            ],
-            'permanent_secretary' => [
-                'name' => 'Dr. Maryam Ismaila Keshinro',
-                'title' => 'Permanent Secretary',
-                'image' => 'images/2025_07_11_16_37_IMG_2803.JPG',
-                'description' => 'Dr. Maryam Ismaila Keshinro serves as the Permanent Secretary of the Federal Ministry of Women Affairs, bringing extensive experience in public administration and policy implementation. She works closely with the Honourable Minister to ensure the effective execution of policies and programs that advance gender equality, women\'s empowerment, and the protection of women\'s and children\'s rights across Nigeria.'
-            ]
-        ];
+        // Fetch Leadership data from Settings
+        $minister_name = get_setting('minister_name', 'Hajiya Imaan Sulaiman-Ibrahim');
+        $minister_title = get_setting('minister_title', 'Honourable Minister');
+        $minister_image = get_setting('minister_image', 'images/imaan_sulaiman.jpg');
+        $minister_desc = get_setting('minister_description', 'The Honourable Minister of Women Affairs is committed to advancing gender equality and protecting women\'s rights across Nigeria.');
+        
+        $perm_sec_name = get_setting('perm_sec_name', 'Dr. Maryam Ismaila Keshinro');
+        $perm_sec_title = get_setting('perm_sec_title', 'Permanent Secretary');
+        $perm_sec_image = get_setting('perm_sec_image', 'images/2025_07_11_16_37_IMG_2803.JPG');
+        $perm_sec_desc = get_setting('perm_sec_description', 'The Permanent Secretary brings extensive experience in public administration to the Ministry.');
         ?>
         <div class="container">
             <h2 class="section-title text-center mb-5">Leadership</h2>
@@ -249,11 +254,11 @@
                     <div class="card h-100 border-0 shadow-sm">
                         <div class="card-body text-center p-4">
                             <div class="profile-image-container minister mx-auto">
-                                <img src="<?php echo $leadership['minister']['image']; ?>" class="profile-image" alt="<?php echo $leadership['minister']['name']; ?>">
+                                <img src="<?php echo htmlspecialchars($minister_image); ?>" class="profile-image" alt="<?php echo htmlspecialchars($minister_name); ?>">
                             </div>
-                            <h5 class="text-muted mb-2"><?php echo $leadership['minister']['title']; ?></h5>
-                            <h4 class="mb-3"><?php echo $leadership['minister']['name']; ?></h4>
-                            <p class="card-text"><?php echo $leadership['minister']['description']; ?></p>
+                            <h5 class="text-muted mb-2"><?php echo htmlspecialchars($minister_title); ?></h5>
+                            <h4 class="mb-3"><?php echo htmlspecialchars($minister_name); ?></h4>
+                            <p class="card-text"><?php echo htmlspecialchars($minister_desc); ?></p>
                         </div>
                     </div>
                 </div>
@@ -263,11 +268,11 @@
                     <div class="card h-100 border-0 shadow-sm">
                         <div class="card-body text-center p-4">
                             <div class="profile-image-container mx-auto">
-                                <img src="<?php echo $leadership['permanent_secretary']['image']; ?>" class="profile-image" alt="<?php echo $leadership['permanent_secretary']['name']; ?>">
+                                <img src="<?php echo htmlspecialchars($perm_sec_image); ?>" class="profile-image" alt="<?php echo htmlspecialchars($perm_sec_name); ?>">
                             </div>
-                            <h5 class="text-muted mb-2"><?php echo $leadership['permanent_secretary']['title']; ?></h5>
-                            <h4 class="mb-3"><?php echo $leadership['permanent_secretary']['name']; ?></h4>
-                            <p class="card-text"><?php echo $leadership['permanent_secretary']['description']; ?></p>
+                            <h5 class="text-muted mb-2"><?php echo htmlspecialchars($perm_sec_title); ?></h5>
+                            <h4 class="mb-3"><?php echo htmlspecialchars($perm_sec_name); ?></h4>
+                            <p class="card-text"><?php echo htmlspecialchars($perm_sec_desc); ?></p>
                         </div>
                     </div>
                 </div>
@@ -282,7 +287,7 @@
                 <div class="col-lg-6 mb-4">
                     <div id="mandate-section" class="feature-box">
                         <h3><i class="fas fa-landmark me-2"></i>Our Mandate</h3>
-                        <p>The broad mandate of the Ministry is to advise government on Gender and Children issues. Issues affecting Persons with Disabilities and the Aged; initiate policy guidelines and lead the process of gender equality and mainstreaming at both the National and International levels.</p>
+                        <p><?php echo htmlspecialchars(get_setting('our_mandate', 'The broad mandate of the Ministry is to advise government on Gender and Children issues...')); ?></p>
                         
                         <a href="mandate.php" class="read-more">
                             Read More <i class="fas fa-arrow-right"></i>
@@ -292,13 +297,13 @@
                 <div class="col-lg-6 mb-4">
                     <div id="vision-section" class="feature-box">
                         <h3><i class="fas fa-eye me-2"></i>Our Vision</h3>
-                        <p>To help build a Nigerian Society that guarantees equal access to social, economic and wealth creation opportunities to all, irrespective of gender, places premium on protection of the child, the aged and persons with disabilities; focuses attention of key operators in both private and public sectors on mainstreaming the concerns of these groups of people in national development process.</p>
+                        <p><?php echo htmlspecialchars(get_setting('our_vision', 'To help build a Nigerian Society that guarantees equal access to social, economic and wealth creation opportunities to all...')); ?></p>
                     </div>
                 </div>
                 <div class="col-lg-6 mb-4">
                     <div id="mission-section" class="feature-box">
                         <h3><i class="fas fa-bullseye me-2"></i>Our Mission</h3>
-                        <p>To help build a Nigerian Society that guarantees equal access to social, economic and wealth creation opportunities to all, irrespective of gender, places premium on protection of the child, the aged and persons with disabilities; focuses attention of key operators in both private and public sectors on mainstreaming the concerns of these groups of people in national development process.</p>
+                        <p><?php echo htmlspecialchars(get_setting('our_mission', 'To formulate, implement and monitor policies and programs that promote the advancement and empowerment of women.')); ?></p>
                     </div>
                 </div>
                 <div class="col-lg-6 mb-4">

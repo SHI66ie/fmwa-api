@@ -309,6 +309,12 @@ try {
                 </a>
             </div>
             <div class="nav-item">
+                <a href="admin_central.php" class="nav-link">
+                    <i class="fas fa-bolt text-warning"></i>
+                    Admin Central
+                </a>
+            </div>
+            <div class="nav-item">
                 <a href="settings.php" class="nav-link">
                     <i class="fas fa-cog"></i>
                     Settings
