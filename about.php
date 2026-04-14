@@ -4,10 +4,18 @@ require_once 'includes/helpers.php';
 
 // Fetch settings
 $site_name = get_setting('site_name', 'Federal Ministry of Women Affairs');
+
+// Minister
 $minister_name = get_setting('minister_name', 'Hon. Imaan Sulaiman Ibrahim');
 $minister_title = get_setting('minister_title', 'Honourable Minister');
 $minister_image = get_setting('minister_image', 'images/minister-placeholder.jpg');
 $minister_desc = get_setting('minister_description', 'Leading the Ministry with dedication...');
+
+// Perm Sec
+$perm_sec_name = get_setting('perm_sec_name', 'Dr. Maryam Ismaila Keshinro');
+$perm_sec_title = get_setting('perm_sec_title', 'Permanent Secretary');
+$perm_sec_image = get_setting('perm_sec_image', 'images/permsec-placeholder.jpg');
+$perm_sec_desc = get_setting('perm_sec_description', 'Providing administrative excellence...');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,6 +40,7 @@ $minister_desc = get_setting('minister_description', 'Leading the Ministry with 
     <link rel="stylesheet" href="css/visitor-counter.css">
     
     <!-- Include components -->
+    <?php include_once 'includes/js-config.php'; ?>
     <script src="js/include-components.js" defer></script>
     
     <style>
@@ -325,11 +334,18 @@ $minister_desc = get_setting('minister_description', 'Leading the Ministry with 
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <div class="leadership-card">
+                    <div class="leadership-card mb-4">
                         <img src="<?php echo htmlspecialchars($minister_image); ?>" alt="<?php echo htmlspecialchars($minister_name); ?>" class="leadership-photo">
                         <h4 class="leadership-name"><?php echo htmlspecialchars($minister_name); ?></h4>
                         <p class="leadership-title"><?php echo htmlspecialchars($minister_title); ?></p>
-                        <p class="text-muted"><?php echo htmlspecialchars($minister_desc); ?></p>
+                        <p class="text-muted small"><?php echo htmlspecialchars($minister_desc); ?></p>
+                    </div>
+                    
+                    <div class="leadership-card">
+                        <img src="<?php echo htmlspecialchars($perm_sec_image); ?>" alt="<?php echo htmlspecialchars($perm_sec_name); ?>" class="leadership-photo">
+                        <h4 class="leadership-name"><?php echo htmlspecialchars($perm_sec_name); ?></h4>
+                        <p class="leadership-title"><?php echo htmlspecialchars($perm_sec_title); ?></p>
+                        <p class="text-muted small"><?php echo htmlspecialchars($perm_sec_desc); ?></p>
                     </div>
                 </div>
             </div>

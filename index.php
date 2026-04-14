@@ -169,9 +169,11 @@ $maintenance_mode = get_setting('maintenance_mode', false);
     </style>
     
     <!-- Include components -->
+    <?php include_once 'includes/js-config.php'; ?>
     <script src="js/include-components.js" defer></script>
     <script src="js/visitor-counter.js" defer></script>
     
+    <!-- Include dynamic configuration for JS components -->
     <!-- Preload critical images -->
     <link rel="preload" href="images/2025_07_14_13_42_IMG_2808.PNG" as="image">
 </head>

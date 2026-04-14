@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
         'our_mandate', 'our_vision', 'our_mission', 'maintenance_mode',
         'contact_email', 'contact_phone', 'contact_address', 'contact_hours',
         'social_facebook', 'social_twitter', 'social_instagram', 'social_youtube',
-        'footer_about_text', 'site_name', 'site_description'
+        'footer_about_text', 'site_name', 'site_description', 'site_logo'
     ];
     
     // Explicitly handle image paths if no new image is uploaded
@@ -49,7 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
 
         $files_to_process = [
             'minister_photo' => 'minister_image',
-            'perm_sec_photo' => 'perm_sec_image'
+            'perm_sec_photo' => 'perm_sec_image',
+            'site_logo_file' => 'site_logo'
         ];
 
         foreach ($files_to_process as $input_name => $setting_key) {
@@ -185,12 +186,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
                                 <?php $m_img = get_setting('minister_image'); ?>
                                 <?php if ($m_img): ?>
                                     <div class="mb-2">
-                                        <img src="../<?php echo htmlspecialchars($m_img); ?>" alt="Minister" style="width: 100px; height: 120px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd;">
+                                        <?php 
+                                            $m_img_src = (strpos($m_img, 'http') === 0) ? $m_img : '../' . ltrim($m_img, '/');
+                                        ?>
+                                        <img src="<?php echo htmlspecialchars($m_img_src); ?>" alt="Minister" style="width: 100px; height: 120px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd;">
                                     </div>
                                 <?php endif; ?>
-                                <input type="file" name="minister_photo" class="form-control mb-2" accept="image/*">
-                                <input type="text" name="minister_image" class="form-control text-muted" style="font-size: 0.8em;" value="<?php echo htmlspecialchars($m_img); ?>">
-                                <small class="text-muted">Upload a new photo or leave as is.</small>
+                                <div class="d-flex gap-2 mb-2">
+                                    <input type="file" name="minister_photo" class="form-control" accept="image/*">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="openMediaPicker('minister_image', 'minister_preview')">
+                                        <i class="fas fa-images"></i> Library
+                                    </button>
+                                </div>
+                                <input type="text" name="minister_image" id="minister_image" class="form-control text-muted mb-1" style="font-size: 0.8em;" value="<?php echo htmlspecialchars($m_img); ?>">
+                                <small class="text-muted">Upload new, pick from library, or paste a URL.</small>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Short Biography</label>
@@ -217,11 +226,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
                                 <?php $ps_img = get_setting('perm_sec_image'); ?>
                                 <?php if ($ps_img): ?>
                                     <div class="mb-2">
-                                        <img src="../<?php echo htmlspecialchars($ps_img); ?>" alt="Perm Sec" style="width: 100px; height: 120px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd;">
+                                        <?php 
+                                            $ps_img_src = (strpos($ps_img, 'http') === 0) ? $ps_img : '../' . ltrim($ps_img, '/');
+                                        ?>
+                                        <img src="<?php echo htmlspecialchars($ps_img_src); ?>" alt="Perm Sec" style="width: 100px; height: 120px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd;">
                                     </div>
                                 <?php endif; ?>
-                                <input type="file" name="perm_sec_photo" class="form-control mb-2" accept="image/*">
-                                <input type="text" name="perm_sec_image" class="form-control text-muted" style="font-size: 0.8em;" value="<?php echo htmlspecialchars($ps_img); ?>">
+                                <div class="d-flex gap-2 mb-2">
+                                    <input type="file" name="perm_sec_photo" class="form-control" accept="image/*">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="openMediaPicker('perm_sec_image', 'perm_sec_preview')">
+                                        <i class="fas fa-images"></i> Library
+                                    </button>
+                                </div>
+                                <input type="text" name="perm_sec_image" id="perm_sec_image" class="form-control text-muted mb-1" style="font-size: 0.8em;" value="<?php echo htmlspecialchars($ps_img); ?>">
+                                <small class="text-muted">Upload new, pick from library, or paste a URL.</small>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Short Biography</label>
@@ -287,6 +305,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
                                     <label class="form-label">Site Meta Description</label>
                                     <input type="text" name="site_description" class="form-control" value="<?php echo htmlspecialchars(get_setting('site_description')); ?>">
                                 </div>
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label">Site Logo</label>
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <?php $logo = get_setting('site_logo', 'images/2025_07_14_13_42_IMG_2808.PNG'); ?>
+                                            <?php 
+                                                $logo_src = (strpos($logo, 'http') === 0) ? $logo : '../' . ltrim($logo, '/');
+                                            ?>
+                                            <img src="<?php echo htmlspecialchars($logo_src); ?>" alt="Logo" style="height: 60px; border: 1px solid #ddd; padding: 5px; border-radius: 5px;">
+                                        </div>
+                                        <div class="col">
+                                            <div class="d-flex gap-2 mb-2">
+                                                <input type="file" name="site_logo_file" class="form-control" accept="image/*">
+                                                <button type="button" class="btn btn-outline-secondary" onclick="openMediaPicker('site_logo', 'logo_preview')">
+                                                    <i class="fas fa-images"></i> Library
+                                                </button>
+                                            </div>
+                                            <input type="text" name="site_logo" id="site_logo" class="form-control text-muted" style="font-size: 0.8em;" value="<?php echo htmlspecialchars($logo); ?>">
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-12 mb-3">
                                     <label class="form-label">Footer About Text</label>
                                     <textarea name="footer_about_text" class="form-control" rows="2"><?php echo htmlspecialchars(get_setting('footer_about_text')); ?></textarea>
@@ -351,6 +390,123 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
         </form>
     </div>
 
+    <!-- Media Picker Modal -->
+    <div class="modal fade" id="mediaPickerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-images me-2"></i>Select Media</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <input type="text" id="mediaSearch" class="form-control" placeholder="Search media files...">
+                    </div>
+                    <div id="mediaPickerGrid" class="row g-3">
+                        <!-- Media items will be loaded here -->
+                        <div class="col-12 text-center py-5">
+                            <div class="spinner-border text-primary" role="status"></div>
+                            <p class="mt-2 text-muted">Loading your media library...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .picker-item { cursor: pointer; transition: all 0.2s; border: 2px solid transparent; border-radius: 8px; overflow: hidden; height: 100%; position: relative; }
+        .picker-item:hover { transform: scale(1.02); box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-color: #667eea; }
+        .picker-img { width: 100%; height: 150px; object-fit: cover; }
+        .picker-info { padding: 8px; background: #fff; font-size: 0.75rem; border-top: 1px solid #eee; }
+        .picker-badge { position: absolute; top: 5px; right: 5px; }
+    </style>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let targetInputId = '';
+        let targetPreviewId = '';
+        let mediaModal;
+        let allMedia = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            mediaModal = new bootstrap.Modal(document.getElementById('mediaPickerModal'));
+            
+            document.getElementById('mediaSearch').addEventListener('input', function(e) {
+                renderMedia(e.target.value);
+            });
+        });
+
+        function openMediaPicker(inputId, previewId) {
+            targetInputId = inputId;
+            targetPreviewId = previewId;
+            mediaModal.show();
+            fetchMedia();
+        }
+
+        async function fetchMedia() {
+            try {
+                const response = await fetch('api/media.php');
+                const result = await response.json();
+                if (result.success) {
+                    allMedia = Array.isArray(result.media) ? result.media : (Array.isArray(result.data) ? result.data : []);
+                    renderMedia();
+                } else {
+                    document.getElementById('mediaPickerGrid').innerHTML = '<div class="col-12 text-center text-danger">Failed to load media: ' + result.message + '</div>';
+                }
+            } catch (err) {
+                document.getElementById('mediaPickerGrid').innerHTML = '<div class="col-12 text-center text-danger">Error connecting to media API.</div>';
+            }
+        }
+
+        function renderMedia(search = '') {
+            const grid = document.getElementById('mediaPickerGrid');
+            const filtered = allMedia.filter(m => 
+                (m.title || m.filename || '').toLowerCase().includes(search.toLowerCase())
+            );
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="col-12 text-center py-5">No matching media found.</div>';
+                return;
+            }
+
+            let html = '';
+            filtered.forEach(m => {
+                const isImg = m.mime_type && m.mime_type.startsWith('image/');
+                const isVid = m.mime_type && m.mime_type.startsWith('video/');
+                const thumb = isImg ? `../${m.file_url}` : (isVid ? 'https://via.placeholder.com/150x100?text=VIDEO' : 'https://via.placeholder.com/150x100?text=FILE');
+                
+                html += `
+                    <div class="col-md-3 col-6">
+                        <div class="picker-item card" onclick="selectMedia('${m.file_url}')">
+                            <img src="${thumb}" class="picker-img">
+                            <div class="picker-info">
+                                <div class="text-truncate fw-bold">${m.title || m.filename}</div>
+                                <div class="text-muted">${m.mime_type}</div>
+                            </div>
+                            <span class="badge bg-primary picker-badge">${isImg ? 'IMG' : (isVid ? 'VID' : 'FILE')}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            grid.innerHTML = html;
+        }
+
+        function selectMedia(url) {
+            document.getElementById(targetInputId).value = url;
+            // Best effort preview update
+            const previews = document.querySelectorAll('img');
+            for(let img of previews) {
+                if (img.src.includes(url.split('/').pop())) {
+                     // likely found the preview, but better to refresh the whole page or use IDs
+                }
+            }
+            mediaModal.hide();
+            alert("Media selected! Don't forget to click 'Save All Dynamic Content' to apply changes.");
+        }
+    </script>
 </body>
 </html>

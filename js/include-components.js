@@ -1,13 +1,19 @@
 // Include Components JavaScript
 document.addEventListener('DOMContentLoaded', function() {
+    // Use global config if available, otherwise fallback to defaults
+    const siteConfig = window.fmwaConfig || {
+        siteName: 'FEDERAL MINISTRY OF WOMEN AFFAIRS',
+        siteLogo: './images/2025_07_14_13_42_IMG_2808.PNG'
+    };
+    
     // Basic header HTML structure
     const headerHTML = `
         <nav class="navbar navbar-expand-lg navbar-dark main-nav px-0">
             <div class="container-fluid gx-0">
                 <a class="navbar-brand d-flex align-items-center me-0" href="./">
-                    <img alt="Federal Ministry of Women Affairs Logo" class="fmwa-logo" src="./images/2025_07_14_13_42_IMG_2808.PNG" style="height: 50px;">
+                    <img alt="${siteConfig.siteName} Logo" class="fmwa-logo" src="${siteConfig.siteLogo}" style="height: 50px;">
                     <span class="logo-divider"></span>
-                    <span class="fmwa-navbar-title">FEDERAL MINISTRY OF WOMEN AFFAIRS</span>
+                    <span class="fmwa-navbar-title">${siteConfig.siteName}</span>
                 </a>
                 <button aria-expanded="false" class="navbar-toggler" data-bs-target="#navbarNav" data-bs-toggle="collapse" title="Toggle navigation menu" type="button">
                     <span class="navbar-toggler-icon"></span>

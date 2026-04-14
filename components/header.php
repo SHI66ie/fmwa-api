@@ -10,7 +10,12 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
     <title><?php echo isset($page_title) ? $page_title : 'Federal Ministry of Women Affairs'; ?></title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="../images/2025_07_14_13_42_IMG_2808.PNG">
+    <?php 
+        $site_logo = get_setting('site_logo', 'images/2025_07_14_13_42_IMG_2808.PNG');
+        $site_logo_url = (strpos($site_logo, 'http') === 0) ? $site_logo : '../' . ltrim($site_logo, '/');
+        $site_name = get_setting('site_name', 'FEDERAL MINISTRY OF WOMEN AFFAIRS');
+    ?>
+    <link rel="icon" type="image/png" href="<?php echo htmlspecialchars($site_logo_url); ?>">
     
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
@@ -237,9 +242,9 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
     <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
         <div class="container-fluid">
             <a class="navbar-brand d-flex align-items-center" href="../">
-                <img alt="Federal Ministry of Women Affairs Logo" class="fmwa-logo" src="../images/2025_07_14_13_42_IMG_2808.PNG" style="height: 50px;">
+                <img alt="<?php echo htmlspecialchars($site_name); ?> Logo" class="fmwa-logo" src="<?php echo htmlspecialchars($site_logo_url); ?>" style="height: 50px;">
                 <span class="logo-divider"></span>
-                <span class="fmwa-navbar-title">FEDERAL MINISTRY OF WOMEN AFFAIRS</span>
+                <span class="fmwa-navbar-title"><?php echo htmlspecialchars($site_name); ?></span>
             </a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

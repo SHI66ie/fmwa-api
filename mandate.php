@@ -11,6 +11,13 @@ $site_name = get_setting('site_name', 'Federal Ministry of Women Affairs');
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Our Mandate - Federal Ministry of Women Affairs</title>
+    <!-- Include components -->
+    <?php include_once 'includes/js-config.php'; ?>
+    <script src="js/include-components.js" defer></script>
+    
+    <style>
+        body { padding-top: 100px; }
+    </style>
 <!-- Favicon -->
 <link href="./images/2025_07_14_13_42_IMG_2808.PNG" rel="icon" type="image/png"/>
 <!-- Bootstrap CSS -->
@@ -101,68 +108,7 @@ $site_name = get_setting('site_name', 'Federal Ministry of Women Affairs');
     });
     </script>
 </head>
-<body><nav class="navbar navbar-expand-lg navbar-dark main-nav px-0">
-<div class="container-fluid gx-0">
-<a class="navbar-brand d-flex align-items-center me-0" href="./index.php">
-<img alt="Federal Ministry of Women Affairs Logo" class="fmwa-logo" src="./images/2025_07_14_13_42_IMG_2808.PNG"/>
-<span class="logo-divider"></span>
-<span class="fmwa-navbar-title">FEDERAL MINISTRY OF WOMEN AFFAIRS</span>
-</a>
-<button aria-expanded="false" class="navbar-toggler" data-bs-target="#navbarNav" data-bs-toggle="collapse" title="Toggle navigation menu" type="button">
-<span class="navbar-toggler-icon"></span>
-</button>
-<div class="collapse navbar-collapse" id="navbarNav">
-<ul class="navbar-nav ms-auto">
-<li class="nav-item">
-<a class="nav-link" href="./index.php" title="Go to home page">Home</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="./about.php" title="Learn about the ministry">About Us</a>
-</li>
-<li class="nav-item dropdown">
-<a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="departmentsDropdown" role="button" title="Explore our departments">
-                            Departments
-                        </a>
-<ul aria-labelledby="departmentsDropdown" class="dropdown-menu dropdown-menu-end">
-<li><a class="dropdown-item" href="./departments/child-development.php" title="Child Development Department">
-                                Child Development
-                            </a></li>
-<li><a class="dropdown-item" href="./departments/community-development-social-intervention.php" title="Community Development &amp; Social Intervention Department">
-                                Community Development &amp; Social Intervention
-                            </a></li>
-<li><a class="dropdown-item" href="./departments/finance-accounting.php" title="Finance &amp; Accounting Department">
-                                Finance &amp; Accounting
-                            </a></li>
-<li><a class="dropdown-item" href="./departments/gender-affairs.php" title="Gender Affairs Department">
-                                Gender Affairs
-                            </a></li>
-<li><a class="dropdown-item" href="./departments/general-services.php" title="General Services Department">
-                                General Services
-                            </a></li>
-<li><a class="dropdown-item" href="./departments/nutrition.php" title="Nutrition Department">
-                                Nutrition
-                            </a></li>
-<li><a class="dropdown-item" href="./departments/planning-research-statistics.php" title="Planning, Research &amp; Statistics Department">
-                                Planning, Research &amp; Statistics
-                            </a></li>
-<li><a class="dropdown-item" href="./departments/procurement.php" title="Procurement Department">
-                                Procurement
-                            </a></li>
-<li><a class="dropdown-item" href="./departments/reform-coordination-service-improvement.php" title="Reform Coordination &amp; Service Improvement Department">
-                                Reform Coordination &amp; Service Improvement
-                            </a></li>
-<li><a class="dropdown-item" href="./departments/women-development.php" title="Women Development Department">
-                                Women Development
-                            </a></li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-</nav>
-<!-- Top Bar -->
-<!-- Main Navigation -->
-<!-- Main Navigation -->
+<body class="d-flex flex-column min-vh-100">
 
 <!-- Mandate Content -->
 <section class="py-5">
