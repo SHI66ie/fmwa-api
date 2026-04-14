@@ -340,6 +340,12 @@ try {
             </div>
             <div class="col-md-3 mb-3">
                 <div class="stats-card">
+                    <div class="stats-number" id="embedVideoCount">0</div>
+                    <div>Embedded Videos</div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="stats-card">
                     <div class="stats-number"><?php echo number_format($total_size / 1024 / 1024, 1); ?> MB</div>
                     <div>Storage Used</div>
                 </div>
@@ -363,6 +369,11 @@ try {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="youtube-tab" data-bs-toggle="tab" data-bs-target="#youtube-videos" type="button" role="tab">
                         <i class="fab fa-youtube me-2"></i>YouTube Videos
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="embed-tab" data-bs-toggle="tab" data-bs-target="#embed-videos" type="button" role="tab">
+                        <i class="fas fa-code me-2"></i>Embedded Videos
                     </button>
                 </li>
             </ul>
@@ -477,6 +488,30 @@ try {
                         </div>
                     </div>
                 </div>
+
+                <!-- Embedded Videos Tab -->
+                <div class="tab-pane fade" id="embed-videos" role="tabpanel">
+                    <h5 class="mb-4">
+                        <i class="fas fa-code me-2"></i>
+                        Embedded Videos
+                        <button class="btn btn-sm btn-outline-success ms-2" data-bs-toggle="modal" data-bs-target="#embedModal">
+                            <i class="fas fa-plus me-1"></i>
+                            Add Embedded Video
+                        </button>
+                    </h5>
+                    
+                    <div id="embedVideosContainer">
+                        <div class="text-center py-5">
+                            <i class="fas fa-code fa-4x text-muted mb-3"></i>
+                            <h5>No Embedded Videos</h5>
+                            <p class="text-muted mb-4">You haven't added any embedded videos yet.</p>
+                            <button class="btn btn-gradient" data-bs-toggle="modal" data-bs-target="#embedModal">
+                                <i class="fas fa-code me-2"></i>
+                                Add Embedded Video
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -555,6 +590,62 @@ try {
         </div>
     </div>
 
+    <!-- Embedded Video Modal -->
+    <div class="modal fade" id="embedModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-code me-2"></i>
+                        Add Embedded Video
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="embedForm">
+                        <div class="mb-3">
+                            <label for="embedCode" class="form-label">
+                                <i class="fas fa-code me-1"></i>
+                                Embed Code
+                            </label>
+                            <textarea class="form-control" id="embedCode" rows="6" 
+                                      placeholder="Paste your iframe embed code here..." required></textarea>
+                            <small class="text-muted">
+                                Paste the full iframe embed code from YouTube, Vimeo, or any video platform
+                            </small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="embedTitle" class="form-label">
+                                <i class="fas fa-heading me-1"></i>
+                                Title (Optional)
+                            </label>
+                            <input type="text" class="form-control" id="embedTitle" 
+                                   placeholder="Video title">
+                        </div>
+                        <div class="mb-3">
+                            <label for="embedDescription" class="form-label">
+                                <i class="fas fa-align-left me-1"></i>
+                                Description (Optional)
+                            </label>
+                            <textarea class="form-control" id="embedDescription" rows="3" 
+                                      placeholder="Video description"></textarea>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                <i class="fas fa-times me-1"></i>
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-code me-1"></i>
+                                Add Embedded Video
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         let videoPlayerModal;
@@ -563,12 +654,15 @@ try {
         document.addEventListener('DOMContentLoaded', function() {
             videoPlayerModal = new bootstrap.Modal(document.getElementById('videoPlayerModal'));
             youtubeModal = new bootstrap.Modal(document.getElementById('youtubeModal'));
+            embedModal = new bootstrap.Modal(document.getElementById('embedModal'));
             
-            // Load YouTube videos
+            // Load videos
             loadYouTubeVideos();
+            loadEmbedVideos();
             
-            // Handle YouTube form submission
+            // Handle form submissions
             document.getElementById('youtubeForm').addEventListener('submit', handleYouTubeSubmit);
+            document.getElementById('embedForm').addEventListener('submit', handleEmbedSubmit);
         });
         
         function playVideo(url, mimeType) {
@@ -816,13 +910,261 @@ try {
             .then(data => {
                 if (data.success) {
                     document.getElementById('youtubeVideoCount').textContent = data.pagination.total;
-                    const uploadedCount = parseInt(document.getElementById('uploadedVideoCount').textContent);
-                    document.getElementById('totalVideoCount').textContent = uploadedCount + data.pagination.total;
+                    updateTotalCount();
                 }
             })
             .catch(error => {
                 console.error('Error updating YouTube count:', error);
             });
+        }
+        
+        function handleEmbedSubmit(e) {
+            e.preventDefault();
+            
+            const embedCode = document.getElementById('embedCode').value;
+            const title = document.getElementById('embedTitle').value;
+            const description = document.getElementById('embedDescription').value;
+            
+            if (!embedCode) {
+                alert('Please enter embed code');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Adding...';
+            submitBtn.disabled = true;
+            
+            fetch('api/embed-api.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify({
+                    embed_code: embedCode,
+                    title: title,
+                    description: description
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Embedded video added successfully!');
+                    embedModal.hide();
+                    document.getElementById('embedForm').reset();
+                    loadEmbedVideos();
+                    updateEmbedCount();
+                } else {
+                    alert('Failed to add embedded video: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to add embedded video: ' + error.message);
+            })
+            .finally(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            });
+        }
+        
+        function loadEmbedVideos() {
+            fetch('api/embed-api.php', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                credentials: 'same-origin'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    displayEmbedVideos(data.data);
+                    updateEmbedCount();
+                } else {
+                    console.error('Failed to load embed videos:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error loading embed videos:', error);
+            });
+        }
+        
+        function displayEmbedVideos(videos) {
+            const container = document.getElementById('embedVideosContainer');
+            
+            if (videos.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-5">
+                        <i class="fas fa-code fa-4x text-muted mb-3"></i>
+                        <h5>No Embedded Videos</h5>
+                        <p class="text-muted mb-4">You haven't added any embedded videos yet.</p>
+                        <button class="btn btn-gradient" data-bs-toggle="modal" data-bs-target="#embedModal">
+                            <i class="fas fa-code me-2"></i>
+                            Add Embedded Video
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '<div class="row">';
+            videos.forEach(video => {
+                html += `
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="video-card">
+                            <div class="video-thumbnail">
+                                <div class="d-flex align-items-center justify-content-center bg-dark h-100">
+                                    <i class="fas fa-code fa-3x text-white"></i>
+                                </div>
+                                <div class="play-overlay" onclick="playEmbedVideo('${video.id}')">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <h6 class="mb-1">${video.title || 'Embedded Video'}</h6>
+                                ${video.description ? `<p class="text-muted small mb-2">${video.description.substring(0, 100)}...</p>` : ''}
+                                <p class="text-muted small mb-2">
+                                    <i class="fas fa-code me-1"></i>
+                                    Embedded Video
+                                </p>
+                                <p class="text-muted small mb-3">
+                                    <i class="fas fa-calendar me-1"></i>
+                                    ${new Date(video.created_at).toLocaleDateString()}
+                                </p>
+                                <div class="btn-group w-100" role="group">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="playEmbedVideo('${video.id}')">
+                                        <i class="fas fa-play me-1"></i>Play
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success" onclick="copyEmbedCode('${video.id}')">
+                                        <i class="fas fa-copy me-1"></i>Copy Code
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteEmbedVideo(${video.id})">
+                                        <i class="fas fa-trash me-1"></i>Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        function playEmbedVideo(videoId) {
+            fetch('api/embed-api.php', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                credentials: 'same-origin'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.data.length > 0) {
+                    const video = data.data.find(v => v.id == videoId);
+                    if (video) {
+                        const player = document.getElementById('videoPlayer');
+                        player.innerHTML = video.embed_code;
+                        videoPlayerModal.show();
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error playing embed video:', error);
+                alert('Failed to play embedded video');
+            });
+        }
+        
+        function copyEmbedCode(videoId) {
+            fetch('api/embed-api.php', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                credentials: 'same-origin'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.data.length > 0) {
+                    const video = data.data.find(v => v.id == videoId);
+                    if (video) {
+                        navigator.clipboard.writeText(video.embed_code).then(() => {
+                            alert('Embed code copied to clipboard!');
+                        }).catch(err => {
+                            console.error('Failed to copy:', err);
+                            alert('Failed to copy embed code');
+                        });
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error copying embed code:', error);
+                alert('Failed to copy embed code');
+            });
+        }
+        
+        function deleteEmbedVideo(videoId) {
+            if (!confirm('Are you sure you want to delete this embedded video? This action cannot be undone.')) {
+                return;
+            }
+            
+            fetch('api/embed-api.php?id=' + videoId, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                credentials: 'same-origin'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Embedded video deleted successfully!');
+                    loadEmbedVideos();
+                } else {
+                    alert('Failed to delete embedded video: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to delete embedded video: ' + error.message);
+            });
+        }
+        
+        function updateEmbedCount() {
+            fetch('api/embed-api.php', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                credentials: 'same-origin'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('embedVideoCount').textContent = data.pagination.total;
+                    updateTotalCount();
+                }
+            })
+            .catch(error => {
+                console.error('Error updating embed count:', error);
+            });
+        }
+        
+        function updateTotalCount() {
+            const uploaded = parseInt(document.getElementById('uploadedVideoCount').textContent) || 0;
+            const youtube = parseInt(document.getElementById('youtubeVideoCount').textContent) || 0;
+            const embed = parseInt(document.getElementById('embedVideoCount').textContent) || 0;
+            document.getElementById('totalVideoCount').textContent = uploaded + youtube + embed;
         }
     </script>
 </body>
