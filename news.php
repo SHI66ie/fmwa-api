@@ -292,14 +292,31 @@ try {
     </section>
 
     <!-- Footer -->
-    <?php /* Reuse the same footer styling as other pages via header/footer CSS */ ?>
     <footer class="footer bg-dark text-light py-5 mt-5">
         <div class="container">
             <div class="row">
+                <!-- About Section -->
                 <div class="col-lg-4 col-md-6 mb-4">
-                    <h5 class="mb-3">Federal Ministry of Women Affairs</h5>
-                    <p class="text-light">Empowering women and promoting gender equality across Nigeria through comprehensive policies, programs, and initiatives that advance the welfare of women and children.</p>
+                    <?php $site_name = get_setting('site_name', 'Federal Ministry of Women Affairs'); ?>
+                    <h5 class="mb-3"><?php echo htmlspecialchars($site_name); ?></h5>
+                    <p class="text-light"><?php echo htmlspecialchars(get_setting('footer_about_text', 'Empowering women and promoting gender equality...')); ?></p>
+                    <div class="social-links mt-3">
+                        <?php if ($fb = get_setting('social_facebook')): ?>
+                            <a href="<?php echo htmlspecialchars($fb); ?>" class="text-light me-3" title="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                        <?php endif; ?>
+                        <?php if ($tw = get_setting('social_twitter')): ?>
+                            <a href="<?php echo htmlspecialchars($tw); ?>" class="text-light me-3" title="X (Twitter)" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+                        <?php endif; ?>
+                        <?php if ($ig = get_setting('social_instagram')): ?>
+                            <a href="<?php echo htmlspecialchars($ig); ?>" class="text-light me-3" title="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                        <?php endif; ?>
+                        <?php if ($yt = get_setting('social_youtube')): ?>
+                            <a href="<?php echo htmlspecialchars($yt); ?>" class="text-light" title="YouTube" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+                        <?php endif; ?>
+                    </div>
                 </div>
+                
+                <!-- Quick Links -->
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h5 class="mb-3">Quick Links</h5>
                     <ul class="list-unstyled">
@@ -309,21 +326,42 @@ try {
                         <li class="mb-2"><a href="organogram.php" class="text-muted text-decoration-none">Organogram</a></li>
                     </ul>
                 </div>
+                
+                <!-- News Section -->
                 <div class="col-lg-3 col-md-6 mb-4">
-                    <h5 class="mb-3">News &amp; Updates</h5>
-                    <p class="text-muted small">Official information and announcements from the Federal Ministry of Women Affairs.</p>
+                    <h5 class="mb-3">News & Updates</h5>
+                    <p class="text-muted small">Official information and announcements from the Ministry.</p>
                 </div>
+                
+                <!-- Contact Info -->
                 <div class="col-lg-3 col-md-6 mb-4">
                     <h5 class="mb-3">Contact Us</h5>
-                    <p class="text-muted mb-2"><i class="fas fa-map-marker-alt me-2"></i>Federal Secretariat Complex, Shehu Shagari Way, Abuja</p>
-                    <p class="text-muted mb-2"><i class="fas fa-envelope me-2"></i>info@womenaffairs.gov.ng</p>
-                    <p class="text-muted mb-0"><i class="fas fa-clock me-2"></i>Mon - Fri: 8:00 AM - 4:00 PM</p>
+                    <div class="contact-info">
+                        <p class="text-muted mb-2">
+                            <i class="fas fa-map-marker-alt me-2 text-warning"></i>
+                            <?php echo nl2br(htmlspecialchars(get_setting('contact_address', 'Federal Secretariat Complex, Abuja'))); ?>
+                        </p>
+                        <p class="text-muted mb-2">
+                            <i class="fas fa-phone me-2 text-warning"></i>
+                            <?php echo htmlspecialchars(get_setting('contact_phone', '+234-9-461-0000')); ?>
+                        </p>
+                        <p class="text-muted mb-2">
+                            <i class="fas fa-envelope me-2 text-warning"></i>
+                            <?php echo htmlspecialchars(get_setting('contact_email', 'info@fmwa.gov.ng')); ?>
+                        </p>
+                        <p class="text-muted mb-0">
+                            <i class="fas fa-clock me-2 text-warning"></i>
+                            <?php echo htmlspecialchars(get_setting('contact_hours', 'Mon - Fri: 8:00 AM - 4:00 PM')); ?>
+                        </p>
+                    </div>
                 </div>
             </div>
+            
+            <!-- Footer Bottom -->
             <div class="footer-bottom border-top border-secondary pt-4 mt-4">
                 <div class="row align-items-center">
                     <div class="col-md-6">
-                        <p class="text-muted mb-0">&copy; <?php echo date('Y'); ?> Federal Ministry of Women Affairs. All rights reserved.</p>
+                        <p class="text-muted mb-0">&copy; <?php echo date('Y'); ?> <?php echo htmlspecialchars($site_name); ?>. All rights reserved.</p>
                     </div>
                     <div class="col-md-6 text-md-end">
                         <a href="#" class="text-muted text-decoration-none me-3">Privacy Policy</a>

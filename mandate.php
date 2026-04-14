@@ -1,5 +1,8 @@
 <?php
-// mandate.php - Our Mandate page for Federal Ministry of Women Affairs
+require_once 'config.php';
+require_once 'includes/helpers.php';
+
+$site_name = get_setting('site_name', 'Federal Ministry of Women Affairs');
 ?>
 <!DOCTYPE html>
 
@@ -169,7 +172,7 @@
 <!-- Overview -->
 <div class="mb-5">
 <h2 class="text-primary mb-4">Mandate Overview</h2>
-<p class="lead">The broad mandate of the Ministry is to advise government on Gender and Children issues. Issues affecting Persons with Disabilities and the Aged; initiate policy guidelines and lead the process of gender equality and mainstreaming at both the National and International levels.</p>
+<p class="lead"><?php echo htmlspecialchars(get_setting('our_mandate', 'The broad mandate of the Ministry is to advise government...')); ?></p>
 </div>
 <!-- Functions of the Ministry -->
 <div class="mb-5">
@@ -341,64 +344,91 @@
 <script src="./js/shrink-dropdown-options.js"></script>
 <script src="./js/dropdown-tooltip.js"></script>
 <script src="./js/remove-latest-news.js"></script>
-<footer>
-<div class="container">
-<div class="row">
-<div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-<div class="footer-widget">
-<h4>Federal Ministry of Women Affairs</h4>
-<p>Empowering women for national development</p>
-<div class="social-links mt-3">
-<a class="me-2" href="https://www.facebook.com/FMWAngr" rel="noopener noreferrer" target="_blank" title="Follow us on Facebook"><i class="fab fa-facebook-f"></i></a>
-<a class="me-2" href="https://x.com/FMWA_ng" rel="noopener noreferrer" target="_blank" title="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
-<a class="me-2" href="https://www.instagram.com/FMWAngr" rel="noopener noreferrer" target="_blank" title="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
-<a class="me-2" href="http://www.youtube.com/@fmwangr" rel="noopener noreferrer" target="_blank" title="Watch us on YouTube"><i class="fab fa-youtube"></i></a>
-</div>
-</div>
-</div>
-<div class="col-lg-2 col-md-6 mb-4 mb-md-0">
-<div class="footer-widget">
-<h4>Quick Links</h4>
-<ul class="footer-links">
-<li><a href="https://webmail.womenaffairs.gov.ng/" rel="noopener" target="_blank" title="Access Staff Email Services">Staff Email Services</a></li>
-<li><a href="./index.php" title="Go to home page">Home</a></li>
-<li><a href="./about.php" title="Learn about us">About Us</a></li>
-<li><a href="#" title="View our services">Services</a></li>
-<li><a href="#" title="Access resources">Resources</a></li>
-<li><a href="#">News &amp; Events</a></li>
-<li><a href="#">Contact Us</a></li>
-</ul>
-</div>
-</div>
-<div class="col-lg-4 col-md-6 ms-auto">
-<div class="footer-widget">
-<h4>Contact Us</h4>
-<address>
-<p><i class="fas fa-map-marker-alt me-2"></i> Plot 1070, Central Business District, Cadastral Zone AO, Shehu Shagari Way, by Ralph Shodeinde Street, opposite the Court of Appeal, in Abuja, FCT</p>
-<p class="mb-2"><i class="fas fa-envelope me-2"></i> info@womenaffairs.gov.ng</p>
-<p><i class="fas fa-clock me-2"></i> Mon - Fri: 8:00 AM - 4:00 PM</p>
-</address>
-<div class="mt-4">
-<h5>Newsletter</h5>
-<div class="input-group mb-3">
-<input class="form-control" placeholder="Your Email" type="email"/>
-<button class="btn btn-warning" type="button">Subscribe</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="copyright">
-<div class="row">
-<div class="col-md-6 text-center text-md-start">
-                        © 2025 Federal Ministry of Women Affairs. All Rights Reserved.
+    <!-- Footer -->
+    <footer class="footer bg-dark text-light py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <!-- About Section -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5 class="mb-3"><?php echo htmlspecialchars($site_name); ?></h5>
+                    <p class="text-light"><?php echo htmlspecialchars(get_setting('footer_about_text', 'Empowering women and promoting gender equality...')); ?></p>
+                    <div class="social-links mt-3">
+                        <?php if ($fb = get_setting('social_facebook')): ?>
+                            <a href="<?php echo htmlspecialchars($fb); ?>" class="text-light me-3" title="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                        <?php endif; ?>
+                        <?php if ($tw = get_setting('social_twitter')): ?>
+                            <a href="<?php echo htmlspecialchars($tw); ?>" class="text-light me-3" title="X (Twitter)" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+                        <?php endif; ?>
+                        <?php if ($ig = get_setting('social_instagram')): ?>
+                            <a href="<?php echo htmlspecialchars($ig); ?>" class="text-light me-3" title="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                        <?php endif; ?>
+                        <?php if ($yt = get_setting('social_youtube')): ?>
+                            <a href="<?php echo htmlspecialchars($yt); ?>" class="text-light" title="YouTube" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+                        <?php endif; ?>
                     </div>
-<div class="col-md-6 text-center text-md-end">
-<a class="text-white me-3" href="#">Privacy Policy</a>
-<a class="text-white" href="#">Terms of Use</a>
-</div>
-</div>
-</div>
-</div>
-</footer></body>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="index.php" class="text-muted text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="about.php" class="text-muted text-decoration-none">About Us</a></li>
+                        <li class="mb-2"><a href="mandate.php" class="text-muted text-decoration-none">Our Mandate</a></li>
+                        <li class="mb-2"><a href="organogram.php" class="text-muted text-decoration-none">Organogram</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Departments -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="mb-3">Key Departments</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="departments/women-development.php" class="text-muted text-decoration-none">Women Development</a></li>
+                        <li class="mb-2"><a href="departments/child-development.php" class="text-muted text-decoration-none">Child Development</a></li>
+                        <li class="mb-2"><a href="departments/gender-affairs.php" class="text-muted text-decoration-none">Gender Affairs</a></li>
+                        <li class="mb-2"><a href="departments/nutrition.php" class="text-muted text-decoration-none">Nutrition</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="mb-3">Contact Us</h5>
+                    <div class="contact-info">
+                        <p class="text-muted mb-2">
+                            <i class="fas fa-map-marker-alt me-2 text-warning"></i>
+                            <?php echo nl2br(htmlspecialchars(get_setting('contact_address', 'Federal Secretariat Complex, Abuja'))); ?>
+                        </p>
+                        <p class="text-muted mb-2">
+                            <i class="fas fa-phone me-2 text-warning"></i>
+                            <?php echo htmlspecialchars(get_setting('contact_phone', '+234-9-461-0000')); ?>
+                        </p>
+                        <p class="text-muted mb-2">
+                            <i class="fas fa-envelope me-2 text-warning"></i>
+                            <?php echo htmlspecialchars(get_setting('contact_email', 'info@fmwa.gov.ng')); ?>
+                        </p>
+                        <p class="text-muted mb-0">
+                            <i class="fas fa-clock me-2 text-warning"></i>
+                            <?php echo htmlspecialchars(get_setting('contact_hours', 'Mon - Fri: 8:00 AM - 4:00 PM')); ?>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer Bottom -->
+            <div class="footer-bottom border-top border-secondary pt-4 mt-4">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="text-muted mb-0">
+                            &copy; <?php echo date('Y'); ?> <?php echo htmlspecialchars($site_name); ?>. All rights reserved.
+                        </p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <a href="#" class="text-muted text-decoration-none me-3">Privacy Policy</a>
+                        <a href="#" class="text-muted text-decoration-none me-3">Terms of Service</a>
+                        <a href="#" class="text-muted text-decoration-none">Sitemap</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer></body>
 </html>

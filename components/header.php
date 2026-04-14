@@ -293,7 +293,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
     </nav>
 
     <!-- Maintenance Notice (if needed) -->
-    <?php if (isset($show_maintenance_notice) && $show_maintenance_notice): ?>
+    <?php if (get_setting('maintenance_mode') === 'true'): ?>
     <div class="maintenance-banner bg-warning text-dark py-2" style="margin-top: 80px;">
         <div class="container">
             <div class="row align-items-center">

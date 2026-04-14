@@ -1,5 +1,13 @@
 <?php
-// about.php - About page for Federal Ministry of Women Affairs
+require_once 'config.php';
+require_once 'includes/helpers.php';
+
+// Fetch settings
+$site_name = get_setting('site_name', 'Federal Ministry of Women Affairs');
+$minister_name = get_setting('minister_name', 'Hon. Imaan Sulaiman Ibrahim');
+$minister_title = get_setting('minister_title', 'Honourable Minister');
+$minister_image = get_setting('minister_image', 'images/minister-placeholder.jpg');
+$minister_desc = get_setting('minister_description', 'Leading the Ministry with dedication...');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -216,7 +224,7 @@
                             <i class="fas fa-bullseye"></i>
                         </div>
                         <h4>Our Mission</h4>
-                        <p>To help build a Nigerian Society that guarantees equal access to social, economic and wealth creation opportunities to all, irrespective of gender, places premium on protection of the child, the aged and persons with disabilities.</p>
+                        <p><?php echo htmlspecialchars(get_setting('our_mission', 'To help build a Nigerian Society that guarantees equal access...')); ?></p>
                     </div>
                 </div>
                 <div class="col-lg-4 mb-4">
@@ -225,7 +233,7 @@
                             <i class="fas fa-eye"></i>
                         </div>
                         <h4>Our Vision</h4>
-                        <p>A society where women, children, the aged and persons with disabilities are empowered to participate fully in national development and enjoy equal opportunities in all spheres of life.</p>
+                        <p><?php echo htmlspecialchars(get_setting('our_vision', 'A society where women, children, the aged and persons with disabilities are empowered...')); ?></p>
                     </div>
                 </div>
                 <div class="col-lg-4 mb-4">
@@ -318,10 +326,10 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="leadership-card">
-                        <img src="images/minister-placeholder.jpg" alt="Honourable Minister" class="leadership-photo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRjhGOUZBIi8+CjxjaXJjbGUgY3g9Ijc1IiBjeT0iNjAiIHI9IjI1IiBmaWxsPSIjREVERURFIi8+CjxwYXRoIGQ9Ik0zMCAxMjBDMzAgMTA0LjUgNDcuNSA5MCA3NSA5MEM5Ny41IDkwIDEyMCAxMDQuNSAxMjAgMTIwVjE1MEgzMFYxMjBaIiBmaWxsPSIjREVERURFIi8+Cjwvc3ZnPgo='">
-                        <h4 class="leadership-name">Hon. Imaan Sulaiman Ibrahim</h4>
-                        <p class="leadership-title">Honourable Minister</p>
-                        <p class="text-muted">Leading the Ministry with dedication to women's empowerment and social development across Nigeria.</p>
+                        <img src="<?php echo htmlspecialchars($minister_image); ?>" alt="<?php echo htmlspecialchars($minister_name); ?>" class="leadership-photo">
+                        <h4 class="leadership-name"><?php echo htmlspecialchars($minister_name); ?></h4>
+                        <p class="leadership-title"><?php echo htmlspecialchars($minister_title); ?></p>
+                        <p class="text-muted"><?php echo htmlspecialchars($minister_desc); ?></p>
                     </div>
                 </div>
             </div>
@@ -395,13 +403,21 @@
             <div class="row">
                 <!-- About Section -->
                 <div class="col-lg-4 col-md-6 mb-4">
-                    <h5 class="mb-3">Federal Ministry of Women Affairs</h5>
-                    <p class="text-light">Empowering women and promoting gender equality across Nigeria through comprehensive policies, programs, and initiatives that advance the welfare of women and children.</p>
+                    <h5 class="mb-3"><?php echo htmlspecialchars($site_name); ?></h5>
+                    <p class="text-light"><?php echo htmlspecialchars(get_setting('footer_about_text', 'Empowering women and promoting gender equality...')); ?></p>
                     <div class="social-links mt-3">
-                        <a href="https://www.facebook.com/FMWAngr" class="text-light me-3" title="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://x.com/FMWA_ng" class="text-light me-3" title="X (Twitter)" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
-                        <a href="https://www.instagram.com/FMWAngr" class="text-light me-3" title="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
-                        <a href="http://www.youtube.com/@fmwangr" class="text-light" title="YouTube" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+                        <?php if ($fb = get_setting('social_facebook')): ?>
+                            <a href="<?php echo htmlspecialchars($fb); ?>" class="text-light me-3" title="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                        <?php endif; ?>
+                        <?php if ($tw = get_setting('social_twitter')): ?>
+                            <a href="<?php echo htmlspecialchars($tw); ?>" class="text-light me-3" title="X (Twitter)" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+                        <?php endif; ?>
+                        <?php if ($ig = get_setting('social_instagram')): ?>
+                            <a href="<?php echo htmlspecialchars($ig); ?>" class="text-light me-3" title="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                        <?php endif; ?>
+                        <?php if ($yt = get_setting('social_youtube')): ?>
+                            <a href="<?php echo htmlspecialchars($yt); ?>" class="text-light" title="YouTube" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+                        <?php endif; ?>
                     </div>
                 </div>
                 
@@ -409,7 +425,7 @@
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h5 class="mb-3">Quick Links</h5>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="./" class="text-muted text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="index.php" class="text-muted text-decoration-none">Home</a></li>
                         <li class="mb-2"><a href="about.php" class="text-muted text-decoration-none">About Us</a></li>
                         <li class="mb-2"><a href="mandate.php" class="text-muted text-decoration-none">Our Mandate</a></li>
                         <li class="mb-2"><a href="organogram.php" class="text-muted text-decoration-none">Organogram</a></li>
@@ -420,10 +436,10 @@
                 <div class="col-lg-3 col-md-6 mb-4">
                     <h5 class="mb-3">Key Departments</h5>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="departments/women-development" class="text-muted text-decoration-none">Women Development</a></li>
-                        <li class="mb-2"><a href="departments/child-development" class="text-muted text-decoration-none">Child Development</a></li>
-                        <li class="mb-2"><a href="departments/gender-affairs" class="text-muted text-decoration-none">Gender Affairs</a></li>
-                        <li class="mb-2"><a href="departments/nutrition" class="text-muted text-decoration-none">Nutrition</a></li>
+                        <li class="mb-2"><a href="departments/women-development.php" class="text-muted text-decoration-none">Women Development</a></li>
+                        <li class="mb-2"><a href="departments/child-development.php" class="text-muted text-decoration-none">Child Development</a></li>
+                        <li class="mb-2"><a href="departments/gender-affairs.php" class="text-muted text-decoration-none">Gender Affairs</a></li>
+                        <li class="mb-2"><a href="departments/nutrition.php" class="text-muted text-decoration-none">Nutrition</a></li>
                     </ul>
                 </div>
                 
@@ -432,16 +448,20 @@
                     <h5 class="mb-3">Contact Us</h5>
                     <div class="contact-info">
                         <p class="text-muted mb-2">
-                            <i class="fas fa-map-marker-alt me-2"></i>
-                            Plot 1070, Central Business District, Cadastral Zone AO, Shehu Shagari Way, by Ralph Shodeinde Street, opposite the Court of Appeal, in Abuja, FCT
+                            <i class="fas fa-map-marker-alt me-2 text-warning"></i>
+                            <?php echo nl2br(htmlspecialchars(get_setting('contact_address', 'Federal Secretariat Complex, Abuja'))); ?>
                         </p>
                         <p class="text-muted mb-2">
-                            <i class="fas fa-envelope me-2"></i>
-                            info@womenaffairs.gov.ng
+                            <i class="fas fa-phone me-2 text-warning"></i>
+                            <?php echo htmlspecialchars(get_setting('contact_phone', '+234-9-461-0000')); ?>
+                        </p>
+                        <p class="text-muted mb-2">
+                            <i class="fas fa-envelope me-2 text-warning"></i>
+                            <?php echo htmlspecialchars(get_setting('contact_email', 'info@fmwa.gov.ng')); ?>
                         </p>
                         <p class="text-muted mb-0">
-                            <i class="fas fa-clock me-2"></i>
-                            Mon - Fri: 8:00 AM - 4:00 PM
+                            <i class="fas fa-clock me-2 text-warning"></i>
+                            <?php echo htmlspecialchars(get_setting('contact_hours', 'Mon - Fri: 8:00 AM - 4:00 PM')); ?>
                         </p>
                     </div>
                     <div class="mt-4">

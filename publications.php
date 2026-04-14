@@ -202,7 +202,86 @@ function formatBytes($bytes, $precision = 2) {
         </div>
     </div>
 
-    <!-- Footer will be inserted here -->
+    <!-- Footer -->
+    <footer class="footer bg-dark text-light py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <!-- About Section -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <?php $site_name = get_setting('site_name', 'Federal Ministry of Women Affairs'); ?>
+                    <h5 class="mb-3"><?php echo htmlspecialchars($site_name); ?></h5>
+                    <p class="text-light"><?php echo htmlspecialchars(get_setting('footer_about_text', 'Empowering women and promoting gender equality...')); ?></p>
+                    <div class="social-links mt-3">
+                        <?php if ($fb = get_setting('social_facebook')): ?>
+                            <a href="<?php echo htmlspecialchars($fb); ?>" class="text-light me-3" title="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                        <?php endif; ?>
+                        <?php if ($tw = get_setting('social_twitter')): ?>
+                            <a href="<?php echo htmlspecialchars($tw); ?>" class="text-light me-3" title="X (Twitter)" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+                        <?php endif; ?>
+                        <?php if ($ig = get_setting('social_instagram')): ?>
+                            <a href="<?php echo htmlspecialchars($ig); ?>" class="text-light me-3" title="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                        <?php endif; ?>
+                        <?php if ($yt = get_setting('social_youtube')): ?>
+                            <a href="<?php echo htmlspecialchars($yt); ?>" class="text-light" title="YouTube" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="index.php" class="text-muted text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="about.php" class="text-muted text-decoration-none">About Us</a></li>
+                        <li class="mb-2"><a href="mandate.php" class="text-muted text-decoration-none">Our Mandate</a></li>
+                        <li class="mb-2"><a href="organogram.php" class="text-muted text-decoration-none">Organogram</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Publications Section -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="mb-3">Publications</h5>
+                    <p class="text-muted small">Latest documents and reports from the Ministry.</p>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="mb-3">Contact Us</h5>
+                    <div class="contact-info">
+                        <p class="text-muted mb-2">
+                            <i class="fas fa-map-marker-alt me-2 text-warning"></i>
+                            <?php echo nl2br(htmlspecialchars(get_setting('contact_address', 'Federal Secretariat Complex, Abuja'))); ?>
+                        </p>
+                        <p class="text-muted mb-2">
+                            <i class="fas fa-phone me-2 text-warning"></i>
+                            <?php echo htmlspecialchars(get_setting('contact_phone', '+234-9-461-0000')); ?>
+                        </p>
+                        <p class="text-muted mb-2">
+                            <i class="fas fa-envelope me-2 text-warning"></i>
+                            <?php echo htmlspecialchars(get_setting('contact_email', 'info@fmwa.gov.ng')); ?>
+                        </p>
+                        <p class="text-muted mb-0">
+                            <i class="fas fa-clock me-2 text-warning"></i>
+                            <?php echo htmlspecialchars(get_setting('contact_hours', 'Mon - Fri: 8:00 AM - 4:00 PM')); ?>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer Bottom -->
+            <div class="footer-bottom border-top border-secondary pt-4 mt-4">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="text-muted mb-0">&copy; <?php echo date('Y'); ?> <?php echo htmlspecialchars($site_name); ?>. All rights reserved.</p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <a href="#" class="text-muted text-decoration-none me-3">Privacy Policy</a>
+                        <a href="#" class="text-muted text-decoration-none">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <!-- Custom Scripts -->
     <script>

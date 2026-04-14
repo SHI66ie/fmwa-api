@@ -4,13 +4,21 @@
             <div class="row">
                 <!-- About Section -->
                 <div class="col-lg-4 col-md-6 mb-4">
-                    <h5 class="mb-3">Federal Ministry of Women Affairs</h5>
-                    <p class="text-light">Empowering women and promoting gender equality across Nigeria through comprehensive policies, programs, and initiatives that advance the welfare of women and children.</p>
+                    <h5 class="mb-3"><?php echo htmlspecialchars(get_setting('site_name', 'Federal Ministry of Women Affairs')); ?></h5>
+                    <p class="text-light"><?php echo htmlspecialchars(get_setting('footer_about_text', 'Empowering women and promoting gender equality across Nigeria...')); ?></p>
                     <div class="social-links mt-3">
-                        <a href="https://www.facebook.com/FMWAngr" class="text-light me-3" title="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://x.com/FMWA_ng" class="text-light me-3" title="X (Twitter)" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
-                        <a href="https://www.instagram.com/FMWAngr" class="text-light me-3" title="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
-                        <a href="http://www.youtube.com/@fmwangr" class="text-light" title="YouTube" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+                        <?php if ($fb = get_setting('social_facebook')): ?>
+                            <a href="<?php echo htmlspecialchars($fb); ?>" class="text-light me-3" title="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                        <?php endif; ?>
+                        <?php if ($tw = get_setting('social_twitter')): ?>
+                            <a href="<?php echo htmlspecialchars($tw); ?>" class="text-light me-3" title="X (Twitter)" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+                        <?php endif; ?>
+                        <?php if ($ig = get_setting('social_instagram')): ?>
+                            <a href="<?php echo htmlspecialchars($ig); ?>" class="text-light me-3" title="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                        <?php endif; ?>
+                        <?php if ($yt = get_setting('social_youtube')): ?>
+                            <a href="<?php echo htmlspecialchars($yt); ?>" class="text-light" title="YouTube" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+                        <?php endif; ?>
                     </div>
                 </div>
                 
@@ -42,20 +50,19 @@
                     <div class="contact-info">
                         <p class="text-light mb-2">
                             <i class="fas fa-map-marker-alt me-2 text-warning"></i>
-                            Federal Secretariat Complex<br>
-                            <span class="ms-4">Shehu Shagari Way, Abuja</span>
+                            <?php echo nl2br(htmlspecialchars(get_setting('contact_address', 'Federal Secretariat Complex, Abuja'))); ?>
                         </p>
                         <p class="text-light mb-2">
                             <i class="fas fa-phone me-2 text-warning"></i>
-                            +234-9-461-0000
+                            <?php echo htmlspecialchars(get_setting('contact_phone', '+234-9-461-0000')); ?>
                         </p>
                         <p class="text-light mb-2">
                             <i class="fas fa-envelope me-2 text-warning"></i>
-                            info@fmwa.gov.ng
+                            <?php echo htmlspecialchars(get_setting('contact_email', 'info@fmwa.gov.ng')); ?>
                         </p>
                         <p class="text-light mb-0">
                             <i class="fas fa-clock me-2 text-warning"></i>
-                            Mon - Fri: 8:00 AM - 4:00 PM
+                            <?php echo htmlspecialchars(get_setting('contact_hours', 'Mon - Fri: 8:00 AM - 4:00 PM')); ?>
                         </p>
                     </div>
                 </div>

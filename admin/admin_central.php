@@ -15,7 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
     $settings_to_save = [
         'minister_name', 'minister_title', 'minister_description',
         'perm_sec_name', 'perm_sec_title', 'perm_sec_description',
-        'our_mandate', 'our_vision', 'our_mission', 'maintenance_mode'
+        'our_mandate', 'our_vision', 'our_mission', 'maintenance_mode',
+        'contact_email', 'contact_phone', 'contact_address', 'contact_hours',
+        'social_facebook', 'social_twitter', 'social_instagram', 'social_youtube',
+        'footer_about_text', 'site_name', 'site_description'
     ];
     
     // Explicitly handle image paths if no new image is uploaded
@@ -263,10 +266,87 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
                 </div>
             </div>
 
-            <div class="text-center mb-5">
+            <div class="text-center mb-4">
                 <button type="submit" name="save_settings" class="btn btn-primary btn-lg">
                     <i class="fas fa-save me-2"></i> Save All Dynamic Content
                 </button>
+            </div>
+
+            <div class="row">
+                <!-- Global Site Identity -->
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-dark text-white"><i class="fas fa-globe me-2"></i> Global Site Identity</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Main Site Name</label>
+                                    <input type="text" name="site_name" class="form-control" value="<?php echo htmlspecialchars(get_setting('site_name', 'Federal Ministry of Women Affairs')); ?>">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Site Meta Description</label>
+                                    <input type="text" name="site_description" class="form-control" value="<?php echo htmlspecialchars(get_setting('site_description')); ?>">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Footer About Text</label>
+                                    <textarea name="footer_about_text" class="form-control" rows="2"><?php echo htmlspecialchars(get_setting('footer_about_text')); ?></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="col-lg-7">
+                    <div class="card">
+                        <div class="card-header"><i class="fas fa-address-book me-2"></i> Contact Information</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Email Address</label>
+                                    <input type="email" name="contact_email" class="form-control" value="<?php echo htmlspecialchars(get_setting('contact_email', 'info@fmwa.gov.ng')); ?>">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Phone Number</label>
+                                    <input type="text" name="contact_phone" class="form-control" value="<?php echo htmlspecialchars(get_setting('contact_phone', '+234-9-461-0000')); ?>">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label class="form-label">Office Address</label>
+                                    <textarea name="contact_address" class="form-control" rows="2"><?php echo htmlspecialchars(get_setting('contact_address')); ?></textarea>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Working Hours</label>
+                                    <input type="text" name="contact_hours" class="form-control" value="<?php echo htmlspecialchars(get_setting('contact_hours', 'Mon - Fri: 8:00 AM - 4:00 PM')); ?>">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Media -->
+                <div class="col-lg-5">
+                    <div class="card">
+                        <div class="card-header"><i class="fas fa-share-alt me-2"></i> Social Media Links</div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label"><i class="fab fa-facebook text-primary me-2"></i> Facebook</label>
+                                <input type="url" name="social_facebook" class="form-control" value="<?php echo htmlspecialchars(get_setting('social_facebook')); ?>">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label"><i class="fab fa-twitter text-info me-2"></i> Twitter / X</label>
+                                <input type="url" name="social_twitter" class="form-control" value="<?php echo htmlspecialchars(get_setting('social_twitter')); ?>">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label"><i class="fab fa-instagram text-danger me-2"></i> Instagram</label>
+                                <input type="url" name="social_instagram" class="form-control" value="<?php echo htmlspecialchars(get_setting('social_instagram')); ?>">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label"><i class="fab fa-youtube text-danger me-2"></i> YouTube</label>
+                                <input type="url" name="social_youtube" class="form-control" value="<?php echo htmlspecialchars(get_setting('social_youtube')); ?>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
