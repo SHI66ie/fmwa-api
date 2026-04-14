@@ -13,39 +13,74 @@ $error = '';
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
     $settings_to_save = [
-        'minister_name', 'minister_title', 'minister_image', 'minister_description',
-        'perm_sec_name', 'perm_sec_title', 'perm_sec_image', 'perm_sec_description',
+        'minister_name', 'minister_title', 'minister_description',
+        'perm_sec_name', 'perm_sec_title', 'perm_sec_description',
         'our_mandate', 'our_vision', 'our_mission', 'maintenance_mode'
     ];
     
+    // Explicitly handle image paths if no new image is uploaded
+    $image_settings = ['minister_image', 'perm_sec_image'];
+    
     try {
         $pdo->beginTransaction();
+        
+        // 1. Save Text Settings
         foreach ($settings_to_save as $key) {
             $value = $_POST[$key] ?? '';
-            
-            // Handle boolean specifically
             if ($key === 'maintenance_mode') {
                 $value = isset($_POST[$key]) ? 'true' : 'false';
             }
-            
             $stmt = $pdo->prepare("UPDATE settings SET setting_value = ? WHERE setting_key = ?");
             $stmt->execute([$value, $key]);
-            
-            // If update didn't happen (maybe key doesn't exist), try insert
             if ($stmt->rowCount() === 0) {
                 $stmt = $pdo->prepare("INSERT IGNORE INTO settings (setting_key, setting_value, setting_type) VALUES (?, ?, 'string')");
                 $stmt->execute([$key, $value]);
             }
         }
+
+        // 2. Handle File Uploads
+        $upload_dir = '../images/leadership/';
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0755, true);
+        }
+
+        $files_to_process = [
+            'minister_photo' => 'minister_image',
+            'perm_sec_photo' => 'perm_sec_image'
+        ];
+
+        foreach ($files_to_process as $input_name => $setting_key) {
+            if (isset($_FILES[$input_name]) && $_FILES[$input_name]['error'] === UPLOAD_ERR_OK) {
+                $file_tmp = $_FILES[$input_name]['tmp_name'];
+                $file_ext = strtolower(pathinfo($_FILES[$input_name]['name'], PATHINFO_EXTENSION));
+                $allowed_exts = ['jpg', 'jpeg', 'png', 'webp'];
+                
+                if (in_array($file_ext, $allowed_exts)) {
+                    $new_filename = $setting_key . '_' . time() . '.' . $file_ext;
+                    $target_path = $upload_dir . $new_filename;
+                    $db_path = 'images/leadership/' . $new_filename;
+                    
+                    if (move_uploaded_file($file_tmp, $target_path)) {
+                        $stmt = $pdo->prepare("UPDATE settings SET setting_value = ? WHERE setting_key = ?");
+                        $stmt->execute([$db_path, $setting_key]);
+                    }
+                }
+            } else if (isset($_POST[$setting_key])) {
+                // Keep existing path if manually edited in text field
+                $stmt = $pdo->prepare("UPDATE settings SET setting_value = ? WHERE setting_key = ?");
+                $stmt->execute([$_POST[$setting_key], $setting_key]);
+            }
+        }
+
         $pdo->commit();
-        $message = "Settings updated successfully!";
+        $message = "Settings and photos updated successfully!";
         
         // Log activity
-        $stmt = $pdo->prepare("INSERT INTO activity_log (user_id, action, description, created_at) VALUES (?, 'update_settings', 'Updated site dynamic settings via Admin Central', NOW())");
+        $stmt = $pdo->prepare("INSERT INTO activity_log (user_id, action, description, created_at) VALUES (?, 'update_settings', 'Updated site dynamic settings & photos via Admin Central', NOW())");
         $stmt->execute([$user['id']]);
         
     } catch (Exception $e) {
-        $pdo->rollback();
+        if ($pdo->inTransaction()) $pdo->rollback();
         $error = "Error updating settings: " . $e->getMessage();
     }
 }
@@ -127,7 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
             </div>
         </div>
 
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             <div class="row">
                 <!-- Leadership Section -->
                 <div class="col-lg-6">
@@ -143,9 +178,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
                                 <input type="text" name="minister_title" class="form-control" value="<?php echo htmlspecialchars(get_setting('minister_title')); ?>">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Image Path</label>
-                                <input type="text" name="minister_image" class="form-control" value="<?php echo htmlspecialchars(get_setting('minister_image')); ?>">
-                                <small class="text-muted">Example: images/minister.jpg</small>
+                                <label class="form-label">Minister Photo</label>
+                                <?php $m_img = get_setting('minister_image'); ?>
+                                <?php if ($m_img): ?>
+                                    <div class="mb-2">
+                                        <img src="../<?php echo htmlspecialchars($m_img); ?>" alt="Minister" style="width: 100px; height: 120px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd;">
+                                    </div>
+                                <?php endif; ?>
+                                <input type="file" name="minister_photo" class="form-control mb-2" accept="image/*">
+                                <input type="text" name="minister_image" class="form-control text-muted" style="font-size: 0.8em;" value="<?php echo htmlspecialchars($m_img); ?>">
+                                <small class="text-muted">Upload a new photo or leave as is.</small>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Short Biography</label>
@@ -168,8 +210,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
                                 <input type="text" name="perm_sec_title" class="form-control" value="<?php echo htmlspecialchars(get_setting('perm_sec_title')); ?>">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Image Path</label>
-                                <input type="text" name="perm_sec_image" class="form-control" value="<?php echo htmlspecialchars(get_setting('perm_sec_image')); ?>">
+                                <label class="form-label">Perm Sec Photo</label>
+                                <?php $ps_img = get_setting('perm_sec_image'); ?>
+                                <?php if ($ps_img): ?>
+                                    <div class="mb-2">
+                                        <img src="../<?php echo htmlspecialchars($ps_img); ?>" alt="Perm Sec" style="width: 100px; height: 120px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd;">
+                                    </div>
+                                <?php endif; ?>
+                                <input type="file" name="perm_sec_photo" class="form-control mb-2" accept="image/*">
+                                <input type="text" name="perm_sec_image" class="form-control text-muted" style="font-size: 0.8em;" value="<?php echo htmlspecialchars($ps_img); ?>">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Short Biography</label>
