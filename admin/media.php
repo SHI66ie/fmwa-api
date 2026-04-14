@@ -262,6 +262,12 @@ $user = $auth->getCurrentUser();
                 </a>
             </div>
             <div class="nav-item">
+                <a href="videos.php" class="nav-link">
+                    <i class="fas fa-video"></i>
+                    Videos
+                </a>
+            </div>
+            <div class="nav-item">
                 <a href="director-photos.php" class="nav-link">
                     <i class="fas fa-user-tie"></i>
                     Director Photos
@@ -316,6 +322,12 @@ $user = $auth->getCurrentUser();
                 <h5>Drop files here or click to upload</h5>
                 <p class="text-muted">Supported: JPG, PNG, GIF, WebP, SVG, MP4, WebM, PDF</p>
                 <input type="file" id="fileInput" multiple accept="image/*,video/*,.pdf" style="display: none;">
+                <div class="mt-2">
+                    <small class="text-muted">
+                        <i class="fas fa-info-circle me-1"></i>
+                        For dedicated video management, <a href="videos.php" class="text-primary">visit the Videos section</a>
+                    </small>
+                </div>
             </div>
 
             <!-- Search -->

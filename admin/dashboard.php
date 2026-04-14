@@ -291,6 +291,12 @@ try {
                 </a>
             </div>
             <div class="nav-item">
+                <a href="videos.php" class="nav-link">
+                    <i class="fas fa-video"></i>
+                    Videos
+                </a>
+            </div>
+            <div class="nav-item">
                 <a href="downloads.php" class="nav-link">
                     <i class="fas fa-download"></i>
                     Downloads
