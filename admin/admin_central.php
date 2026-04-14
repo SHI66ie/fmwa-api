@@ -67,12 +67,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
                     if (move_uploaded_file($file_tmp, $target_path)) {
                         $stmt = $pdo->prepare("UPDATE settings SET setting_value = ? WHERE setting_key = ?");
                         $stmt->execute([$db_path, $setting_key]);
+                        if ($stmt->rowCount() === 0) {
+                            $stmt = $pdo->prepare("INSERT INTO settings (setting_key, setting_value, setting_type) VALUES (?, ?, 'string')");
+                            $stmt->execute([$setting_key, $db_path]);
+                        }
                     }
                 }
             } else if (isset($_POST[$setting_key])) {
-                // Keep existing path if manually edited in text field
+                // Keep existing path if manually edited in text field or selected via library
+                $value = $_POST[$setting_key];
                 $stmt = $pdo->prepare("UPDATE settings SET setting_value = ? WHERE setting_key = ?");
-                $stmt->execute([$_POST[$setting_key], $setting_key]);
+                $stmt->execute([$value, $setting_key]);
+                if ($stmt->rowCount() === 0) {
+                    $stmt = $pdo->prepare("INSERT INTO settings (setting_key, setting_value, setting_type) VALUES (?, ?, 'string')");
+                    $stmt->execute([$setting_key, $value]);
+                }
             }
         }
 

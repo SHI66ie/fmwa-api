@@ -335,14 +335,16 @@ $perm_sec_desc = get_setting('perm_sec_description', 'Providing administrative e
                 </div>
                 <div class="col-lg-4">
                     <div class="leadership-card mb-4">
-                        <img src="<?php echo htmlspecialchars($minister_image); ?>" alt="<?php echo htmlspecialchars($minister_name); ?>" class="leadership-photo">
+                        <?php $m_v = file_exists($minister_image) ? filemtime($minister_image) : time(); ?>
+                        <img src="<?php echo htmlspecialchars($minister_image); ?>?v=<?php echo $m_v; ?>" alt="<?php echo htmlspecialchars($minister_name); ?>" class="leadership-photo">
                         <h4 class="leadership-name"><?php echo htmlspecialchars($minister_name); ?></h4>
                         <p class="leadership-title"><?php echo htmlspecialchars($minister_title); ?></p>
                         <p class="text-muted small"><?php echo htmlspecialchars($minister_desc); ?></p>
                     </div>
                     
                     <div class="leadership-card">
-                        <img src="<?php echo htmlspecialchars($perm_sec_image); ?>" alt="<?php echo htmlspecialchars($perm_sec_name); ?>" class="leadership-photo">
+                        <?php $ps_v = file_exists($perm_sec_image) ? filemtime($perm_sec_image) : time(); ?>
+                        <img src="<?php echo htmlspecialchars($perm_sec_image); ?>?v=<?php echo $ps_v; ?>" alt="<?php echo htmlspecialchars($perm_sec_name); ?>" class="leadership-photo">
                         <h4 class="leadership-name"><?php echo htmlspecialchars($perm_sec_name); ?></h4>
                         <p class="leadership-title"><?php echo htmlspecialchars($perm_sec_title); ?></p>
                         <p class="text-muted small"><?php echo htmlspecialchars($perm_sec_desc); ?></p>

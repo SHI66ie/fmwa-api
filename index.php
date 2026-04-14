@@ -256,7 +256,8 @@ $maintenance_mode = get_setting('maintenance_mode', false);
                     <div class="card h-100 border-0 shadow-sm">
                         <div class="card-body text-center p-4">
                             <div class="profile-image-container minister mx-auto">
-                                <img src="<?php echo htmlspecialchars($minister_image); ?>" class="profile-image" alt="<?php echo htmlspecialchars($minister_name); ?>">
+                                <?php $m_v = file_exists($minister_image) ? filemtime($minister_image) : time(); ?>
+                                <img src="<?php echo htmlspecialchars($minister_image); ?>?v=<?php echo $m_v; ?>" class="profile-image" alt="<?php echo htmlspecialchars($minister_name); ?>">
                             </div>
                             <h5 class="text-muted mb-2"><?php echo htmlspecialchars($minister_title); ?></h5>
                             <h4 class="mb-3"><?php echo htmlspecialchars($minister_name); ?></h4>
@@ -270,7 +271,8 @@ $maintenance_mode = get_setting('maintenance_mode', false);
                     <div class="card h-100 border-0 shadow-sm">
                         <div class="card-body text-center p-4">
                             <div class="profile-image-container mx-auto">
-                                <img src="<?php echo htmlspecialchars($perm_sec_image); ?>" class="profile-image" alt="<?php echo htmlspecialchars($perm_sec_name); ?>">
+                                <?php $ps_v = file_exists($perm_sec_image) ? filemtime($perm_sec_image) : time(); ?>
+                                <img src="<?php echo htmlspecialchars($perm_sec_image); ?>?v=<?php echo $ps_v; ?>" class="profile-image" alt="<?php echo htmlspecialchars($perm_sec_name); ?>">
                             </div>
                             <h5 class="text-muted mb-2"><?php echo htmlspecialchars($perm_sec_title); ?></h5>
                             <h4 class="mb-3"><?php echo htmlspecialchars($perm_sec_name); ?></h4>
