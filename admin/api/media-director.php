@@ -28,7 +28,41 @@ try {
     }
 } catch (Exception $e) {
     http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Server error: ' . $e->getMessage()]);
+    error_log('Director Photos API Error: ' . $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());
+    
+    // Check if it's a database connection issue
+    if (strpos($e->getMessage(), 'SQLSTATE') !== false || strpos($e->getMessage(), 'database') !== false) {
+        echo json_encode([
+            'success' => false, 
+            'message' => 'Database connection error. Please check database configuration.',
+            'error_type' => 'database',
+            'debug' => [
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'original_message' => $e->getMessage()
+            ]
+        ]);
+    } elseif (strpos($e->getMessage(), 'require_login') !== false) {
+        echo json_encode([
+            'success' => false, 
+            'message' => 'Authentication required. Please log in again.',
+            'error_type' => 'auth',
+            'debug' => [
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ]
+        ]);
+    } else {
+        echo json_encode([
+            'success' => false, 
+            'message' => 'Server error: ' . $e->getMessage(),
+            'error_type' => 'server',
+            'debug' => [
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ]
+        ]);
+    }
 }
 
 function handleGetDirectorPhotos() {

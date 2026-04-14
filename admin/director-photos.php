@@ -2,10 +2,17 @@
 require_once 'config.php';
 require_once 'auth.php';
 
-$auth = new Auth($pdo);
-$auth->requireLogin();
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-$user = $auth->getCurrentUser();
+try {
+    $auth = new Auth($pdo);
+    $auth->requireLogin();
+    $user = $auth->getCurrentUser();
+} catch (Exception $e) {
+    die('Error: ' . $e->getMessage() . '<br><small>Please check database connection and try again.</small>');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -288,20 +295,38 @@ $user = $auth->getCurrentUser();
             document.getElementById('mediaSearch').addEventListener('input', filterMedia);
         });
         
-        function loadDirectorPhotos() {
-            fetch('api/media-director.php')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        displayDirectors(data.data);
-                    } else {
-                        showError('Failed to load director photos');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    showError('Failed to load director photos');
+        async function loadDirectorPhotos() {
+            try {
+                console.log('Loading director photos...');
+                const response = await fetch('api/media-director.php', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    credentials: 'same-origin'
                 });
+                
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                console.log('Director Photos API Response:', data);
+                
+                if (data.success) {
+                    displayDirectors(data.data);
+                } else {
+                    const errorMsg = data.message || 'Unknown error occurred';
+                    console.error('Director Photos API Error:', errorMsg);
+                    showError('Failed to load director photos: ' + errorMsg);
+                }
+            } catch (error) {
+                console.error('Director Photos Fetch Error:', error);
+                showError('Failed to load director photos: ' + error.message);
+            }
         }
         
         function displayDirectors(directors) {
@@ -447,7 +472,42 @@ $user = $auth->getCurrentUser();
         }
         
         function showError(message) {
-            alert('Error: ' + message);
+            const container = document.getElementById('directorsContainer');
+            container.innerHTML = `
+                <div class="col-12">
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Error:</strong> ${message}
+                        <br><small class="text-muted">Check browser console for more details</small>
+                        <div class="mt-2">
+                            <button class="btn btn-sm btn-outline-primary me-2" onclick="window.open('director-photos-debug.php', '_blank')">
+                                <i class="fas fa-bug me-1"></i>Debug Page
+                            </button>
+                            <button class="btn btn-sm btn-outline-warning me-2" onclick="testDirectorAPI()">
+                                <i class="fas fa-stethoscope me-1"></i>Test API
+                            </button>
+                            <button class="btn btn-sm btn-outline-info" onclick="loadDirectorPhotos()">
+                                <i class="fas fa-sync me-1"></i>Retry
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function testDirectorAPI() {
+            fetch('api/media-director.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('✅ Director Photos API is working!\n\nFound ' + Object.keys(data.data).length + ' departments with photos.');
+                    } else {
+                        alert('❌ Director Photos API Error:\n\n' + data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('❌ API Connection Failed:\n\n' + error.message);
+                });
         }
     </script>
 </body>
