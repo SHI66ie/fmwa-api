@@ -650,8 +650,10 @@ try {
     <script>
         let videoPlayerModal;
         let youtubeModal;
+        let embedModal;
         
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize modals
             videoPlayerModal = new bootstrap.Modal(document.getElementById('videoPlayerModal'));
             youtubeModal = new bootstrap.Modal(document.getElementById('youtubeModal'));
             embedModal = new bootstrap.Modal(document.getElementById('embedModal'));
@@ -663,6 +665,31 @@ try {
             // Handle form submissions
             document.getElementById('youtubeForm').addEventListener('submit', handleYouTubeSubmit);
             document.getElementById('embedForm').addEventListener('submit', handleEmbedSubmit);
+            
+            // Add tab change listeners for debugging
+            const embedTab = document.getElementById('embed-tab');
+            const youtubeTab = document.getElementById('youtube-tab');
+            const uploadedTab = document.getElementById('uploaded-tab');
+            
+            if (embedTab) {
+                embedTab.addEventListener('click', function() {
+                    console.log('Embedded videos tab clicked');
+                    loadEmbedVideos();
+                });
+            }
+            
+            if (youtubeTab) {
+                youtubeTab.addEventListener('click', function() {
+                    console.log('YouTube videos tab clicked');
+                    loadYouTubeVideos();
+                });
+            }
+            
+            if (uploadedTab) {
+                uploadedTab.addEventListener('click', function() {
+                    console.log('Uploaded videos tab clicked');
+                });
+            }
         });
         
         function playVideo(url, mimeType) {
