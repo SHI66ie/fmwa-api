@@ -262,6 +262,12 @@ $user = $auth->getCurrentUser();
                 </a>
             </div>
             <div class="nav-item">
+                <a href="director-photos.php" class="nav-link">
+                    <i class="fas fa-user-tie"></i>
+                    Director Photos
+                </a>
+            </div>
+            <div class="nav-item">
                 <a href="downloads.php" class="nav-link">
                     <i class="fas fa-download"></i>
                     Downloads
