@@ -155,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
 
     <div class="main-content">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Admin Central <span class="badge bg-warning text-dark" style="font-size: 0.5em; vertical-align: middle;">ABSOLUTE POWER</span></h2>
+            <h2>Admin Central</h2>
             <div>
                 <span class="text-muted">Logged in as: <strong><?php echo htmlspecialchars($user['username']); ?></strong></span>
             </div>
