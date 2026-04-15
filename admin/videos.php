@@ -652,6 +652,10 @@ try {
             // Load all videos
             loadAllVideos();
             
+            // Update video counts directly
+            updateYouTubeCount();
+            updateEmbedCount();
+            
             // Handle form submissions
             document.getElementById('youtubeForm').addEventListener('submit', handleYouTubeSubmit);
             document.getElementById('embedForm').addEventListener('submit', handleEmbedSubmit);
@@ -1020,9 +1024,13 @@ try {
             })
             .then(response => response.json())
             .then(data => {
+                console.log('YouTube count response:', data);
                 if (data.success) {
-                    document.getElementById('youtubeVideoCount').textContent = data.pagination.total;
+                    const count = data.pagination ? data.pagination.total : (data.data ? data.data.length : 0);
+                    document.getElementById('youtubeVideoCount').textContent = count;
                     updateTotalCount();
+                } else {
+                    console.error('YouTube API error:', data.message);
                 }
             })
             .catch(error => {
@@ -1313,9 +1321,13 @@ try {
             })
             .then(response => response.json())
             .then(data => {
+                console.log('Embed count response:', data);
                 if (data.success) {
-                    document.getElementById('embedVideoCount').textContent = data.pagination.total;
+                    const count = data.pagination ? data.pagination.total : (data.data ? data.data.length : 0);
+                    document.getElementById('embedVideoCount').textContent = count;
                     updateTotalCount();
+                } else {
+                    console.error('Embed API error:', data.message);
                 }
             })
             .catch(error => {
